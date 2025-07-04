@@ -59,9 +59,6 @@ class SignupColumn extends StatelessWidget {
             label: 'SignUp',
             onPressed: () async {
               // if (formKey.currentState!.validate()) {
-              await AuthRepoImp().signUp(
-                  email: emailController.text,
-                  password: passwordController.text);
               // }
             },
           ),

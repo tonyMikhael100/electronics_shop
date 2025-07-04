@@ -1,5 +1,6 @@
 import 'package:electronics_shop/core/app_colors.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class CustomSmallButton extends StatelessWidget {
   const CustomSmallButton({
@@ -15,8 +16,8 @@ class CustomSmallButton extends StatelessWidget {
     return InkWell(
       onTap: onTap,
       child: Container(
-        width: 38,
-        height: 38,
+        width: 30,
+        height: 30,
         decoration: BoxDecoration(
           color: Colors.grey[200],
           borderRadius: BorderRadius.circular(10),

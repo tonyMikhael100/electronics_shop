@@ -10,7 +10,6 @@ import 'package:electronics_shop/features/home/presentation/views/favourite_view
 import 'package:electronics_shop/features/home/presentation/views/home_view.dart';
 import 'package:electronics_shop/features/home/presentation/views/product_details_view.dart';
 import 'package:electronics_shop/features/home/presentation/views/search_view.dart';
-import 'package:electronics_shop/widgets/no_back.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -59,7 +58,7 @@ class AppRouting {
       ),
       GoRoute(
         path: '/tracking_order',
-        builder: (context, state) => NoBackWrapper(child: TrackingOrderView()),
+        builder: (context, state) => TrackingOrderView(),
       ),
     ],
     errorBuilder: (context, state) => Center(child: ErrorView()),
