@@ -1,4 +1,4 @@
-import 'package:electronics_shop/core/app_colors.dart';
+import 'package:electronics_shop/core/utils/app_colors.dart';
 import 'package:electronics_shop/widgets/custom_elvated_button.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';

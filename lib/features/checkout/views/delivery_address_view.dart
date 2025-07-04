@@ -1,5 +1,5 @@
-import 'package:electronics_shop/core/app_colors.dart';
-import 'package:electronics_shop/core/app_styles.dart';
+import 'package:electronics_shop/core/utils/app_colors.dart';
+import 'package:electronics_shop/core/utils/app_styles.dart';
 import 'package:electronics_shop/features/checkout/view%20model/cubit/check_out_cubit.dart';
 import 'package:electronics_shop/features/checkout/widgets/chekcout_stepper.dart';
 import 'package:electronics_shop/features/checkout/widgets/custom_stepper_circle_avatr.dart';
@@ -15,7 +15,7 @@ import 'package:go_router/go_router.dart';
 import 'package:progress_stepper/progress_stepper.dart';
 
 class DeliveryAddressView extends StatelessWidget {
-  DeliveryAddressView({super.key});
+  const DeliveryAddressView({super.key});
 
   @override
   Widget build(BuildContext context) {

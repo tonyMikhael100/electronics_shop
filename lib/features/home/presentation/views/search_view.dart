@@ -1,5 +1,5 @@
-import 'package:electronics_shop/core/app_colors.dart';
-import 'package:electronics_shop/core/app_styles.dart';
+import 'package:electronics_shop/core/utils/app_colors.dart';
+import 'package:electronics_shop/core/utils/app_styles.dart';
 import 'package:electronics_shop/features/home/data/models/product_item_model.dart';
 import 'package:electronics_shop/widgets/filter_list_tile.dart';
 import 'package:electronics_shop/widgets/product_item.dart';

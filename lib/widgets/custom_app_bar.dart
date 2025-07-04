@@ -1,5 +1,5 @@
-import 'package:electronics_shop/core/app_colors.dart';
-import 'package:electronics_shop/core/app_styles.dart';
+import 'package:electronics_shop/core/utils/app_colors.dart';
+import 'package:electronics_shop/core/utils/app_styles.dart';
 import 'package:electronics_shop/widgets/custom_action_appbar_icon.dart';
 import 'package:flutter/material.dart';
 

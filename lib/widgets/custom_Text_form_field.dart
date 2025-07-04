@@ -1,4 +1,4 @@
-import 'package:electronics_shop/core/app_colors.dart';
+import 'package:electronics_shop/core/utils/app_colors.dart';
 import 'package:flutter/material.dart';
 
 class CustomTextFormField extends StatelessWidget {
@@ -10,7 +10,7 @@ class CustomTextFormField extends StatelessWidget {
     required this.onChanged,
     this.obscureText,
   });
-  final String Function(String?)? validator;
+  final String? Function(String?)? validator;
   final String labelText;
   final IconData? suffixIcon;
   final void Function(String) onChanged;

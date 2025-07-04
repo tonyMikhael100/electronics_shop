@@ -1,4 +1,4 @@
-import 'package:electronics_shop/core/app_styles.dart';
+import 'package:electronics_shop/core/utils/app_styles.dart';
 import 'package:flutter/material.dart';
 
 class FilterListTile extends StatelessWidget {

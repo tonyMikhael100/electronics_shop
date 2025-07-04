@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "479122453630",
+    "project_id": "electronics-e-commerce-6fe58",
+    "storage_bucket": "electronics-e-commerce-6fe58.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:479122453630:android:9fd6181b2ffb38b459d42f",
+        "android_client_info": {
+          "package_name": "com.example.electronics_shop"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "479122453630-sjhjtq10g7floj156a14ag8jcr635m07.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBIuTe1J5WlvCHY6E773LH1JoDM-FFQpnU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "479122453630-sjhjtq10g7floj156a14ag8jcr635m07.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

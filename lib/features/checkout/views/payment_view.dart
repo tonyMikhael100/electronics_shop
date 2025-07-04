@@ -1,5 +1,5 @@
-import 'package:electronics_shop/core/app_colors.dart';
-import 'package:electronics_shop/core/app_styles.dart';
+import 'package:electronics_shop/core/utils/app_colors.dart';
+import 'package:electronics_shop/core/utils/app_styles.dart';
 import 'package:electronics_shop/features/checkout/view%20model/cubit/check_out_cubit.dart';
 import 'package:electronics_shop/features/checkout/widgets/chekcout_stepper.dart';
 import 'package:electronics_shop/features/checkout/widgets/order_summary_container.dart';
@@ -13,12 +13,11 @@ import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
 
 class PaymentView extends StatelessWidget {
-  PaymentView({super.key});
+  const PaymentView({super.key});
 
   @override
   Widget build(BuildContext context) {
     var myChekcoutCubit = BlocProvider.of<CheckOutCubit>(context);
-    ;
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: Size(double.infinity, 56),

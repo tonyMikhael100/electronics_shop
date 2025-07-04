@@ -1,4 +1,4 @@
-import 'package:electronics_shop/core/app_styles.dart';
+import 'package:electronics_shop/core/utils/app_styles.dart';
 import 'package:electronics_shop/widgets/custom_app_bar.dart';
 import 'package:electronics_shop/widgets/custom_cursor_slider.dart';
 import 'package:electronics_shop/widgets/custom_layout_builder.dart';

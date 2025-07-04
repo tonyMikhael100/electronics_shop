@@ -1,4 +1,4 @@
-import 'package:electronics_shop/core/app_styles.dart';
+import 'package:electronics_shop/core/utils/app_styles.dart';
 import 'package:electronics_shop/features/home/data/models/product_category_model.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
