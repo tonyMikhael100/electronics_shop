@@ -12,39 +12,30 @@ jobs:
       - name: 📥 Checkout source
         uses: actions/checkout@v3
 
-      - name: 💡 Set up Flutter
+      - name: 💡 Set up Flutter (v3.32.5)
         uses: subosito/flutter-action@v2
         with:
+          flutter-version: '3.32.5'
           channel: stable
           architecture: x64
 
-      - name: 📦 Get Flutter packages
+      - name: 📦 Install dependencies
         run: flutter pub get
 
-      - name: ⚙️ Set iOS Deployment Target to 13.0
+      - name: ⚙️ Set iOS Deployment Target to 14.0
         run: |
-          sed -i '' "s/platform :ios, .*/platform :ios, '13.0'/" ios/Podfile
-          sed -i '' "s/IPHONEOS_DEPLOYMENT_TARGET = .*/IPHONEOS_DEPLOYMENT_TARGET = 13.0;/g" ios/Runner.xcodeproj/project.pbxproj
+          sed -i '' "s/platform :ios, .*/platform :ios, '14.0'/" ios/Podfile
+          find ios -name project.pbxproj -print0 | xargs -0 sed -i '' "s/IPHONEOS_DEPLOYMENT_TARGET = [0-9.]*/IPHONEOS_DEPLOYMENT_TARGET = 14.0/g"
 
       - name: 📚 Install CocoaPods
         run: |
           cd ios
           pod install
 
-      - name: 🏗 Build IPA without code signing
+      - name: 🏗 Build IPA (no code signing)
         run: flutter build ipa --release --no-codesign
 
-      - name: 📤 Upload IPA to GitHub Release
-        uses: svenstaro/upload-release-action@v2
-        with:
-          repo_token: ${{ secrets.GITHUB_TOKEN }}
-          file: build/ios/ipa/Runner.ipa
-          asset_name: FlutterIpaExport.ipa
-          tag: v1.0
-          overwrite: true
-          body: "This is the first release"
-
-      - name: 🧳 Upload IPA as GitHub Artifact (backup download)
+      - name: 🧳 Upload IPA as GitHub Artifact
         uses: actions/upload-artifact@v4
         with:
           name: iOS-IPA
