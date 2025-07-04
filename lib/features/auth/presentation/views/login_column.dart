@@ -32,7 +32,7 @@ class LoginColumn extends StatelessWidget {
                 bgColor: AppColors.secondaryColor,
                 icon: Icons.error,
                 title: 'login success');
-            context.go('home_view');
+            context.go('/home_view');
           }
         }
       },
