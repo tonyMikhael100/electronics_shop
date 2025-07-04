@@ -32,8 +32,18 @@ jobs:
           cd ios
           pod install
 
-      - name: 🛠 Build IPA (no code signing)
-        run: flutter build ipa --release --no-codesign
+      - name: 🛠 Build iOS App (no code signing)
+        run: flutter build ios --release --no-codesign
+
+      - name: 📁 Create Payload Folder
+        run: |
+          mkdir -p build/ios/ipa/Payload
+          cp -r build/ios/iphoneos/Runner.app build/ios/ipa/Payload
+
+      - name: 📦 Package into .ipa
+        run: |
+          cd build/ios/ipa
+          zip -r Runner.ipa Payload
 
       - name: 📤 Upload IPA as GitHub Artifact
         uses: actions/upload-artifact@v4
