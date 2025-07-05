@@ -1,3 +1,4 @@
+import 'package:electronics_shop/core/services/auth_service.dart';
 import 'package:electronics_shop/features/auth/presentation/views/login_column.dart';
 import 'package:electronics_shop/widgets/custom_layout_builder.dart';
 import 'package:flutter/material.dart';
@@ -38,6 +39,11 @@ class LoginView extends StatelessWidget {
           ),
         ),
       ),
+      floatingActionButton: FloatingActionButton(onPressed: () {
+        var response = AuthService().signInWithEmail(
+            email: 'tonytony@gmail.com', password: '123456789');
+        print(response);
+      }),
     );
   }
 }

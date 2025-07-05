@@ -24,9 +24,11 @@ class AuthCubit extends Cubit<AuthState> {
   Future<void> signIn({required String email, required String password}) async {
     var respnose = await _authRepoImp.signIn(email: email, password: password);
     respnose.fold((l) {
-      emit(LoginFailuregState(
-        errorMessage: l.errorMessage,
-      ));
+      emit(
+        LoginFailuregState(
+          errorMessage: l.errorMessage,
+        ),
+      );
     }, (r) {
       emit(LoginSuccessState());
     });

@@ -6,7 +6,7 @@ class AuthService {
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
   // Sign in with email and password
-  Future<dynamic> signInWithEmail({
+  Future<UserCredential?> signInWithEmail({
     required String email,
     required String password,
   }) async {

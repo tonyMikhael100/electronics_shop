@@ -11,11 +11,15 @@ class AuthRepoImp implements AuthRepo {
   AuthService _authService = AuthService();
   SupabaseService _supabaseService = SupabaseService();
   @override
-  Future<Either<Failure, dynamic>> signIn(
-      {required String email, required String password}) async {
+  Future<Either<Failure, dynamic>> signIn({
+    required String email,
+    required String password,
+  }) async {
     try {
-      var response =
-          await _authService.signInWithEmail(email: email, password: password);
+      final response = await _authService.signInWithEmail(
+        email: email,
+        password: password,
+      );
       return Right(response);
     } on FirebaseAuthException catch (e) {
       return Left(FirebaseFailure.fromFirebaseAuthException(e));

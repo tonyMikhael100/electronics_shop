@@ -27,13 +27,10 @@ class LoginColumn extends StatelessWidget {
               bgColor: Colors.redAccent,
               icon: Icons.error,
               title: state.errorMessage);
-          if (state is LoginSuccessState) {
-            MyToast.showMyToast(context,
-                bgColor: AppColors.secondaryColor,
-                icon: Icons.error,
-                title: 'login success');
-            context.go('/home_view');
-          }
+        } else {
+          MyToast.showMyToast(context,
+              icon: Icons.done, title: 'Login', bgColor: Colors.green);
+          context.go('/home_view');
         }
       },
       child: Form(
