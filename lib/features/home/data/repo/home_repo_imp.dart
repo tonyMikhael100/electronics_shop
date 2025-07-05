@@ -26,15 +26,33 @@ class HomeRepoImp implements HomeRepo {
 
   @override
   Future<Either<Failure, List<ProductCategoryModel>>> fetchCategories(
-      {required String tableName}) {
-    // TODO: implement fetchCategories
-    throw UnimplementedError();
+      {required String tableName}) async {
+    List<ProductCategoryModel> categories = [];
+    try {
+      var response = await supabaseService.getAll(table: tableName);
+      for (int i = 0; i < response.length; i++) {
+        var item = ProductCategoryModel.fromJson(response[i]);
+        categories.add(item);
+      }
+      return Right(categories);
+    } on SupabaseFailure catch (e) {
+      return Left(Failure(errorMessage: e.errorMessage));
+    }
   }
 
   @override
   Future<Either<Failure, List<ProductModel>>> fetchProducts(
-      {required String tableName}) {
-    // TODO: implement fetchProducts
-    throw UnimplementedError();
+      {required String tableName}) async {
+    List<ProductModel> products = [];
+    try {
+      var response = await supabaseService.getAll(table: tableName);
+      for (int i = 0; i < response.length; i++) {
+        var item = ProductModel.fromJson(response[i]);
+        products.add(item);
+      }
+      return Right(products);
+    } on SupabaseFailure catch (e) {
+      return Left(Failure(errorMessage: e.errorMessage));
+    }
   }
 }

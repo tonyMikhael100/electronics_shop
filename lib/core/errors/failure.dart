@@ -13,7 +13,7 @@ class FirebaseFailure extends Failure {
   factory FirebaseFailure.fromFirebaseAuthException(
       FirebaseAuthException exception) {
     switch (exception.code) {
-      case 'invalid-email':
+      case 'Invalid-Email':
         return FirebaseFailure(
             errorMessage: "The email address is badly formatted.");
       case 'user-disabled':
