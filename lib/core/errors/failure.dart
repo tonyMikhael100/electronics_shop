@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 class Failure {
   final String errorMessage;
@@ -36,6 +37,58 @@ class FirebaseFailure extends Failure {
       default:
         return FirebaseFailure(
             errorMessage: exception.message ?? "An unknown error occurred.");
+    }
+  }
+}
+
+class SupabaseFailure extends Failure {
+  SupabaseFailure({required super.errorMessage});
+  factory SupabaseFailure.fromPostgrestException(PostgrestException exception) {
+    switch (exception.code) {
+      case 'PGRST116':
+        return SupabaseFailure(
+            errorMessage: "Your session has expired. Please log in again.");
+      case '42501':
+        return SupabaseFailure(
+            errorMessage: "You do not have permission to perform this action.");
+      case '23505':
+        return SupabaseFailure(
+            errorMessage:
+                "This information already exists. Please use different values.");
+      case '23503':
+        return SupabaseFailure(
+            errorMessage: "Some related information is missing or invalid.");
+      case '23502':
+        return SupabaseFailure(
+            errorMessage:
+                "A required field is missing. Please fill in all fields.");
+      case '22P02':
+        return SupabaseFailure(
+            errorMessage:
+                "Some information is in the wrong format. Please check your input.");
+      case '42883':
+        return SupabaseFailure(
+            errorMessage:
+                "A required function is unavailable. Please contact support.");
+      case '42P01':
+        return SupabaseFailure(
+            errorMessage:
+                "A required resource is missing. Please contact support.");
+      case '40001':
+        return SupabaseFailure(
+            errorMessage: "A temporary error occurred. Please try again.");
+      case 'PGRST102':
+        return SupabaseFailure(
+            errorMessage: "Your session has expired. Please log in again.");
+      case 'PGRST301':
+        return SupabaseFailure(
+            errorMessage:
+                "Some required information is missing. Please try again.");
+      default:
+        return SupabaseFailure(
+          errorMessage:
+              "Something went wrong. Please try again or contact support.",
+        );
     }
   }
 }

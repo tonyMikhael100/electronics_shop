@@ -39,11 +39,6 @@ class LoginView extends StatelessWidget {
           ),
         ),
       ),
-      floatingActionButton: FloatingActionButton(onPressed: () {
-        var response = AuthService().signInWithEmail(
-            email: 'tonytony@gmail.com', password: '123456789');
-        print(response);
-      }),
     );
   }
 }

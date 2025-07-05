@@ -9,13 +9,16 @@ class ProductCategoryGridView extends StatelessWidget {
   });
 
   List<ProductCategoryModel> products = [
-    ProductCategoryModel(image: 'assets/images/iphone2.png', text: 'Mobiles'),
     ProductCategoryModel(
-        image: 'assets/images/headphone.png', text: 'Headphones'),
-    ProductCategoryModel(image: 'assets/images/ipad.png', text: 'Tablet'),
+        imageUrl: 'assets/images/iphone2.png', categoryName: 'Mobiles'),
     ProductCategoryModel(
-        image: 'assets/images/accessories.png', text: 'Accessories'),
-    ProductCategoryModel(image: 'assets/images/more.png', text: 'More'),
+        imageUrl: 'assets/images/headphone.png', categoryName: 'Headphones'),
+    ProductCategoryModel(
+        imageUrl: 'assets/images/ipad.png', categoryName: 'Tablet'),
+    ProductCategoryModel(
+        imageUrl: 'assets/images/accessories.png', categoryName: 'Accessories'),
+    ProductCategoryModel(
+        imageUrl: 'assets/images/more.png', categoryName: 'More'),
   ];
 
   @override
@@ -44,14 +47,14 @@ class ProductCategoryGridView extends StatelessWidget {
                 children: [
                   Expanded(
                     child: Image.asset(
-                      products[index].image,
+                      products[index].imageUrl,
                     ),
                   ),
                   SizedBox(
                     height: 10,
                   ),
                   Text(
-                    products[index].text,
+                    products[index].categoryName,
                     style: AppTextStyles.bodyMedium(context),
                   )
                 ],

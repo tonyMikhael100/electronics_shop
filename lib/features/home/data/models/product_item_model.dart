@@ -1,17 +1,30 @@
-class ProductItemModel {
-  final int? rate;
+class ProductModel {
+  final String id;
+  final String productCategory;
+  final String name;
+  final String description;
+  final int price;
   final String imageUrl;
-  final String productName;
-  final String prductCategory;
   final String status;
-  final String price;
 
-  ProductItemModel({
-    required this.rate,
-    required this.imageUrl,
-    required this.productName,
-    required this.prductCategory,
-    required this.status,
-    required this.price,
-  });
+  ProductModel(
+      {required this.id,
+      required this.productCategory,
+      required this.name,
+      required this.description,
+      required this.price,
+      required this.imageUrl,
+      required this.status});
+
+  factory ProductModel.fromJson(Map<String, dynamic> data) {
+    return ProductModel(
+      id: data['id'],
+      productCategory: data['product_category'],
+      name: data['name'],
+      description: data['description'],
+      price: data['price'],
+      imageUrl: data['imageUrl'],
+      status: data['status'],
+    );
+  }
 }

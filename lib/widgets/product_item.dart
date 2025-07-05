@@ -13,7 +13,7 @@ class ProductItem extends StatelessWidget {
     required this.productItem,
   });
 
-  ProductItemModel productItem;
+  ProductModel productItem;
 
   @override
   Widget build(BuildContext context) {
@@ -63,14 +63,14 @@ class ProductItem extends StatelessWidget {
                 height: 8,
               ),
               Text(
-                productItem.productName,
+                productItem.status,
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
                 style: AppTextStyles.bodyMedium(context)
                     .copyWith(fontWeight: FontWeight.bold),
               ),
               Text(
-                productItem.prductCategory,
+                productItem.productCategory,
                 style: AppTextStyles.displaySmall(context)
                     .copyWith(color: Colors.black38),
               ),
@@ -116,11 +116,6 @@ class ProductItem extends StatelessWidget {
                     size: 25.sp,
                     color: Colors.deepOrangeAccent,
                   ),
-                  Text(
-                    ' ${productItem.rate}.0',
-                    style: AppTextStyles.displaySmall(context)
-                        .copyWith(color: Colors.deepOrangeAccent),
-                  )
                 ],
               ),
             ),

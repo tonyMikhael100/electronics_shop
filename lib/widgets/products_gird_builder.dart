@@ -23,15 +23,15 @@ class ProductsGridBuilder extends StatelessWidget {
             context.push('/product_details');
           },
           child: ProductItem(
-            productItem: ProductItemModel(
-              rate: 5,
-              imageUrl:
-                  'https://image.oppo.com/content/dam/oppo/common/mkt/v2-2/reno13-series/list-page/reno13-pro-5g/purple.png',
-              productName: 'samsung s25 ulatra pro max 128 gb 8 ram ',
-              prductCategory: 'Mobile',
-              status: 'avalible',
-              price: '1500',
-            ),
+            productItem: ProductModel(
+                id: 'k;fjas;klfjas;',
+                productCategory: 'sadfsafaf',
+                description: 'asdfasfsafsfa',
+                imageUrl:
+                    'https://image.oppo.com/content/dam/oppo/common/mkt/v2-2/reno13-series/list-page/reno13-pro-5g/purple.png',
+                name: 'samsung s23 265 gb',
+                price: 1500,
+                status: 'avalible'),
           ),
         );
       },
