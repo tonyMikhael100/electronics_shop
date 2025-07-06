@@ -34,16 +34,13 @@ class AuthRepoImp implements AuthRepo {
     try {
       var response = await _authService.signUpWithEmail(
           email: userModel.email, password: userModel.password);
-      try {
-        await _supabaseService.insertToWhishlist(table: 'users', values: {
-          "name": userModel.fullName,
-          "email": userModel.email,
-          "password": userModel.password,
-          "phone": userModel.phone
-        });
-      } catch (e) {
-        return Left(Failure(errorMessage: 'Supabase insert failed: $e'));
-      }
+      await _supabaseService.insert(table: 'users', value: {
+        "name": userModel.fullName,
+        "email": userModel.email,
+        "password": userModel.password,
+        "phone": userModel.phone
+      });
+      await FirebaseAuth.instance.signOut();
       return Right(response);
     } on FirebaseAuthException catch (e) {
       return Left(FirebaseFailure.fromFirebaseAuthException(e));

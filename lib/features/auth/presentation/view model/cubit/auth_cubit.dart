@@ -18,7 +18,7 @@ class AuthCubit extends Cubit<AuthState> {
       emit(AuthFailureState(
         errorMessage: l.errorMessage,
       ));
-    }, (r) {
+    }, (r) async {
       emit(AuthSuccessState(successMessage: 'Sign up successfully'));
     });
   }

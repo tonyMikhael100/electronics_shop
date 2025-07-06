@@ -2,13 +2,9 @@ import 'dart:developer';
 
 import 'package:bloc/bloc.dart';
 import 'package:electronics_shop/core/services/supabase_service.dart';
-import 'package:electronics_shop/features/auth/presentation/view%20model/cubit/auth_cubit.dart';
 import 'package:electronics_shop/features/home/data/models/product_item_model.dart';
-import 'package:electronics_shop/features/home/data/models/whishlist_model.dart';
 import 'package:electronics_shop/features/home/data/repo/home_repo_imp.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:meta/meta.dart';
-
 part 'whishlist_state.dart';
 
 class WhishlistCubit extends Cubit<WhishlistState> {

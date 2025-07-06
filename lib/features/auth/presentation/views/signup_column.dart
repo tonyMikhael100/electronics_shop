@@ -36,7 +36,7 @@ class SignupColumn extends StatelessWidget {
               icon: Icons.error,
               title: state.successMessage,
               bgColor: AppColors.secondaryColor);
-          context.go('/home_view');
+          context.go('/');
         }
       },
       builder: (context, state) {

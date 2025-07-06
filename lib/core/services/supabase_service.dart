@@ -15,6 +15,12 @@ class SupabaseService {
     return response;
   }
 
+  Future<dynamic> insert(
+      {required String table, required Map<String, dynamic> value}) async {
+    final response = await _client.from(table).insert(value);
+    return response;
+  }
+
   Future<List<Map<String, dynamic>>> fetchUserWishlist({
     required String table,
   }) async {
