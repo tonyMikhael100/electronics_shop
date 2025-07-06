@@ -1,126 +1,131 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:electronics_shop/core/services/supabase_service.dart';
 import 'package:electronics_shop/core/utils/app_colors.dart';
 import 'package:electronics_shop/core/utils/app_styles.dart';
+import 'package:electronics_shop/features/auth/presentation/view%20model/cubit/auth_cubit.dart';
+import 'package:electronics_shop/features/home/data/models/product_item_model.dart';
+import 'package:electronics_shop/features/home/data/models/whishlist_model.dart';
+import 'package:electronics_shop/features/home/presentation/view%20model/cubit/home_cubit.dart';
+import 'package:electronics_shop/features/home/presentation/view%20model/cubit/whishlist_cubit.dart';
 import 'package:electronics_shop/widgets/custom_elvated_button.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class ProductDetailsView extends StatefulWidget {
-  const ProductDetailsView({super.key});
+  const ProductDetailsView({super.key, required this.product});
+  final ProductModel product;
 
   @override
   State<ProductDetailsView> createState() => _ProductDetailsViewState();
 }
 
 class _ProductDetailsViewState extends State<ProductDetailsView> {
-  int currentPage = 0;
+  late final String userId;
+  bool _userLoaded = false;
 
-  final PageController pageViewController = PageController();
+  Future<void> _loadUserAndCheckWishlist() async {
+    final email = FirebaseAuth.instance.currentUser!.email!;
+    final userData = await SupabaseService().getUserData(email: email);
+    userId = userData[0]['id'];
 
-  final List<String> imageUrls = [
-    'https://image.oppo.com/content/dam/oppo/common/mkt/v2-2/reno13-series/list-page/reno13-pro-5g/purple.png',
-    'https://image.oppo.com/content/dam/oppo/common/mkt/v2-2/reno13-series/list-page/reno13-pro-5g/purple.png',
-    'https://image.oppo.com/content/dam/oppo/common/mkt/v2-2/reno13-series/list-page/reno13-pro-5g/purple.png',
-  ];
+    await context.read<WhishlistCubit>().checkIfInWhishlist(
+          tableName: 'wishlists',
+          userId: userId,
+          productId: widget.product.id,
+        );
+
+    setState(() {
+      _userLoaded = true;
+    });
+  }
 
   @override
-  void dispose() {
-    pageViewController.dispose();
-    super.dispose();
+  void initState() {
+    super.initState();
+    _loadUserAndCheckWishlist();
   }
 
   @override
   Widget build(BuildContext context) {
+    final product = widget.product;
+    final whishlistCubit = context.read<WhishlistCubit>();
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Product Details'),
+        title: Text(product.name),
         actions: [
-          IconButton(
-            icon: const Icon(Icons.favorite_border),
-            onPressed: () {
-              // Add to favourite logic
-            },
-          ),
+          _userLoaded
+              ? BlocBuilder<WhishlistCubit, WhishlistState>(
+                  builder: (context, state) {
+                    final isInWishlist = whishlistCubit.isInWhishlist;
+                    return IconButton(
+                      icon: Icon(
+                        isInWishlist ? Icons.favorite : Icons.favorite_border,
+                        color: isInWishlist ? Colors.red : null,
+                      ),
+                      onPressed: () {
+                        whishlistCubit.toggleWhishlist(
+                          product: product,
+                          tableName: 'wishlists',
+                          userId: userId,
+                          productId: product.id,
+                        );
+                      },
+                    );
+                  },
+                )
+              : const SizedBox.shrink(),
         ],
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Expanded(
-              child: Center(
-                child: PageView.builder(
-                  controller: pageViewController,
-                  itemCount: imageUrls.length,
-                  onPageChanged: (index) {
-                    setState(() {
-                      currentPage = index;
-                    });
-                  },
-                  itemBuilder: (context, index) {
-                    return CachedNetworkImage(
-                      imageUrl: imageUrls[index],
-                      height: 220,
-                      fit: BoxFit.contain,
-                    );
-                  },
-                ),
-              ),
-            ),
-            const SizedBox(height: 8),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: List.generate(
-                imageUrls.length,
-                (index) => Container(
-                  margin: const EdgeInsets.symmetric(horizontal: 4),
-                  width: currentPage == index ? 12 : 8,
-                  height: currentPage == index ? 12 : 8,
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    color: currentPage == index
-                        ? AppColors.primaryColor
-                        : Colors.grey[300],
+        child: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              SizedBox(
+                height: 300.h,
+                child: Center(
+                  child: CachedNetworkImage(
+                    imageUrl: product.imageUrl,
+                    height: 220,
+                    fit: BoxFit.contain,
                   ),
                 ),
               ),
-            ),
-            const SizedBox(height: 16),
-            Text(
-              'Oppo Reno 13 Pro 5G',
-              style: AppTextStyles.displayLarge(context),
-            ),
-            const SizedBox(height: 8),
-            Row(
-              children: [
-                Icon(Icons.star, color: Colors.amber, size: 20),
-                SizedBox(width: 4),
-                Text('4.5', style: AppTextStyles.bodyLarge(context)),
-                SizedBox(width: 8),
-              ],
-            ),
-            const SizedBox(height: 12),
-            Text(
-              '\$799',
-              style: AppTextStyles.displayMedium(context).copyWith(
-                  color: AppColors.secondaryColor, fontWeight: FontWeight.w800),
-            ),
-            const SizedBox(height: 16),
-            Text(
-              'Experiaence the next level of performance with the Oppo Reno 13 Pro 5G. Stunning display, powerful processor, and long-lasting battery.',
-              style: AppTextStyles.displayMedium(context)
-                  .copyWith(fontWeight: FontWeight.w100, color: Colors.black87),
-            ),
-            const SizedBox(height: 24),
-            Spacer(),
-            CustomElevatedButton(
-              icon: Icons.shopping_cart_rounded,
-              label: 'Add to Cart',
-              backgroundColor: AppColors.primaryColor,
-              onTap: () {},
-            ),
-            const SizedBox(width: 12),
-          ],
+              const SizedBox(height: 16),
+              Text(
+                product.name,
+                style: AppTextStyles.displayMedium(context),
+              ),
+              const SizedBox(height: 8),
+              Text(
+                "${product.price} KWD",
+                style: AppTextStyles.displayMedium(context).copyWith(
+                    color: AppColors.secondaryColor,
+                    fontWeight: FontWeight.w800),
+              ),
+              const SizedBox(height: 16),
+              Text(
+                product.description,
+                style: AppTextStyles.displaySmall(context).copyWith(
+                    fontWeight: FontWeight.w100, color: Colors.black87),
+              ),
+              const SizedBox(height: 80), // For button space
+            ],
+          ),
+        ),
+      ),
+      bottomNavigationBar: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: CustomElevatedButton(
+          icon: Icons.shopping_cart_rounded,
+          label: 'Add to Cart',
+          backgroundColor: AppColors.primaryColor,
+          onTap: () {
+            // TODO: Handle add to cart
+          },
         ),
       ),
     );

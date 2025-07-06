@@ -23,7 +23,7 @@ class ProductModel {
       name: data['name'],
       description: data['description'],
       price: data['price'],
-      imageUrl: data['imageUrl'],
+      imageUrl: data['image_url'],
       status: data['status'],
     );
   }

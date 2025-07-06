@@ -12,9 +12,7 @@ class ProductItem extends StatelessWidget {
     super.key,
     required this.productItem,
   });
-
   ProductModel productItem;
-
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -28,97 +26,72 @@ class ProductItem extends StatelessWidget {
         ],
         borderRadius: BorderRadius.circular(12),
       ),
-      child: Stack(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Expanded(
-                child: Center(
-                  child: CachedNetworkImage(
-                    fit: BoxFit.contain,
-                    imageUrl: productItem.imageUrl,
-                  ),
-                ),
-              ),
-              SizedBox(
-                height: 8,
-              ),
-              Container(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 10, vertical: 2),
-                decoration: BoxDecoration(
-                  color: Colors.redAccent,
-                  borderRadius: BorderRadius.circular(20),
-                ),
-                child: Text(
-                  productItem.status,
-                  style: AppTextStyles.displaySmall(context).copyWith(
-                    color: Colors.white,
-                    fontWeight: FontWeight.w700,
-                  ),
-                ),
-              ),
-              SizedBox(
-                height: 8,
-              ),
-              Text(
-                productItem.status,
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
-                style: AppTextStyles.bodyMedium(context)
-                    .copyWith(fontWeight: FontWeight.bold),
-              ),
-              Text(
-                productItem.productCategory,
-                style: AppTextStyles.displaySmall(context)
-                    .copyWith(color: Colors.black38),
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    '\$${productItem.price} ',
-                    style: AppTextStyles.titleMedium(context),
-                  ),
-                  InkWell(
-                    onTap: () {},
-                    child: CustomSmallButton(
-                      icon: Icons.add_shopping_cart,
-                      onTap: () {
-                        MyToast.showMyToast(
-                          context,
-                          icon: Icons.done,
-                          title: 'Added to Cart',
-                          bgColor: AppColors.primaryColor,
-                        );
-                        print('add to cart');
-                      },
-                    ),
-                  ),
-                ],
-              ),
-            ],
-          ),
-          Positioned(
-            right: 0,
-            top: 0,
-            child: Container(
-              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 2),
-              decoration: BoxDecoration(
-                color: const Color.fromARGB(255, 249, 178, 86),
-                borderRadius: BorderRadius.circular(20),
-              ),
-              child: Row(
-                children: [
-                  Icon(
-                    Icons.star,
-                    size: 25.sp,
-                    color: Colors.deepOrangeAccent,
-                  ),
-                ],
+          Expanded(
+            child: Center(
+              child: CachedNetworkImage(
+                fit: BoxFit.cover,
+                imageUrl: productItem.imageUrl,
               ),
             ),
+          ),
+          SizedBox(
+            height: 8,
+          ),
+          Container(
+            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 2),
+            decoration: BoxDecoration(
+              color: Colors.redAccent,
+              borderRadius: BorderRadius.circular(20),
+            ),
+            child: Text(
+              productItem.status,
+              style: AppTextStyles.displaySmall(context).copyWith(
+                color: Colors.white,
+                fontWeight: FontWeight.w700,
+              ),
+            ),
+          ),
+          SizedBox(
+            height: 8,
+          ),
+          Text(
+            productItem.name,
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+            style: AppTextStyles.bodyMedium(context)
+                .copyWith(fontWeight: FontWeight.bold),
+          ),
+          Text(
+            productItem.productCategory,
+            style: AppTextStyles.displaySmall(context)
+                .copyWith(color: Colors.black38),
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                '\$${productItem.price} ',
+                style: AppTextStyles.titleMedium(context),
+              ),
+              InkWell(
+                onTap: () {},
+                child: CustomSmallButton(
+                  icon: Icons.add_shopping_cart,
+                  onTap: () {
+                    MyToast.showMyToast(
+                      context,
+                      icon: Icons.done,
+                      title: 'Added to Cart',
+                      bgColor: AppColors.primaryColor,
+                    );
+                    print('add to cart');
+                  },
+                ),
+              ),
+            ],
           ),
         ],
       ),

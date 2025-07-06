@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:electronics_shop/core/utils/app_colors.dart';
 import 'package:electronics_shop/core/utils/app_styles.dart';
@@ -16,6 +17,7 @@ class CustomCursorSlider extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var myHomeCubit = BlocProvider.of<HomeCubit>(context);
     return BlocBuilder<HomeCubit, HomeState>(
       builder: (context, state) {
         if (state is HomeBannerFailureState) {
@@ -25,8 +27,8 @@ class CustomCursorSlider extends StatelessWidget {
             style: AppTextStyles.bodyMedium(context)
                 .copyWith(color: Colors.redAccent),
           ));
-        } else if (state is HomeBannerSuccessState) {
-          final List banners = state.bannerList;
+        } else if (state is HomeDataLoadedState) {
+          final List banners = myHomeCubit.bannersList;
           return CarouselSlider(
               options: CarouselOptions(
                   height: 1.sw > 800 ? 500.h : null,
@@ -35,8 +37,8 @@ class CustomCursorSlider extends StatelessWidget {
                   enableInfiniteScroll: true,
                   autoPlayAnimationDuration: Duration(seconds: 3)),
               items: banners.map<Widget>((banner) {
-                return Image.network(
-                  banner.imageUrl,
+                return CachedNetworkImage(
+                  imageUrl: banner.imageUrl,
                   fit: BoxFit.fill,
                   width: double.infinity,
                 );

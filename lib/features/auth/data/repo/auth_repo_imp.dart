@@ -35,7 +35,7 @@ class AuthRepoImp implements AuthRepo {
       var response = await _authService.signUpWithEmail(
           email: userModel.email, password: userModel.password);
       try {
-        await _supabaseService.insert(table: 'users', values: {
+        await _supabaseService.insertToWhishlist(table: 'users', values: {
           "name": userModel.fullName,
           "email": userModel.email,
           "password": userModel.password,

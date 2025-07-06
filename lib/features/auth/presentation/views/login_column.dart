@@ -27,7 +27,8 @@ class LoginColumn extends StatelessWidget {
               bgColor: Colors.redAccent,
               icon: Icons.error,
               title: state.errorMessage);
-        } else {
+        }
+        if (state is LoginSuccessState) {
           MyToast.showMyToast(context,
               icon: Icons.done, title: 'Login', bgColor: Colors.green);
           context.go('/home_view');

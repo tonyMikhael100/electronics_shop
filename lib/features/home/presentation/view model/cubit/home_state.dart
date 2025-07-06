@@ -11,10 +11,20 @@ final class HomeBannerFailureState extends HomeState {
   HomeBannerFailureState({required this.errorMessage});
 }
 
-final class HomeBannerLoadingState extends HomeState {}
+// categories
 
-final class HomeBannerSuccessState extends HomeState {
-  final List<BannerModel> bannerList;
+final class HomeCategoryFailureState extends HomeState {
+  final String errorMessage;
 
-  HomeBannerSuccessState({required this.bannerList});
+  HomeCategoryFailureState({required this.errorMessage});
 }
+
+//
+
+final class HomeProductFailureState extends HomeState {
+  final String errorMessage;
+
+  HomeProductFailureState({required this.errorMessage});
+}
+
+final class HomeDataLoadedState extends HomeState {}

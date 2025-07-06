@@ -6,6 +6,7 @@ import 'package:electronics_shop/features/auth/data/repo/auth_repo_imp.dart';
 import 'package:electronics_shop/features/auth/presentation/view%20model/cubit/auth_cubit.dart';
 import 'package:electronics_shop/widgets/custom_Text_form_field.dart';
 import 'package:electronics_shop/widgets/custom_login_button.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -35,7 +36,7 @@ class SignupColumn extends StatelessWidget {
               icon: Icons.error,
               title: state.successMessage,
               bgColor: AppColors.secondaryColor);
-          context.go('/');
+          context.go('/home_view');
         }
       },
       builder: (context, state) {

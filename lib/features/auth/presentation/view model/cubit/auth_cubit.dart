@@ -1,6 +1,8 @@
 import 'package:bloc/bloc.dart';
+import 'package:electronics_shop/core/services/supabase_service.dart';
 import 'package:electronics_shop/features/auth/data/models/user_model.dart';
 import 'package:electronics_shop/features/auth/data/repo/auth_repo_imp.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:meta/meta.dart';
 
 part 'auth_state.dart';
@@ -32,5 +34,12 @@ class AuthCubit extends Cubit<AuthState> {
     }, (r) {
       emit(LoginSuccessState());
     });
+  }
+
+  Future<dynamic> getUserData() async {
+    final SupabaseService supabaseService = SupabaseService();
+    var response = await supabaseService.getUserData(
+        email: FirebaseAuth.instance.currentUser!.email!);
+    return response;
   }
 }

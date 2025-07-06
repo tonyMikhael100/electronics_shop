@@ -4,14 +4,16 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 class ProductsGridBuilder extends StatelessWidget {
-  const ProductsGridBuilder({
+  ProductsGridBuilder({
+    required this.products,
     super.key,
   });
 
+  List<ProductModel> products;
   @override
   Widget build(BuildContext context) {
     return GridView.builder(
-      itemCount: 5,
+      itemCount: products.length,
       physics: const NeverScrollableScrollPhysics(),
       shrinkWrap: true,
       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
@@ -20,18 +22,17 @@ class ProductsGridBuilder extends StatelessWidget {
       itemBuilder: (context, index) {
         return InkWell(
           onTap: () {
-            context.push('/product_details');
+            context.push('/product_details', extra: products[index]);
           },
           child: ProductItem(
             productItem: ProductModel(
-                id: 'k;fjas;klfjas;',
-                productCategory: 'sadfsafaf',
-                description: 'asdfasfsafsfa',
-                imageUrl:
-                    'https://image.oppo.com/content/dam/oppo/common/mkt/v2-2/reno13-series/list-page/reno13-pro-5g/purple.png',
-                name: 'samsung s23 265 gb',
-                price: 1500,
-                status: 'avalible'),
+                id: products[index].id,
+                productCategory: products[index].productCategory,
+                description: products[index].description,
+                imageUrl: products[index].imageUrl,
+                name: products[index].name,
+                price: products[index].price,
+                status: products[index].status),
           ),
         );
       },

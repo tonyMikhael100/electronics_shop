@@ -4,7 +4,9 @@ import 'package:electronics_shop/core/services/supabase_service.dart';
 import 'package:electronics_shop/features/home/data/models/banner_model.dart';
 import 'package:electronics_shop/features/home/data/models/product_category_model.dart';
 import 'package:electronics_shop/features/home/data/models/product_item_model.dart';
+import 'package:electronics_shop/features/home/data/models/whishlist_model.dart';
 import 'package:electronics_shop/features/home/data/repo/home_repo.dart';
+import 'package:electronics_shop/features/home/presentation/view%20model/cubit/whishlist_cubit.dart';
 
 class HomeRepoImp implements HomeRepo {
   final SupabaseService supabaseService = SupabaseService();
@@ -50,9 +52,51 @@ class HomeRepoImp implements HomeRepo {
         var item = ProductModel.fromJson(response[i]);
         products.add(item);
       }
+
       return Right(products);
     } on SupabaseFailure catch (e) {
       return Left(Failure(errorMessage: e.errorMessage));
+    }
+  }
+
+  @override
+  Future<Either<Failure, void>> addToWhishlist({
+    required String tableName,
+    required Map<String, dynamic> whishlistData,
+  }) async {
+    try {
+      var response = await supabaseService.insertToWhishlist(
+        table: tableName,
+        values: whishlistData,
+      );
+      return Right(response);
+    } on SupabaseFailure catch (e) {
+      return Left(Failure(errorMessage: e.errorMessage));
+    } catch (e) {
+      print(e.toString());
+      return Left(Failure(errorMessage: e.toString()));
+    }
+  }
+
+  @override
+  Future<Either<Failure, List<ProductModel>>> fetchWishlist({
+    required String tableName,
+  }) async {
+    List<ProductModel> products = [];
+
+    try {
+      var response = await supabaseService.fetchUserWishlist(table: tableName);
+
+      for (int i = 0; i < response.length; i++) {
+        var item = response[i]['products']; // fixed this line
+        products.add(ProductModel.fromJson(item));
+      }
+
+      return Right(products);
+    } on SupabaseFailure catch (e) {
+      return Left(Failure(errorMessage: e.errorMessage));
+    } catch (e) {
+      return Left(Failure(errorMessage: e.toString()));
     }
   }
 }

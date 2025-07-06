@@ -5,9 +5,12 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 
 class ProductListBuilder extends StatelessWidget {
-  const ProductListBuilder({
+  ProductListBuilder({
+    required this.prouducts,
     super.key,
   });
+
+  List<ProductModel> prouducts;
 
   @override
   Widget build(BuildContext context) {
@@ -15,22 +18,22 @@ class ProductListBuilder extends StatelessWidget {
       height: 300.h,
       child: ListView.builder(
         scrollDirection: Axis.horizontal,
-        itemCount: 10,
+        itemCount: prouducts.length,
         itemBuilder: (context, index) {
           return InkWell(
             onTap: () {
-              context.push('/product_details');
+              context.push('/product_details', extra: prouducts[index]);
             },
             child: ProductItem(
               productItem: ProductModel(
-                  id: 'k;fjas;klfjas;',
-                  productCategory: 'sadfsafaf',
-                  description: 'asdfasfsafsfa',
-                  imageUrl:
-                      'https://image.oppo.com/content/dam/oppo/common/mkt/v2-2/reno13-series/list-page/reno13-pro-5g/purple.png',
-                  name: 'samsung s23 265 gb',
-                  price: 1500,
-                  status: 'avalible'),
+                id: prouducts[index].id,
+                productCategory: prouducts[index].productCategory,
+                description: prouducts[index].description,
+                imageUrl: prouducts[index].imageUrl,
+                name: prouducts[index].name,
+                price: prouducts[index].price,
+                status: prouducts[index].status,
+              ),
             ),
           );
         },
