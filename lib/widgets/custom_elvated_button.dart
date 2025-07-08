@@ -9,11 +9,13 @@ class CustomElevatedButton extends StatelessWidget {
     this.onTap,
     required this.label,
     this.backgroundColor,
+    this.width,
   });
-  final IconData icon;
+  final IconData? icon;
   final void Function()? onTap;
   final String label;
   final Color? backgroundColor;
+  final double? width;
 
   @override
   Widget build(BuildContext context) {
@@ -30,7 +32,7 @@ class CustomElevatedButton extends StatelessWidget {
         size: 25.spMax,
       ),
       style: ElevatedButton.styleFrom(
-        minimumSize: Size(double.infinity, 55),
+        minimumSize: Size(width ?? double.infinity, 55),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadiusGeometry.circular(8),
         ),

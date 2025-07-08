@@ -25,7 +25,9 @@ class CutsomActionAppBarIcons extends StatelessWidget {
         ),
         CustomSmallButton(
           icon: Ionicons.person,
-          onTap: () {},
+          onTap: () {
+            context.push('/settings_view');
+          },
         ),
         SizedBox(
           width: 8,

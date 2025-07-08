@@ -1,4 +1,4 @@
-import 'package:electronics_shop/features/checkout/widgets/custom_stepper_circle_avatr.dart';
+import 'package:electronics_shop/features/checkout/presentation/widgets/custom_stepper_circle_avatr.dart';
 import 'package:flutter/material.dart';
 
 class CheckouStepper extends StatelessWidget {

@@ -1,9 +1,8 @@
 import 'package:electronics_shop/core/utils/app_colors.dart';
 import 'package:electronics_shop/core/utils/app_styles.dart';
-import 'package:electronics_shop/features/checkout/presentation/views/view%20model/cubit/check_out_cubit.dart';
-import 'package:electronics_shop/features/checkout/widgets/chekcout_stepper.dart';
-import 'package:electronics_shop/features/checkout/widgets/custom_stepper_circle_avatr.dart';
-import 'package:electronics_shop/features/checkout/widgets/delivery_to_container.dart';
+import 'package:electronics_shop/features/checkout/presentation/view%20model/cubit/check_out_cubit.dart';
+import 'package:electronics_shop/features/checkout/presentation/widgets/chekcout_stepper.dart';
+import 'package:electronics_shop/features/checkout/presentation/widgets/delivery_to_container.dart';
 import 'package:electronics_shop/widgets/custom_app_bar.dart';
 import 'package:electronics_shop/widgets/custom_elvated_button.dart';
 import 'package:electronics_shop/widgets/custom_text_filed.dart';
