@@ -1,8 +1,12 @@
 import 'package:electronics_shop/core/utils/app_styles.dart';
+import 'package:electronics_shop/core/utils/my_toast.dart';
+import 'package:electronics_shop/features/auth/presentation/view%20model/cubit/auth_cubit.dart';
 import 'package:electronics_shop/widgets/custom_app_bar.dart';
+import 'package:electronics_shop/widgets/custom_elvated_button.dart';
 import 'package:electronics_shop/widgets/settings_list_tile.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:ionicons/ionicons.dart';
@@ -141,9 +145,22 @@ class SettingsView extends StatelessWidget {
                     ),
                   ],
                 ),
-              )
+              ),
             ],
           ),
+        ),
+      ),
+      bottomNavigationBar: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: CustomElevatedButton(
+          icon: Icons.logout,
+          label: 'Sign Out',
+          backgroundColor: Colors.redAccent,
+          onTap: () {
+            context.read<AuthCubit>().signOut();
+            MyToast.showMyToast(context,
+                icon: Icons.logout, title: "logeed out", bgColor: Colors.green);
+          },
         ),
       ),
     );

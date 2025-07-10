@@ -2,7 +2,6 @@ import 'package:electronics_shop/features/auth/presentation/views/login_view.dar
 import 'package:electronics_shop/features/auth/presentation/views/signup_view.dart';
 import 'package:electronics_shop/features/checkout/presentation/views/delivery_address_view.dart';
 import 'package:electronics_shop/features/checkout/presentation/views/payment_view.dart';
-import 'package:electronics_shop/features/checkout/presentation/views/tracking_order_view.dart';
 import 'package:electronics_shop/features/home/data/models/product_item_model.dart';
 import 'package:electronics_shop/features/home/data/models/whishlist_model.dart';
 import 'package:electronics_shop/features/home/presentation/views/cart_view.dart';
@@ -13,7 +12,7 @@ import 'package:electronics_shop/features/home/presentation/views/home_view.dart
 import 'package:electronics_shop/features/home/presentation/views/product_details_view.dart';
 import 'package:electronics_shop/features/home/presentation/views/profile_view.dart';
 import 'package:electronics_shop/features/home/presentation/views/settings_view.dart';
-import 'package:electronics_shop/features/home/presentation/views/search_view.dart';
+import 'package:electronics_shop/features/search/presentation/views/search_view.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -81,10 +80,6 @@ class AppRouting {
       GoRoute(
         path: '/payment',
         builder: (context, state) => PaymentView(),
-      ),
-      GoRoute(
-        path: '/tracking_order',
-        builder: (context, state) => TrackingOrderView(),
       ),
       GoRoute(
         path: '/settings_view',

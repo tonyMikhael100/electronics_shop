@@ -3,6 +3,7 @@ import 'package:electronics_shop/core/router/router.dart';
 import 'package:electronics_shop/features/checkout/presentation/view%20model/cubit/check_out_cubit.dart';
 import 'package:electronics_shop/features/home/presentation/view%20model/cubit/home_cubit.dart';
 import 'package:electronics_shop/features/home/presentation/view%20model/cubit/whishlist_cubit.dart';
+import 'package:electronics_shop/features/search/presentation/view%20model/cubit/cubit/search_cubit.dart';
 import 'package:electronics_shop/firebase_options.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -33,7 +34,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ScreenUtilInit(
-      designSize: const Size(1280, 1024),
+      designSize: const Size(407, 1560),
       minTextAdapt: true,
       splitScreenMode: true,
       enableScaleWH: () => true,
@@ -48,7 +49,11 @@ class MyApp extends StatelessWidget {
               create: (context) => AuthCubit(),
             ),
             BlocProvider(
-              create: (context) => WhishlistCubit(),
+              create: (context) =>
+                  WhishlistCubit()..fetchWhishlist(tableName: 'wishlists'),
+            ),
+            BlocProvider(
+              create: (context) => SearchCubit(),
             ),
             BlocProvider(create: (context) {
               return HomeCubit()

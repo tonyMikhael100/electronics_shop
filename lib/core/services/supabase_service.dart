@@ -15,6 +15,17 @@ class SupabaseService {
     return response;
   }
 
+  Future<List<Map<String, dynamic>>> searchByName({
+    required String table,
+    required String searchKey,
+  }) async {
+    final response = await _client
+        .from(table)
+        .select('*')
+        .ilike('name', '%$searchKey%'); // ilike = insensitive LIKE
+    return response;
+  }
+
   Future<dynamic> insert(
       {required String table, required Map<String, dynamic> value}) async {
     final response = await _client.from(table).insert(value);

@@ -42,4 +42,9 @@ class AuthCubit extends Cubit<AuthState> {
         email: FirebaseAuth.instance.currentUser!.email!);
     return response;
   }
+
+  Future<void> signOut() async {
+    await FirebaseAuth.instance.signOut();
+    emit(SignOutState());
+  }
 }

@@ -28,3 +28,5 @@ final class LoginFailuregState extends AuthState {
 }
 
 final class LoginSuccessState extends AuthState {}
+
+final class SignOutState extends AuthState {}

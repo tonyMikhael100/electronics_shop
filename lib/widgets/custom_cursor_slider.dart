@@ -9,6 +9,7 @@ import 'package:electronics_shop/features/home/presentation/view%20model/cubit/h
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:skeletonizer/skeletonizer.dart';
 
 class CustomCursorSlider extends StatelessWidget {
   const CustomCursorSlider({
@@ -44,9 +45,11 @@ class CustomCursorSlider extends StatelessWidget {
                 );
               }).toList());
         } else {
-          return Center(
-            child: CircularProgressIndicator(
-              color: AppColors.primaryColor,
+          return Skeletonizer(
+            enabled: true,
+            child: Container(
+              width: double.infinity,
+              height: 200,
             ),
           );
         }

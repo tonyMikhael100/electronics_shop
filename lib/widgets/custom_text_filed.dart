@@ -1,37 +1,45 @@
 import 'package:electronics_shop/core/utils/app_colors.dart';
 import 'package:electronics_shop/core/utils/app_styles.dart';
+import 'package:electronics_shop/gen/assets.gen.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class CustomTextFiled extends StatelessWidget {
   const CustomTextFiled({
     super.key,
     required this.label,
     this.onChanged,
+    this.suffixIcon,
   });
   final String label;
   final Function(String)? onChanged;
+  final IconData? suffixIcon;
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 8),
-      child: TextField(
-        onChanged: onChanged,
-        decoration: InputDecoration(
-          label: Text(
-            label,
-            style: AppTextStyles.displaySmall(context),
+    return TextField(
+      onChanged: onChanged,
+      decoration: InputDecoration(
+        suffixIcon: Icon(suffixIcon),
+        fillColor: AppColors.secondary,
+        filled: true,
+        label: Text(
+          label,
+          style: AppTextStyles.bodyLarge(context).copyWith(
+            color: AppColors.tertiary,
           ),
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(8),
-          ),
-          enabledBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(8),
-          ),
-          focusedBorder: OutlineInputBorder(
-            borderSide: BorderSide(color: AppColors.primaryColor),
-            borderRadius: BorderRadius.circular(8),
-          ),
+        ),
+        border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(12),
+            borderSide: BorderSide(color: Colors.white)),
+        enabledBorder: OutlineInputBorder(
+          borderSide: BorderSide(color: Colors.white),
+          borderRadius: BorderRadius.circular(12),
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderSide: BorderSide(color: Colors.white),
+          borderRadius: BorderRadius.circular(12),
         ),
       ),
     );
