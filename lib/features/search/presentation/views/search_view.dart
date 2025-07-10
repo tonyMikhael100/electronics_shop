@@ -56,21 +56,26 @@ class SearchView extends StatelessWidget {
                 );
               } else if (state is SearchLoadingState) {
                 return Skeletonizer(
-                  enabled: true,
-                  child: ListView.builder(
-                    itemCount: myHomeCubit.categoryList.length,
-                    itemBuilder: (context, index) {
-                      return InkWell(
-                        onTap: () {},
-                        child: SearchCategoryRow(
-                          imageUrl: myHomeCubit.categoryList[index].imageUrl,
-                          categoryLabel:
-                              myHomeCubit.categoryList[index].categoryName,
-                        ),
-                      );
-                    },
-                  ),
-                );
+                    enabled: true,
+                    child: ProductsGridBuilder(products: [
+                      ProductModel(
+                          id: 'id',
+                          productCategory: "productCategory",
+                          name: "name",
+                          description: "description",
+                          price: 1000,
+                          imageUrl: "https://dummyimage.com/600x400/000/fff",
+                          status: "status"),
+                      ProductModel(
+                          id: 'id',
+                          productCategory: "productCategory",
+                          name: "name",
+                          description: "description",
+                          price: 1000,
+                          imageUrl:
+                              "https://nclsdhzpcxkiizuunell.supabase.co/storage/v1/object/public/images//fff.png",
+                          status: "status"),
+                    ]));
               } else if (state is SearchNotFoundState) {
                 return Center(
                   child: Text(

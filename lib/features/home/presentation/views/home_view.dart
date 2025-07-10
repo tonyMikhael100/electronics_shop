@@ -52,7 +52,6 @@ class _HomeViewState extends State<HomeView> {
   @override
   Widget build(BuildContext context) {
     final homeCubit = BlocProvider.of<HomeCubit>(context);
-
     return Scaffold(
       backgroundColor: Colors.white,
       body: Padding(
