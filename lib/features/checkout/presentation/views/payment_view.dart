@@ -23,7 +23,7 @@ class PaymentView extends StatelessWidget {
         preferredSize: Size(double.infinity, 56),
         child: CustomAppBar(
           title: 'Payment method',
-          showActionButton: false,
+          // showActionButton: false,
         ),
       ),
       body: Padding(

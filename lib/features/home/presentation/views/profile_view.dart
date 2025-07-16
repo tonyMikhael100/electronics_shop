@@ -43,7 +43,7 @@ class _ProfileViewState extends State<ProfileView> {
         preferredSize: Size(double.infinity, 56),
         child: CustomAppBar(
           title: 'Profile',
-          showActionButton: false,
+          // showActionButton: false,
         ),
       ),
       body: data.isEmpty

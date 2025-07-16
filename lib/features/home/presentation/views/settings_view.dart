@@ -23,7 +23,7 @@ class SettingsView extends StatelessWidget {
         preferredSize: Size(double.infinity, 56),
         child: CustomAppBar(
           title: 'Settings',
-          showActionButton: false,
+          // showActionButton: false,
         ),
       ),
       body: Padding(

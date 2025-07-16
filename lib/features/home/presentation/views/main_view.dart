@@ -90,23 +90,9 @@ class MainView extends StatelessWidget {
                     SizedBox(
                       height: 32,
                     ),
-                    Row(
-                      crossAxisAlignment: CrossAxisAlignment.end,
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          'Newest products',
-                          style: AppTextStyles.displayMedium(context),
-                        ),
-                        InkWell(
-                          onTap: () {},
-                          child: Text(
-                            'see all',
-                            style: AppTextStyles.displaySmall(context)
-                                .copyWith(color: AppColors.tertiary),
-                          ),
-                        ),
-                      ],
+                    Text(
+                      'Newest products',
+                      style: AppTextStyles.displayMedium(context),
                     ),
                   ],
                 ),

@@ -4,6 +4,7 @@ import 'package:electronics_shop/core/utils/app_styles.dart';
 import 'package:electronics_shop/features/home/data/models/product_item_model.dart';
 import 'package:electronics_shop/features/home/presentation/view%20model/cubit/home_cubit.dart';
 import 'package:electronics_shop/features/home/presentation/view%20model/cubit/whishlist_cubit.dart';
+import 'package:electronics_shop/features/home/presentation/views/favourite_view.dart';
 import 'package:electronics_shop/features/home/presentation/views/main_view.dart';
 import 'package:electronics_shop/features/search/presentation/views/search_view.dart';
 import 'package:electronics_shop/gen/assets.gen.dart';
@@ -42,6 +43,7 @@ class _HomeViewState extends State<HomeView> {
   final List<Widget> screens = [
     MainView(),
     SearchView(),
+    FavouriteView(),
   ];
 
   @override
@@ -58,37 +60,40 @@ class _HomeViewState extends State<HomeView> {
         padding: const EdgeInsets.only(top: 40, left: 16, right: 16),
         child: screens[selectedIndex],
       ),
-      bottomNavigationBar: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 8),
-        height: 56,
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: const BorderRadius.only(
-            topLeft: Radius.circular(10),
-            topRight: Radius.circular(10),
-          ),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black.withOpacity(0.05),
-              blurRadius: 5,
+      bottomNavigationBar: SafeArea(
+        child: Container(
+          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
+          height: 56,
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: const BorderRadius.only(
+              topLeft: Radius.circular(10),
+              topRight: Radius.circular(10),
             ),
-          ],
-        ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: List.generate(navItems.length, (index) {
-            final item = navItems[index];
-            return CustomBottomNavBarItem(
-              label: item.label,
-              imageUrl: item.image,
-              isActive: index == selectedIndex,
-              onTap: () {
-                setState(() {
-                  selectedIndex = index;
-                });
-              },
-            );
-          }),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withOpacity(0.05),
+                blurRadius: 5,
+              ),
+            ],
+          ),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: List.generate(navItems.length, (index) {
+              final item = navItems[index];
+              return CustomBottomNavBarItem(
+                label: item.label,
+                imageUrl: item.image,
+                isActive: index == selectedIndex,
+                onTap: () {
+                  setState(() {
+                    selectedIndex = index;
+                  });
+                },
+              );
+            }),
+          ),
         ),
       ),
     );

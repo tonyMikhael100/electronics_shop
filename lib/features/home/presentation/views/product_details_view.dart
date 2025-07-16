@@ -7,11 +7,14 @@ import 'package:electronics_shop/features/home/data/models/product_item_model.da
 import 'package:electronics_shop/features/home/data/models/whishlist_model.dart';
 import 'package:electronics_shop/features/home/presentation/view%20model/cubit/home_cubit.dart';
 import 'package:electronics_shop/features/home/presentation/view%20model/cubit/whishlist_cubit.dart';
+import 'package:electronics_shop/gen/assets.gen.dart';
+import 'package:electronics_shop/widgets/custom_app_bar.dart';
 import 'package:electronics_shop/widgets/custom_elvated_button.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class ProductDetailsView extends StatefulWidget {
   const ProductDetailsView({super.key, required this.product});
@@ -52,67 +55,86 @@ class _ProductDetailsViewState extends State<ProductDetailsView> {
     final product = widget.product;
     final whishlistCubit = context.read<WhishlistCubit>();
     return Scaffold(
-      appBar: AppBar(
-        title: Text(product.name),
-        actions: [
-          _userLoaded
-              ? BlocBuilder<WhishlistCubit, WhishlistState>(
-                  builder: (context, state) {
-                    final isInWishlist = whishlistCubit.isInWhishlist;
-                    return IconButton(
-                      icon: Icon(
-                        isInWishlist ? Icons.favorite : Icons.favorite_border,
-                        color: isInWishlist ? Colors.red : null,
-                      ),
-                      onPressed: () {
-                        whishlistCubit.toggleWhishlist(
-                          product: product,
-                          tableName: 'wishlists',
-                          userId: userId,
-                          productId: product.id,
-                        );
-                      },
-                    );
-                  },
-                )
-              : const SizedBox.shrink(),
-        ],
+      backgroundColor: Colors.white,
+      appBar: PreferredSize(
+        preferredSize: Size(double.infinity, 56),
+        child: CustomAppBar(title: widget.product.productCategory),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: SingleChildScrollView(
+          physics: BouncingScrollPhysics(),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              SizedBox(
-                height: 300.h,
-                child: Center(
-                  child: CachedNetworkImage(
-                    imageUrl: product.imageUrl,
-                    height: 220,
-                    fit: BoxFit.contain,
+              Stack(
+                children: [
+                  Container(
+                    padding: EdgeInsets.all(30),
+                    height: 360,
+                    width: double.infinity,
+                    decoration: BoxDecoration(
+                      color: AppColors.secondary,
+                      borderRadius: BorderRadius.circular(24),
+                    ),
+                    child: Hero(
+                        tag: widget.product.id,
+                        child: CachedNetworkImage(
+                            imageUrl: widget.product.imageUrl)),
                   ),
-                ),
+                  Positioned(
+                    bottom: 10,
+                    right: 10,
+                    child: InkWell(
+                      onTap: () {
+                        whishlistCubit.toggleWhishlist(
+                          tableName: 'wishlists',
+                          userId: userId,
+                          productId: widget.product.id,
+                          product: product,
+                        );
+                        setState(() {});
+                      },
+                      child: CircleAvatar(
+                        backgroundColor: Colors.white,
+                        radius: 40.r,
+                        child: whishlistCubit.isInWhishlist
+                            ? Icon(Icons.favorite, color: AppColors.accent)
+                            : Icon(
+                                Icons.favorite_outline,
+                                color: Colors.black,
+                              ),
+                      ),
+                    ),
+                  ),
+                ],
               ),
-              const SizedBox(height: 16),
-              Text(
-                product.name,
-                style: AppTextStyles.displayMedium(context),
+              SizedBox(
+                height: 10,
               ),
-              const SizedBox(height: 8),
               Text(
-                "${product.price} KWD",
-                style: AppTextStyles.displayMedium(context).copyWith(
-                    color: AppColors.secondaryColor,
-                    fontWeight: FontWeight.w800),
+                '${widget.product.price.toString()} LE',
+                style: AppTextStyles.displayMedium(context)
+                    .copyWith(fontWeight: FontWeight.bold, fontSize: 20.sp),
               ),
-              const SizedBox(height: 16),
+              SizedBox(
+                height: 5,
+              ),
               Text(
-                product.description,
+                widget.product.name,
+                style: AppTextStyles.displayMedium(context)
+                    .copyWith(fontWeight: FontWeight.bold, fontSize: 20.sp),
+              ),
+              SizedBox(
+                height: 20,
+              ),
+              Text(
+                widget.product.description,
                 style: AppTextStyles.displaySmall(context).copyWith(
-                    fontWeight: FontWeight.w100, color: Colors.black87),
+                    fontWeight: FontWeight.bold,
+                    fontSize: 14.sp,
+                    color: AppColors.tertiary),
               ),
-              const SizedBox(height: 80), // For button space
             ],
           ),
         ),
@@ -122,7 +144,7 @@ class _ProductDetailsViewState extends State<ProductDetailsView> {
         child: CustomElevatedButton(
           icon: Icons.shopping_cart_rounded,
           label: 'Add to Cart',
-          backgroundColor: AppColors.primaryColor,
+          backgroundColor: AppColors.accent,
           onTap: () {
             // TODO: Handle add to cart
           },

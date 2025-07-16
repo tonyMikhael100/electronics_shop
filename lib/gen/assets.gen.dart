@@ -42,6 +42,9 @@ class $AssetsImagesGen {
   AssetGenImage get authImage =>
       const AssetGenImage('assets/images/auth_image.png');
 
+  /// File path: assets/images/box.svg
+  String get box => 'assets/images/box.svg';
+
   /// File path: assets/images/cart.svg
   String get cart => 'assets/images/cart.svg';
 
@@ -51,8 +54,11 @@ class $AssetsImagesGen {
   /// File path: assets/images/cod.svg
   String get cod => 'assets/images/cod.svg';
 
+  /// File path: assets/images/empty-box.svg
+  String get emptyBoxSvg => 'assets/images/empty-box.svg';
+
   /// File path: assets/images/empty_box.svg
-  String get emptyBox => 'assets/images/empty_box.svg';
+  String get emptyBoxSvg_ => 'assets/images/empty_box.svg';
 
   /// File path: assets/images/favourite-svgrepo-com.svg
   String get favouriteSvgrepoCom => 'assets/images/favourite-svgrepo-com.svg';
@@ -102,10 +108,12 @@ class $AssetsImagesGen {
     accessories,
     alignLeft,
     authImage,
+    box,
     cart,
     category,
     cod,
-    emptyBox,
+    emptyBoxSvg,
+    emptyBoxSvg_,
     favouriteSvgrepoCom,
     headphone,
     home2SvgrepoCom,
