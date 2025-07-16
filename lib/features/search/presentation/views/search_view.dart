@@ -1,23 +1,12 @@
-import 'package:electronics_shop/core/services/supabase_service.dart';
-import 'package:electronics_shop/core/utils/app_colors.dart';
-import 'package:electronics_shop/core/utils/app_styles.dart';
 import 'package:electronics_shop/features/home/data/models/product_item_model.dart';
 import 'package:electronics_shop/features/home/presentation/view%20model/cubit/home_cubit.dart';
 import 'package:electronics_shop/features/search/presentation/view%20model/cubit/cubit/search_cubit.dart';
 import 'package:electronics_shop/features/search/presentation/widgets/search_category_row.dart';
-import 'package:electronics_shop/features/search/presentation/widgets/search_loading.dart';
-import 'package:electronics_shop/gen/assets.gen.dart';
 import 'package:electronics_shop/widgets/custom_text_filed.dart';
-import 'package:electronics_shop/widgets/filter_list_tile.dart';
 import 'package:electronics_shop/widgets/not_found_widget.dart';
-import 'package:electronics_shop/widgets/product_item.dart';
 import 'package:electronics_shop/widgets/products_gird_builder.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import 'package:go_router/go_router.dart';
-import 'package:ionicons/ionicons.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
 class SearchView extends StatelessWidget {

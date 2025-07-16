@@ -22,58 +22,65 @@ class FavouriteView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.white,
-      appBar: PreferredSize(
-        preferredSize: Size(double.infinity, 56),
-        child: CustomAppBar(
-          title: 'Wishlist',
-          showBackButton: false,
+    return RefreshIndicator(
+      color: AppColors.tertiary,
+      onRefresh: () async {
+        BlocProvider.of<WhishlistCubit>(context)
+            .fetchWhishlist(tableName: 'wishlists');
+      },
+      child: Scaffold(
+        backgroundColor: Colors.white,
+        appBar: PreferredSize(
+          preferredSize: Size(double.infinity, 56),
+          child: CustomAppBar(
+            title: 'Wishlist',
+            showBackButton: false,
+          ),
         ),
-      ),
-      body: BlocBuilder<WhishlistCubit, WhishlistState>(
-        builder: (context, state) {
-          final cubit = context.read<WhishlistCubit>();
+        body: BlocBuilder<WhishlistCubit, WhishlistState>(
+          builder: (context, state) {
+            final cubit = context.read<WhishlistCubit>();
 
-          // Loading state
-          if (state is WhishlistLoadingState) {
-            return buildDumyList();
-          }
+            // Loading state
+            if (state is WhishlistLoadingState) {
+              return buildDumyList();
+            }
 
-          // Error state
-          if (state is FailureWhishlitState) {
-            return Center(
-              child: Text(
-                state.errorMessage,
-                style: AppTextStyles.displayMedium(context),
-              ),
-            );
-          }
-
-          // No items
-          if (cubit.products.isEmpty) {
-            return NotFoundWidget(
-              title: 'No Wishinglit Yet !,',
-            );
-          }
-          // Success
-          return ListView.builder(
-            itemCount: cubit.products.length,
-            itemBuilder: (context, index) {
-              final product = cubit.products[index];
-              return Padding(
-                padding: const EdgeInsets.only(bottom: 16),
-                child: FavouriteProductItem(
-                  product: product,
-                  onTapColumn: () {
-                    context.push('/product_details', extra: product);
-                  },
-                  onTapAddToCart: () {},
+            // Error state
+            if (state is FailureWhishlitState) {
+              return Center(
+                child: Text(
+                  state.errorMessage,
+                  style: AppTextStyles.displayMedium(context),
                 ),
               );
-            },
-          );
-        },
+            }
+
+            // No items
+            if (cubit.products.isEmpty) {
+              return NotFoundWidget(
+                title: 'No Wishinglit Yet !,',
+              );
+            }
+            // Success
+            return ListView.builder(
+              itemCount: cubit.products.length,
+              itemBuilder: (context, index) {
+                final product = cubit.products[index];
+                return Padding(
+                  padding: const EdgeInsets.only(bottom: 16),
+                  child: FavouriteProductItem(
+                    product: product,
+                    onTapColumn: () {
+                      context.push('/product_details', extra: product);
+                    },
+                    onTapAddToCart: () {},
+                  ),
+                );
+              },
+            );
+          },
+        ),
       ),
     );
   }

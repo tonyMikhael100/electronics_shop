@@ -142,7 +142,10 @@ class _ProductDetailsViewState extends State<ProductDetailsView> {
       bottomNavigationBar: Padding(
         padding: const EdgeInsets.all(16.0),
         child: CustomElevatedButton(
-          icon: Icons.shopping_cart_rounded,
+          icon: SvgPicture.asset(
+            Assets.images.cart,
+            color: Colors.white,
+          ),
           label: 'Add to Cart',
           backgroundColor: AppColors.accent,
           onTap: () {

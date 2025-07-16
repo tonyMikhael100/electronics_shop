@@ -82,7 +82,7 @@ class PaymentView extends StatelessWidget {
                 ),
                 SizedBox(height: 16),
                 CustomElevatedButton(
-                  icon: Icons.shopping_cart_checkout_rounded,
+                  icon: Icon(Icons.shopping_cart_checkout_rounded),
                   backgroundColor: AppColors.primaryColor,
                   label: 'Confirm Order',
                   onTap: () {

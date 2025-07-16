@@ -72,7 +72,7 @@ class CartView extends StatelessWidget {
             ),
             SizedBox(height: 16),
             CustomElevatedButton(
-              icon: Ionicons.wallet,
+              icon: Icon(Ionicons.wallet),
               label: 'Checkout',
               backgroundColor: AppColors.primaryColor,
               onTap: () {

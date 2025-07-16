@@ -153,7 +153,7 @@ class SettingsView extends StatelessWidget {
       bottomNavigationBar: Padding(
         padding: const EdgeInsets.all(16.0),
         child: CustomElevatedButton(
-          icon: Icons.logout,
+          icon: Icon(Icons.logout),
           label: 'Sign Out',
           backgroundColor: Colors.redAccent,
           onTap: () {

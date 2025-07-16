@@ -124,7 +124,7 @@ class DeliveryAddressView extends StatelessWidget {
                                         ),
                                         SizedBox(height: 16),
                                         CustomElevatedButton(
-                                          icon: Icons.done,
+                                          icon: Icon(Icons.done),
                                           label: 'Save',
                                           backgroundColor:
                                               AppColors.primaryColor,
@@ -181,7 +181,7 @@ class DeliveryAddressView extends StatelessWidget {
                           ),
                           SizedBox(height: 16),
                           CustomElevatedButton(
-                            icon: Icons.done,
+                            icon: Icon(Icons.done),
                             label: 'Save',
                             backgroundColor: AppColors.primaryColor,
                             onTap: () {
@@ -223,7 +223,7 @@ class DeliveryAddressView extends StatelessWidget {
               height: 20,
             ),
             CustomElevatedButton(
-              icon: Icons.navigate_next_sharp,
+              icon: Icon(Icons.navigate_next_sharp),
               label: "Continue to payment",
               onTap: () {
                 context.push('/payment');

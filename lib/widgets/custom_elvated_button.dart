@@ -1,6 +1,7 @@
 import 'package:electronics_shop/core/utils/app_styles.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class CustomElevatedButton extends StatelessWidget {
   const CustomElevatedButton({
@@ -11,11 +12,11 @@ class CustomElevatedButton extends StatelessWidget {
     this.backgroundColor,
     this.width,
   });
-  final IconData? icon;
   final void Function()? onTap;
   final String label;
   final Color? backgroundColor;
   final double? width;
+  final Widget icon;
 
   @override
   Widget build(BuildContext context) {
@@ -26,11 +27,7 @@ class CustomElevatedButton extends StatelessWidget {
         style: AppTextStyles.bodyLarge(context)
             .copyWith(color: Colors.white, fontWeight: FontWeight.w600),
       ),
-      icon: Icon(
-        icon,
-        color: Colors.white,
-        size: 25.spMax,
-      ),
+      icon: icon,
       style: ElevatedButton.styleFrom(
         minimumSize: Size(width ?? double.infinity, 55),
         shape: RoundedRectangleBorder(
