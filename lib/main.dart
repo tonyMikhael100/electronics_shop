@@ -1,5 +1,6 @@
 import 'package:electronics_shop/features/auth/presentation/view%20model/cubit/auth_cubit.dart';
 import 'package:electronics_shop/core/router/router.dart';
+import 'package:electronics_shop/features/checkout/presentation/view%20model/cubit/cart_cubit.dart';
 import 'package:electronics_shop/features/checkout/presentation/view%20model/cubit/check_out_cubit.dart';
 import 'package:electronics_shop/features/home/presentation/view%20model/cubit/home_cubit.dart';
 import 'package:electronics_shop/features/home/presentation/view%20model/cubit/whishlist_cubit.dart';
@@ -54,6 +55,9 @@ class MyApp extends StatelessWidget {
             ),
             BlocProvider(
               create: (context) => SearchCubit(),
+            ),
+            BlocProvider(
+              create: (context) => CartCubit(),
             ),
             BlocProvider(create: (context) {
               return HomeCubit()

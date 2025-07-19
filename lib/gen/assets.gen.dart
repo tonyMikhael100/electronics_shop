@@ -79,8 +79,27 @@ class $AssetsImagesGen {
   /// File path: assets/images/iphone2.png
   AssetGenImage get iphone2 => const AssetGenImage('assets/images/iphone2.png');
 
+  /// File path: assets/images/mastercard-svgrepo-com.svg
+  String get mastercardSvgrepoCom => 'assets/images/mastercard-svgrepo-com.svg';
+
+  /// File path: assets/images/mastercard.svg
+  String get mastercard => 'assets/images/mastercard.svg';
+
+  /// File path: assets/images/menu-vertical-svgrepo-com.svg
+  String get menuVerticalSvgrepoCom =>
+      'assets/images/menu-vertical-svgrepo-com.svg';
+
+  /// File path: assets/images/minus-svgrepo-com.svg
+  String get minusSvgrepoCom => 'assets/images/minus-svgrepo-com.svg';
+
   /// File path: assets/images/more.png
   AssetGenImage get more => const AssetGenImage('assets/images/more.png');
+
+  /// File path: assets/images/paypal-3-svgrepo-com.svg
+  String get paypal3SvgrepoCom => 'assets/images/paypal-3-svgrepo-com.svg';
+
+  /// File path: assets/images/paypal.svg
+  String get paypal => 'assets/images/paypal.svg';
 
   /// File path: assets/images/profile-1335-svgrepo-com.svg
   String get profile1335SvgrepoCom =>
@@ -98,8 +117,17 @@ class $AssetsImagesGen {
   /// File path: assets/images/search2.png
   AssetGenImage get search2 => const AssetGenImage('assets/images/search2.png');
 
+  /// File path: assets/images/setting.svg
+  String get setting => 'assets/images/setting.svg';
+
+  /// File path: assets/images/visa-svgrepo-com.svg
+  String get visaSvgrepoCom => 'assets/images/visa-svgrepo-com.svg';
+
   /// File path: assets/images/visa.svg
   String get visa => 'assets/images/visa.svg';
+
+  /// File path: assets/images/visa2.svg
+  String get visa2 => 'assets/images/visa2.svg';
 
   /// List of all assets
   List<dynamic> get values => [
@@ -120,13 +148,22 @@ class $AssetsImagesGen {
     ipad,
     iphone,
     iphone2,
+    mastercardSvgrepoCom,
+    mastercard,
+    menuVerticalSvgrepoCom,
+    minusSvgrepoCom,
     more,
+    paypal3SvgrepoCom,
+    paypal,
     profile1335SvgrepoCom,
     profile,
     searchSvgrepoCom,
     search,
     search2,
+    setting,
+    visaSvgrepoCom,
     visa,
+    visa2,
   ];
 }
 

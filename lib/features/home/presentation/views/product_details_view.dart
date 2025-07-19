@@ -3,6 +3,8 @@ import 'package:electronics_shop/core/services/supabase_service.dart';
 import 'package:electronics_shop/core/utils/app_colors.dart';
 import 'package:electronics_shop/core/utils/app_styles.dart';
 import 'package:electronics_shop/features/auth/presentation/view%20model/cubit/auth_cubit.dart';
+import 'package:electronics_shop/features/checkout/data/models/cart_model.dart';
+import 'package:electronics_shop/features/checkout/presentation/view%20model/cubit/cart_cubit.dart';
 import 'package:electronics_shop/features/home/data/models/product_item_model.dart';
 import 'package:electronics_shop/features/home/data/models/whishlist_model.dart';
 import 'package:electronics_shop/features/home/presentation/view%20model/cubit/home_cubit.dart';
@@ -58,7 +60,13 @@ class _ProductDetailsViewState extends State<ProductDetailsView> {
       backgroundColor: Colors.white,
       appBar: PreferredSize(
         preferredSize: Size(double.infinity, 56),
-        child: CustomAppBar(title: widget.product.productCategory),
+        child: CustomAppBar(
+          title: widget.product.productCategory,
+          showBackButton: true,
+          showDeleteButton: false,
+          widget: Icon(Icons.delete),
+          onTap: () {},
+        ),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -148,8 +156,11 @@ class _ProductDetailsViewState extends State<ProductDetailsView> {
           ),
           label: 'Add to Cart',
           backgroundColor: AppColors.accent,
-          onTap: () {
-            // TODO: Handle add to cart
+          onTap: () async {
+            await BlocProvider.of<CartCubit>(context).addToCart(
+                tableName: 'cart',
+                cartModel:
+                    CartModel(userId: userId, product: product, quantity: 1));
           },
         ),
       ),

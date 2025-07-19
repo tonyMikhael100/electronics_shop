@@ -1,5 +1,6 @@
 import 'package:electronics_shop/core/utils/app_colors.dart';
 import 'package:electronics_shop/core/utils/app_styles.dart';
+import 'package:electronics_shop/features/auth/presentation/view%20model/cubit/auth_cubit.dart';
 import 'package:electronics_shop/features/home/presentation/view%20model/cubit/home_cubit.dart';
 import 'package:electronics_shop/gen/assets.gen.dart';
 import 'package:electronics_shop/widgets/custom_cursor_slider.dart';
@@ -14,7 +15,9 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class MainView extends StatelessWidget {
-  const MainView({super.key});
+  const MainView({
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -51,7 +54,8 @@ class MainView extends StatelessWidget {
                           width: 20,
                         ),
                         Text(
-                          'Hello Tony',
+                          overflow: TextOverflow.ellipsis,
+                          'Hello ${BlocProvider.of<AuthCubit>(context).userName}',
                           style: AppTextStyles.displayLarge(context).copyWith(
                               fontWeight: FontWeight.bold, fontSize: 32.sp),
                         ),

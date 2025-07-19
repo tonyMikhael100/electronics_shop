@@ -12,10 +12,16 @@ class CustomAppBar extends StatelessWidget {
     super.key,
     required this.title,
     this.showBackButton = true,
+    required this.onTap,
+    required this.widget,
+    this.showDeleteButton = false,
   });
 
   final String title;
   final bool showBackButton;
+  final bool showDeleteButton;
+  final void Function()? onTap;
+  final Widget widget;
 
   @override
   Widget build(BuildContext context) {
@@ -44,13 +50,32 @@ class CustomAppBar extends StatelessWidget {
         ),
 
         // dummy icon to balance layout visually
-        Opacity(
-          opacity: 0,
-          child: Icon(
-            Icons.keyboard_arrow_left_rounded,
-            size: 32.sp,
-          ),
-        ),
+        showDeleteButton
+            ? Row(
+                children: [
+                  InkWell(
+                    onTap: onTap,
+                    child: Container(
+                      width: 40,
+                      height: 40,
+                      decoration: BoxDecoration(
+                          color: AppColors.secondary,
+                          borderRadius: BorderRadius.circular(8)),
+                      child: widget,
+                    ),
+                  ),
+                  SizedBox(
+                    width: 8,
+                  ),
+                ],
+              )
+            : Opacity(
+                opacity: 0,
+                child: Icon(
+                  Icons.keyboard_arrow_left_rounded,
+                  size: 32.sp,
+                ),
+              ),
       ],
     );
   }

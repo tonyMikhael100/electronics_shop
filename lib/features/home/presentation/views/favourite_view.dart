@@ -1,6 +1,9 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:electronics_shop/core/utils/app_colors.dart';
 import 'package:electronics_shop/core/utils/app_styles.dart';
+import 'package:electronics_shop/features/auth/presentation/view%20model/cubit/auth_cubit.dart';
+import 'package:electronics_shop/features/checkout/data/models/cart_model.dart';
+import 'package:electronics_shop/features/checkout/presentation/view%20model/cubit/cart_cubit.dart';
 import 'package:electronics_shop/features/home/data/models/product_item_model.dart';
 import 'package:electronics_shop/features/home/data/models/whishlist_model.dart';
 import 'package:electronics_shop/features/home/presentation/view%20model/cubit/whishlist_cubit.dart';
@@ -22,31 +25,30 @@ class FavouriteView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return RefreshIndicator(
-      color: AppColors.tertiary,
-      onRefresh: () async {
-        BlocProvider.of<WhishlistCubit>(context)
-            .fetchWhishlist(tableName: 'wishlists');
-      },
-      child: Scaffold(
-        backgroundColor: Colors.white,
-        appBar: PreferredSize(
-          preferredSize: Size(double.infinity, 56),
-          child: CustomAppBar(
-            title: 'Wishlist',
-            showBackButton: false,
-          ),
+    return Scaffold(
+      backgroundColor: Colors.white,
+      appBar: PreferredSize(
+        preferredSize: Size.fromHeight(56),
+        child: CustomAppBar(
+          widget: Icon(Icons.delete),
+          title: 'Wishlist',
+          showBackButton: false,
+          showDeleteButton: true,
+          onTap: () {},
         ),
-        body: BlocBuilder<WhishlistCubit, WhishlistState>(
+      ),
+      body: RefreshIndicator(
+        color: AppColors.tertiary,
+        onRefresh: () async {
+          BlocProvider.of<WhishlistCubit>(context)
+              .fetchWhishlist(tableName: 'wishlists');
+        },
+        child: BlocBuilder<WhishlistCubit, WhishlistState>(
           builder: (context, state) {
             final cubit = context.read<WhishlistCubit>();
-
-            // Loading state
             if (state is WhishlistLoadingState) {
               return buildDumyList();
             }
-
-            // Error state
             if (state is FailureWhishlitState) {
               return Center(
                 child: Text(
@@ -56,13 +58,12 @@ class FavouriteView extends StatelessWidget {
               );
             }
 
-            // No items
             if (cubit.products.isEmpty) {
-              return NotFoundWidget(
-                title: 'No Wishinglit Yet !,',
+              return const NotFoundWidget(
+                title: 'No Wishlist Yet!',
               );
             }
-            // Success
+
             return ListView.builder(
               itemCount: cubit.products.length,
               itemBuilder: (context, index) {
@@ -74,7 +75,19 @@ class FavouriteView extends StatelessWidget {
                     onTapColumn: () {
                       context.push('/product_details', extra: product);
                     },
-                    onTapAddToCart: () {},
+                    onTapAddToCart: () async {
+                      var userData = await BlocProvider.of<AuthCubit>(context)
+                          .getUserData();
+                      String userId = userData[0]['id'];
+                      await BlocProvider.of<CartCubit>(context).addToCart(
+                        tableName: 'cart',
+                        cartModel: CartModel(
+                          userId: userId,
+                          product: product,
+                          quantity: 1,
+                        ),
+                      );
+                    },
                   ),
                 );
               },
@@ -96,14 +109,15 @@ class FavouriteView extends StatelessWidget {
             padding: const EdgeInsets.only(bottom: 16),
             child: FavouriteProductItem(
               product: ProductModel(
-                  id: 'dumy',
-                  productCategory: 'dumy',
-                  name: 'dumy',
-                  description: 'dumy',
-                  price: 1000,
-                  imageUrl:
-                      'https://nclsdhzpcxkiizuunell.supabase.co/storage/v1/object/public/images//fff.png',
-                  status: 'dumy'),
+                id: 'dumy',
+                productCategory: 'dumy',
+                name: 'dumy',
+                description: 'dumy',
+                price: 1000,
+                imageUrl:
+                    'https://nclsdhzpcxkiizuunell.supabase.co/storage/v1/object/public/images//fff.png',
+                status: 'dumy',
+              ),
               onTapColumn: () {},
             ),
           );

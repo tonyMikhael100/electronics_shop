@@ -29,6 +29,9 @@ class SearchView extends StatelessWidget {
           },
           suffixIcon: Icons.search,
         ),
+        SizedBox(
+          height: 16,
+        ),
         Expanded(
           child: BlocBuilder<SearchCubit, SearchState>(
             builder: (context, state) {

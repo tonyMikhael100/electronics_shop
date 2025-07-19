@@ -7,14 +7,15 @@ class ProductModel {
   final String imageUrl;
   final String status;
 
-  ProductModel(
-      {required this.id,
-      required this.productCategory,
-      required this.name,
-      required this.description,
-      required this.price,
-      required this.imageUrl,
-      required this.status});
+  ProductModel({
+    required this.id,
+    required this.productCategory,
+    required this.name,
+    required this.description,
+    required this.price,
+    required this.imageUrl,
+    required this.status,
+  });
 
   factory ProductModel.fromJson(Map<String, dynamic> data) {
     return ProductModel(

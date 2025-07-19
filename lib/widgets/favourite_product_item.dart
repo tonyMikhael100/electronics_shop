@@ -26,6 +26,7 @@ class FavouriteProductItem extends StatelessWidget {
         Container(
           height: 80,
           width: 80,
+          padding: EdgeInsets.all(8),
           decoration: BoxDecoration(
               color: AppColors.secondary,
               borderRadius: BorderRadius.circular(24)),
@@ -38,7 +39,7 @@ class FavouriteProductItem extends StatelessWidget {
           ),
         ),
         SizedBox(
-          width: 8,
+          width: 12,
         ),
         Expanded(
           child: InkWell(
@@ -49,7 +50,7 @@ class FavouriteProductItem extends StatelessWidget {
                 Text(
                   product.name,
                   style: AppTextStyles.displayMedium(context)
-                      .copyWith(fontWeight: FontWeight.bold, fontSize: 18.sp),
+                      .copyWith(fontWeight: FontWeight.bold, fontSize: 16.sp),
                 ),
                 Text(
                   '${product.price.toString()} LE',

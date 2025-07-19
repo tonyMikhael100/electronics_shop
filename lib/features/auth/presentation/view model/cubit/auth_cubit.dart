@@ -11,6 +11,7 @@ class AuthCubit extends Cubit<AuthState> {
   AuthCubit() : super(AuthInitial());
 
   final AuthRepoImp _authRepoImp = AuthRepoImp();
+  String userName = '';
 
   Future<void> signUp({required UserModel userModel}) async {
     var respnose = await _authRepoImp.signUp(userModel: userModel);
@@ -41,6 +42,11 @@ class AuthCubit extends Cubit<AuthState> {
     var response = await supabaseService.getUserData(
         email: FirebaseAuth.instance.currentUser!.email!);
     return response;
+  }
+
+  Future<dynamic> getUserName() async {
+    var res = await getUserData();
+    userName = res[0]['name'];
   }
 
   Future<void> signOut() async {

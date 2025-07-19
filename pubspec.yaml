@@ -43,6 +43,7 @@ dependencies:
   flutter_bloc: ^9.1.1
   flutter_gen_runner: ^5.10.0
   flutter_screenutil: ^5.9.3
+  flutter_slidable: ^4.0.0
   flutter_svg: ^2.1.0
   font_awesome_flutter: ^10.8.0
   go_router: ^15.1.2

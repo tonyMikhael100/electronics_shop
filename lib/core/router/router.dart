@@ -10,8 +10,6 @@ import 'package:electronics_shop/features/home/presentation/views/error_view.dar
 import 'package:electronics_shop/features/home/presentation/views/favourite_view.dart';
 import 'package:electronics_shop/features/home/presentation/views/home_view.dart';
 import 'package:electronics_shop/features/home/presentation/views/product_details_view.dart';
-import 'package:electronics_shop/features/home/presentation/views/profile_view.dart';
-import 'package:electronics_shop/features/home/presentation/views/settings_view.dart';
 import 'package:electronics_shop/features/search/presentation/views/search_view.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -73,26 +71,26 @@ class AppRouting {
         path: '/category',
         builder: (context, state) => const CategoryView(),
       ),
-      GoRoute(
-        path: '/delivery_address',
-        builder: (context, state) => DeliveryAddressView(),
-      ),
-      GoRoute(
-        path: '/payment',
-        builder: (context, state) => PaymentView(),
-      ),
-      GoRoute(
-        path: '/settings_view',
-        builder: (context, state) => SettingsView(),
-      ),
-      GoRoute(
-        path: '/profile_view',
-        builder: (context, state) => ProfileView(),
-      ),
-      GoRoute(
-        path: '/orders_view',
-        builder: (context, state) => ProfileView(),
-      ),
+      // GoRoute(
+      //   path: '/delivery_address',
+      //   builder: (context, state) => DeliveryAddressView(),
+      // ),
+      // GoRoute(
+      //   path: '/payment',
+      //   builder: (context, state) => PaymentView(),
+      // ),
+      // GoRoute(
+      //   path: '/settings_view',
+      //   builder: (context, state) => SettingsView(),
+      // ),
+      // GoRoute(
+      //   path: '/profile_view',
+      //   builder: (context, state) => ProfileView(),
+      // ),
+      // GoRoute(
+      //   path: '/orders_view',
+      //   builder: (context, state) => ProfileView(),
+      // ),
     ],
     errorBuilder: (context, state) => Center(child: ErrorView()),
   );

@@ -15,6 +15,16 @@ class SupabaseService {
     return response;
   }
 
+  Future<List<Map<String, dynamic>>> getAllWithQuery({
+    required String table,
+    required String columnName,
+    required String columnValue,
+  }) async {
+    final response =
+        await _client.from(table).select('*').eq(columnName, columnValue);
+    return response;
+  }
+
   Future<List<Map<String, dynamic>>> searchByName({
     required String table,
     required String searchKey,
@@ -117,14 +127,13 @@ class SupabaseService {
   }
 
   // Delete data from any table
-  Future<List<Map<String, dynamic>>> delete({
-    required String table,
-    required String matchColumn,
-    required dynamic matchValue,
+  Future<void> deleteAllCart({
+    required String tableName,
+    required String userId,
   }) async {
-    final response =
-        await _client.from(table).delete().eq(matchColumn, matchValue).select();
-    return response;
+    final response = await _client.from(tableName).delete().match({
+      'user_id': userId,
+    });
   }
 
   Future<dynamic> getUserData({required String email}) async {

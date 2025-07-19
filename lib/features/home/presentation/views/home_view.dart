@@ -1,9 +1,12 @@
 import 'package:electronics_shop/core/services/supabase_service.dart';
 import 'package:electronics_shop/core/utils/app_colors.dart';
 import 'package:electronics_shop/core/utils/app_styles.dart';
+import 'package:electronics_shop/features/auth/presentation/view%20model/cubit/auth_cubit.dart';
+import 'package:electronics_shop/features/checkout/presentation/view%20model/cubit/cart_cubit.dart';
 import 'package:electronics_shop/features/home/data/models/product_item_model.dart';
 import 'package:electronics_shop/features/home/presentation/view%20model/cubit/home_cubit.dart';
 import 'package:electronics_shop/features/home/presentation/view%20model/cubit/whishlist_cubit.dart';
+import 'package:electronics_shop/features/home/presentation/views/cart_view.dart';
 import 'package:electronics_shop/features/home/presentation/views/favourite_view.dart';
 import 'package:electronics_shop/features/home/presentation/views/main_view.dart';
 import 'package:electronics_shop/features/search/presentation/views/search_view.dart';
@@ -44,10 +47,12 @@ class _HomeViewState extends State<HomeView> {
     MainView(),
     SearchView(),
     FavouriteView(),
+    CartView(),
   ];
 
   @override
   void initState() {
+    BlocProvider.of<AuthCubit>(context).getUserName();
     super.initState();
   }
 
@@ -56,9 +61,11 @@ class _HomeViewState extends State<HomeView> {
     final homeCubit = BlocProvider.of<HomeCubit>(context);
     return Scaffold(
       backgroundColor: Colors.white,
-      body: Padding(
-        padding: const EdgeInsets.only(top: 40, left: 16, right: 16),
-        child: screens[selectedIndex],
+      body: SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 8),
+          child: screens[selectedIndex],
+        ),
       ),
       bottomNavigationBar: SafeArea(
         child: Container(
@@ -96,6 +103,10 @@ class _HomeViewState extends State<HomeView> {
           ),
         ),
       ),
+      // floatingActionButton: FloatingActionButton(onPressed: () async {
+      //   var res = await AuthCubit().getUserData();
+      //   print(res);
+      // }),
     );
   }
 }

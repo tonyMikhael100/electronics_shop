@@ -1,87 +1,230 @@
 import 'package:electronics_shop/core/utils/app_colors.dart';
 import 'package:electronics_shop/core/utils/app_styles.dart';
+import 'package:electronics_shop/features/auth/presentation/view%20model/cubit/auth_cubit.dart';
+import 'package:electronics_shop/features/checkout/data/models/cart_model.dart';
+import 'package:electronics_shop/features/checkout/presentation/view%20model/cubit/cart_cubit.dart';
+import 'package:electronics_shop/features/checkout/presentation/widgets/total_price_section.dart';
+import 'package:electronics_shop/features/home/data/models/product_item_model.dart';
+import 'package:electronics_shop/gen/assets.gen.dart';
 import 'package:electronics_shop/widgets/cart_item.dart';
+import 'package:electronics_shop/widgets/custom_app_bar.dart';
 import 'package:electronics_shop/widgets/custom_elvated_button.dart';
+import 'package:electronics_shop/widgets/favourite_product_item.dart';
+import 'package:electronics_shop/widgets/not_found_widget.dart';
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
-import 'package:ionicons/ionicons.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:flutter_svg/svg.dart';
+import 'package:skeletonizer/skeletonizer.dart';
 
-class CartView extends StatelessWidget {
+class CartView extends StatefulWidget {
   const CartView({super.key});
+
+  @override
+  State<CartView> createState() => _CartViewState();
+}
+
+class _CartViewState extends State<CartView> {
+  void getUserDataAndCartData() async {
+    BlocProvider.of<CartCubit>(context).getAllCart(
+      tableName: 'cart',
+    );
+  }
+
+  @override
+  void initState() {
+    getUserDataAndCartData();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: AppBar(
-        leading: IconButton(
-          icon: Icon(Ionicons.arrow_back, color: AppColors.primaryColor),
-          onPressed: () {
-            context.pop();
+      appBar: PreferredSize(
+        preferredSize: Size.fromHeight(56),
+        child: CustomAppBar(
+          widget: Icon(Icons.delete),
+          showDeleteButton: true,
+          onTap: () async {
+            await BlocProvider.of<CartCubit>(context).deleteAllCart();
           },
-        ),
-        elevation: 0,
-        backgroundColor: Colors.transparent,
-        centerTitle: true,
-        title: Text(
-          'My Cart',
-          style: AppTextStyles.displayLarge(context)
-              .copyWith(color: AppColors.primaryColor),
+          title: 'Cart',
+          showBackButton: false,
         ),
       ),
-      body: Padding(
-        padding: EdgeInsets.all(20),
-        child: Column(
-          children: [
-            Expanded(
-              child: ListView.builder(
-                itemCount: 5, // Replace with your cart items count
-                itemBuilder: (context, index) {
-                  return CartItem();
-                },
-              ),
-            ),
-            Divider(
-              color: Colors.grey.shade800,
-              thickness: 1,
-            ),
-            Column(
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      'Amount: ', // Replace with your total amount
-                      style: AppTextStyles.displayMedium(context),
+      body: RefreshIndicator(
+        backgroundColor: AppColors.secondary,
+        color: AppColors.tertiary,
+        onRefresh: () async {
+          BlocProvider.of<CartCubit>(context).getAllCart(
+            tableName: 'cart',
+          );
+        },
+        child: BlocBuilder<CartCubit, CartState>(
+          builder: (context, state) {
+            if (state is CartLoadingState) {
+              return buildDumyList();
+            } else if (state is CartFailureState) {
+              return Center(
+                child: NotFoundWidget(title: state.errorMessage),
+              );
+            } else if (state is CartSuccessState) {
+              if (state.cartList.isEmpty) {
+                return NotFoundWidget(title: 'Cart is Empty ! ');
+              }
+              return Column(
+                children: [
+                  Expanded(
+                    child: Padding(
+                      padding: const EdgeInsets.all(4.0),
+                      child: ListView.builder(
+                        shrinkWrap: true,
+                        physics: const BouncingScrollPhysics(),
+                        itemCount: state.cartList.length,
+                        itemBuilder: (context, index) {
+                          final cart = state.cartList[index];
+                          return Padding(
+                            padding: const EdgeInsets.only(bottom: 20),
+                            child: Slidable(
+                              endActionPane: ActionPane(
+                                motion: const DrawerMotion(),
+                                children: [
+                                  SlidableAction(
+                                    onPressed: (context) async {
+                                      // TODO: Add delete logic
+                                    },
+                                    backgroundColor: Colors.redAccent,
+                                    foregroundColor: Colors.white,
+                                    icon: Icons.delete,
+                                    label: 'Delete',
+                                  ),
+                                  SlidableAction(
+                                    onPressed: (context) {
+                                      final product = cart.product;
+                                      final message =
+                                          'Check out this product: ${product.name} for ${product.price} LE';
+                                      // TODO: Add Share.share(message)
+                                    },
+                                    backgroundColor: AppColors.accent,
+                                    foregroundColor: Colors.white,
+                                    icon: Icons.share,
+                                    label: 'Share',
+                                  ),
+                                ],
+                              ),
+                              child: CartItem(cartModel: cart),
+                            ),
+                          );
+                        },
+                      ),
                     ),
-                    Text(
-                      '\$ 1500 ', // Replace with your total amount
-                      style: AppTextStyles.displayMedium(context),
+                  ),
+                  TotalPriceSection(
+                    shipping: 70,
+                    total: 320,
+                  ),
+                  CustomElevatedButton(
+                    icon: SvgPicture.asset(
+                      Assets.images.cart,
+                      color: Colors.white,
                     ),
-                  ],
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text('delivery: ',
-                        style: AppTextStyles.displayMedium(context)),
-                    Text('\$ 15 ', style: AppTextStyles.displayMedium(context)),
-                  ],
-                ),
-              ],
-            ),
-            SizedBox(height: 16),
-            CustomElevatedButton(
-              icon: Icon(Ionicons.wallet),
-              label: 'Checkout',
-              backgroundColor: AppColors.primaryColor,
-              onTap: () {
-                context.push('/delivery_address');
-              },
-            ),
-          ],
+                    label: 'Checkout',
+                    backgroundColor: AppColors.accent,
+                    onTap: () {
+                      // TODO: Add checkout logic
+                    },
+                  ),
+                  buildPaymentMethods()
+                ],
+              );
+            } else {
+              return const SizedBox.shrink();
+            }
+          },
         ),
       ),
     );
   }
+
+  Row buildPaymentMethods() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      children: [
+        Container(
+          decoration: BoxDecoration(
+            color: Colors.white,
+            border: Border.all(color: AppColors.secondary, width: 2),
+            borderRadius: BorderRadius.circular(8),
+          ),
+          child: SvgPicture.asset(
+            Assets.images.mastercardSvgrepoCom,
+            width: 40,
+          ),
+        ),
+        Container(
+          decoration: BoxDecoration(
+            color: Colors.white,
+            border: Border.all(color: AppColors.secondary, width: 2),
+            borderRadius: BorderRadius.circular(8),
+          ),
+          child: SvgPicture.asset(
+            Assets.images.visaSvgrepoCom,
+            width: 40,
+          ),
+        ),
+        Container(
+          decoration: BoxDecoration(
+            color: Colors.white,
+            border: Border.all(color: AppColors.secondary, width: 2),
+            borderRadius: BorderRadius.circular(8),
+          ),
+          child: SvgPicture.asset(
+            Assets.images.paypal3SvgrepoCom,
+            width: 40,
+          ),
+        ),
+        Container(
+          decoration: BoxDecoration(
+            color: Colors.white,
+            border: Border.all(color: AppColors.secondary, width: 2),
+            borderRadius: BorderRadius.circular(8),
+          ),
+          child: SvgPicture.asset(
+            Assets.images.cod,
+            width: 40,
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+Widget buildDumyList() {
+  return Skeletonizer(
+    enabled: true,
+    ignorePointers: true,
+    child: ListView.builder(
+      itemCount: 5,
+      itemBuilder: (context, index) {
+        return Padding(
+          padding: const EdgeInsets.only(bottom: 16),
+          child: FavouriteProductItem(
+            product: ProductModel(
+              id: 'dumy',
+              productCategory: 'dumy',
+              name: 'dumy',
+              description: 'dumy',
+              price: 1000,
+              imageUrl:
+                  'https://nclsdhzpcxkiizuunell.supabase.co/storage/v1/object/public/images//fff.png',
+              status: 'dumy',
+            ),
+            onTapColumn: () {},
+          ),
+        );
+      },
+    ),
+  );
 }
