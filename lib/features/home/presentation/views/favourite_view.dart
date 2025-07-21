@@ -82,6 +82,7 @@ class FavouriteView extends StatelessWidget {
                       await BlocProvider.of<CartCubit>(context).addToCart(
                         tableName: 'cart',
                         cartModel: CartModel(
+                          id: '',
                           userId: userId,
                           product: product,
                           quantity: 1,

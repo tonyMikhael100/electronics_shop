@@ -1,6 +1,5 @@
 import 'package:electronics_shop/features/auth/presentation/views/login_view.dart';
 import 'package:electronics_shop/features/auth/presentation/views/signup_view.dart';
-import 'package:electronics_shop/features/checkout/presentation/views/delivery_address_view.dart';
 import 'package:electronics_shop/features/checkout/presentation/views/payment_view.dart';
 import 'package:electronics_shop/features/home/data/models/product_item_model.dart';
 import 'package:electronics_shop/features/home/data/models/whishlist_model.dart';
@@ -71,10 +70,6 @@ class AppRouting {
         path: '/category',
         builder: (context, state) => const CategoryView(),
       ),
-      // GoRoute(
-      //   path: '/delivery_address',
-      //   builder: (context, state) => DeliveryAddressView(),
-      // ),
       // GoRoute(
       //   path: '/payment',
       //   builder: (context, state) => PaymentView(),

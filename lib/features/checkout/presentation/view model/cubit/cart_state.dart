@@ -51,3 +51,5 @@ final class CartDeleteFailureState extends CartState {
 
   CartDeleteFailureState({required this.message});
 }
+
+class CartQuantityLoadingState extends CartState {}

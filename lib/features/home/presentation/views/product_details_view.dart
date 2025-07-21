@@ -159,8 +159,12 @@ class _ProductDetailsViewState extends State<ProductDetailsView> {
           onTap: () async {
             await BlocProvider.of<CartCubit>(context).addToCart(
                 tableName: 'cart',
-                cartModel:
-                    CartModel(userId: userId, product: product, quantity: 1));
+                cartModel: CartModel(
+                  id: '',
+                  userId: userId,
+                  product: product,
+                  quantity: 1,
+                ));
           },
         ),
       ),

@@ -136,6 +136,18 @@ class SupabaseService {
     });
   }
 
+  Future<void> deleteSingleCartItem({
+    required String tableName,
+    required String userId,
+    required String cartItemId,
+  }) async {
+    await _client
+        .from(tableName)
+        .delete()
+        .eq('user_id', userId)
+        .eq('id', cartItemId);
+  }
+
   Future<dynamic> getUserData({required String email}) async {
     var response = await _client.from('users').select('*').eq('email', email);
     return response;

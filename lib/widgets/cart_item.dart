@@ -82,7 +82,7 @@ class CartItem extends StatelessWidget {
                   Row(
                     children: [
                       InkWell(
-                        onTap: onTapPlus,
+                        onTap: onTapMinus,
                         child: Container(
                             width: 26,
                             height: 26,
@@ -109,7 +109,7 @@ class CartItem extends StatelessWidget {
                         width: 8,
                       ),
                       InkWell(
-                        onTap: onTapMinus,
+                        onTap: onTapPlus,
                         child: Container(
                           width: 26,
                           height: 26,

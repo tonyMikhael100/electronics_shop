@@ -29,9 +29,44 @@ class CartRepImp implements CartRepo {
   Future<Either<Failure, void>> addToCart(
       {required tableName, required CartModel cartModel}) async {
     try {
-      await supabaseService.insert(table: 'cart', value: cartModel.toJson());
+      // Check if item exists
+      var existing = await supabaseService.getAllWithQuery(
+        table: tableName,
+        columnName: 'user_id',
+        columnValue: cartModel.userId,
+      );
+      final match = existing.firstWhere(
+        (item) => item['product_id'] == cartModel.product.id,
+        orElse: () => <String, dynamic>{},
+      );
+      if (match.isNotEmpty) {
+        // Increment quantity
+        final newQuantity = match['quantity'] + cartModel.quantity;
+        await supabaseService.update(
+          table: tableName,
+          values: {'quantity': newQuantity},
+          matchColumn: 'id',
+          matchValue: match['id'],
+        );
+      } else {
+        await supabaseService.insert(table: 'cart', value: cartModel.toJson());
+      }
+      return Right('inserted');
+    } on SupabaseFailure catch (e) {
+      return Left(Failure(errorMessage: e.errorMessage.toString()));
+    }
+  }
 
-      return Right('insesrted');
+  Future<Either<Failure, void>> updateCartQuantity(
+      {required String id, required int quantity}) async {
+    try {
+      await supabaseService.update(
+        table: 'cart',
+        values: {'quantity': quantity},
+        matchColumn: 'id',
+        matchValue: id,
+      );
+      return Right(null);
     } on SupabaseFailure catch (e) {
       return Left(Failure(errorMessage: e.errorMessage.toString()));
     }
@@ -51,5 +86,17 @@ class CartRepImp implements CartRepo {
     } on SupabaseFailure catch (e) {
       return Left(Failure(errorMessage: e.errorMessage.toString()));
     }
+  }
+
+  Future<void> deleteSingleCartItem({
+    required String tableName,
+    required String userId,
+    required String cartItemId,
+  }) async {
+    await supabaseService.deleteSingleCartItem(
+      tableName: tableName,
+      userId: userId,
+      cartItemId: cartItemId,
+    );
   }
 }

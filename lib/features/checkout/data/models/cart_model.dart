@@ -1,11 +1,13 @@
 import 'package:electronics_shop/features/home/data/models/product_item_model.dart';
 
 class CartModel {
+  final String id;
   final String userId;
   final ProductModel product;
   final int quantity;
 
   CartModel({
+    required this.id,
     required this.userId,
     required this.product,
     required this.quantity,
@@ -15,6 +17,7 @@ class CartModel {
 
   factory CartModel.fromJson(Map<String, dynamic> json) {
     return CartModel(
+      id: json['id'],
       userId: json['user_id'],
       product: ProductModel(
         id: json['product_id'],
@@ -31,6 +34,7 @@ class CartModel {
 
   Map<String, dynamic> toJson() {
     return {
+      'id': id,
       'user_id': userId,
       'product_id': product.id,
       'category_name': product.productCategory,

@@ -16,7 +16,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:go_router/go_router.dart';
 import 'package:skeletonizer/skeletonizer.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:share_plus/share_plus.dart';
 
 class CartView extends StatefulWidget {
   const CartView({super.key});
@@ -40,111 +43,150 @@ class _CartViewState extends State<CartView> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.white,
-      appBar: PreferredSize(
-        preferredSize: Size.fromHeight(56),
-        child: CustomAppBar(
-          widget: Icon(Icons.delete),
-          showDeleteButton: true,
-          onTap: () async {
-            await BlocProvider.of<CartCubit>(context).deleteAllCart();
-          },
-          title: 'Cart',
-          showBackButton: false,
-        ),
-      ),
-      body: RefreshIndicator(
-        backgroundColor: AppColors.secondary,
-        color: AppColors.tertiary,
-        onRefresh: () async {
-          BlocProvider.of<CartCubit>(context).getAllCart(
-            tableName: 'cart',
-          );
-        },
-        child: BlocBuilder<CartCubit, CartState>(
-          builder: (context, state) {
-            if (state is CartLoadingState) {
-              return buildDumyList();
-            } else if (state is CartFailureState) {
-              return Center(
-                child: NotFoundWidget(title: state.errorMessage),
-              );
-            } else if (state is CartSuccessState) {
-              if (state.cartList.isEmpty) {
-                return NotFoundWidget(title: 'Cart is Empty ! ');
-              }
-              return Column(
-                children: [
-                  Expanded(
-                    child: Padding(
-                      padding: const EdgeInsets.all(4.0),
-                      child: ListView.builder(
-                        shrinkWrap: true,
-                        physics: const BouncingScrollPhysics(),
-                        itemCount: state.cartList.length,
-                        itemBuilder: (context, index) {
-                          final cart = state.cartList[index];
-                          return Padding(
-                            padding: const EdgeInsets.only(bottom: 20),
-                            child: Slidable(
-                              endActionPane: ActionPane(
-                                motion: const DrawerMotion(),
-                                children: [
-                                  SlidableAction(
-                                    onPressed: (context) async {
-                                      // TODO: Add delete logic
-                                    },
-                                    backgroundColor: Colors.redAccent,
-                                    foregroundColor: Colors.white,
-                                    icon: Icons.delete,
-                                    label: 'Delete',
-                                  ),
-                                  SlidableAction(
-                                    onPressed: (context) {
-                                      final product = cart.product;
-                                      final message =
-                                          'Check out this product: ${product.name} for ${product.price} LE';
-                                      // TODO: Add Share.share(message)
-                                    },
-                                    backgroundColor: AppColors.accent,
-                                    foregroundColor: Colors.white,
-                                    icon: Icons.share,
-                                    label: 'Share',
-                                  ),
-                                ],
+    return BlocBuilder<CartCubit, CartState>(
+      builder: (context, state) {
+        final isQuantityLoading = state is CartQuantityLoadingState;
+        return Stack(
+          children: [
+            Scaffold(
+              backgroundColor: Colors.white,
+              appBar: PreferredSize(
+                preferredSize: Size.fromHeight(56),
+                child: CustomAppBar(
+                  widget: Icon(Icons.delete),
+                  showDeleteButton: true,
+                  onTap: () async {
+                    await BlocProvider.of<CartCubit>(context).deleteAllCart();
+                  },
+                  title: 'Cart',
+                  showBackButton: false,
+                ),
+              ),
+              body: RefreshIndicator(
+                backgroundColor: AppColors.secondary,
+                color: AppColors.tertiary,
+                onRefresh: () async {
+                  BlocProvider.of<CartCubit>(context).getAllCart(
+                    tableName: 'cart',
+                  );
+                },
+                child: BlocBuilder<CartCubit, CartState>(
+                  builder: (context, state) {
+                    if (state is CartLoadingState) {
+                      return buildDumyList();
+                    } else if (state is CartFailureState) {
+                      return Center(
+                        child: NotFoundWidget(title: state.errorMessage),
+                      );
+                    } else if (state is CartSuccessState) {
+                      if (state.cartList.isEmpty) {
+                        return NotFoundWidget(title: 'Cart is Empty ! ');
+                      }
+                      return Column(
+                        children: [
+                          Expanded(
+                            child: Padding(
+                              padding: const EdgeInsets.all(4.0),
+                              child: ListView.builder(
+                                shrinkWrap: true,
+                                physics: const BouncingScrollPhysics(),
+                                itemCount: state.cartList.length,
+                                itemBuilder: (context, index) {
+                                  final cart = state.cartList[index];
+                                  return Padding(
+                                    padding: const EdgeInsets.only(bottom: 20),
+                                    child: Slidable(
+                                      endActionPane: ActionPane(
+                                        motion: const DrawerMotion(),
+                                        children: [
+                                          SlidableAction(
+                                            onPressed: (context) async {
+                                              // Delete the cart item
+                                              await BlocProvider.of<CartCubit>(
+                                                      context)
+                                                  .deleteCartItem(cart);
+                                            },
+                                            backgroundColor: Colors.redAccent,
+                                            foregroundColor: Colors.white,
+                                            icon: Icons.delete,
+                                            label: 'Delete',
+                                          ),
+                                          SlidableAction(
+                                            onPressed: (context) {
+                                              final product = cart.product;
+                                              final message =
+                                                  '${product.name} for ${product.price} LE';
+                                              SharePlus.instance
+                                                  .share(ShareParams(
+                                                title: 'Check out this product',
+                                                text: message,
+                                              ));
+                                            },
+                                            backgroundColor: AppColors.accent,
+                                            foregroundColor: Colors.white,
+                                            icon: Icons.share,
+                                            label: 'Share',
+                                          ),
+                                        ],
+                                      ),
+                                      child: CartItem(
+                                        cartModel: cart,
+                                        onTapPlus: () =>
+                                            BlocProvider.of<CartCubit>(context)
+                                                .incrementQuantity(cart),
+                                        onTapMinus: () =>
+                                            BlocProvider.of<CartCubit>(context)
+                                                .decrementQuantity(cart),
+                                      ),
+                                    ),
+                                  );
+                                },
                               ),
-                              child: CartItem(cartModel: cart),
                             ),
-                          );
-                        },
-                      ),
+                          ),
+                          TotalPriceSection(
+                            shipping: 70,
+                            total: 320,
+                          ),
+                          CustomElevatedButton(
+                            icon: SvgPicture.asset(
+                              Assets.images.cart,
+                              color: Colors.white,
+                            ),
+                            label: 'Checkout',
+                            backgroundColor: AppColors.accent,
+                            onTap: () {
+                              context.push('/delivery_address');
+                            },
+                          ),
+                          buildPaymentMethods()
+                        ],
+                      );
+                    } else {
+                      return const SizedBox.shrink();
+                    }
+                  },
+                ),
+              ),
+            ),
+            if (isQuantityLoading)
+              Center(
+                child: Container(
+                  color: Colors.black.withOpacity(0.1),
+                  height: 200,
+                  width: 200,
+                  child: const Center(
+                    child: SizedBox(
+                      width: 40,
+                      height: 40,
+                      child: CupertinoActivityIndicator(),
                     ),
                   ),
-                  TotalPriceSection(
-                    shipping: 70,
-                    total: 320,
-                  ),
-                  CustomElevatedButton(
-                    icon: SvgPicture.asset(
-                      Assets.images.cart,
-                      color: Colors.white,
-                    ),
-                    label: 'Checkout',
-                    backgroundColor: AppColors.accent,
-                    onTap: () {
-                      // TODO: Add checkout logic
-                    },
-                  ),
-                  buildPaymentMethods()
-                ],
-              );
-            } else {
-              return const SizedBox.shrink();
-            }
-          },
-        ),
-      ),
+                ),
+              ),
+          ],
+        );
+      },
     );
   }
 

@@ -13,4 +13,8 @@ abstract class CartRepo {
     required tableName,
     required String userId,
   });
+  Future<Either<Failure, void>> updateCartQuantity({
+    required String id,
+    required int quantity,
+  });
 }
