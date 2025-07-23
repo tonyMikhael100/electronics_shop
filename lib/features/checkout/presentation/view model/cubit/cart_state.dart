@@ -53,3 +53,5 @@ final class CartDeleteFailureState extends CartState {
 }
 
 class CartQuantityLoadingState extends CartState {}
+
+class CartTotalPricetate extends CartState {}

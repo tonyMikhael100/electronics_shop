@@ -144,9 +144,14 @@ class _CartViewState extends State<CartView> {
                               ),
                             ),
                           ),
-                          TotalPriceSection(
-                            shipping: 70,
-                            total: 320,
+                          BlocBuilder<CartCubit, CartState>(
+                            builder: (context, state) {
+                              return TotalPriceSection(
+                                shipping: 70,
+                                total:
+                                    BlocProvider.of<CartCubit>(context).total,
+                              );
+                            },
                           ),
                           CustomElevatedButton(
                             icon: SvgPicture.asset(
@@ -172,7 +177,7 @@ class _CartViewState extends State<CartView> {
             if (isQuantityLoading)
               Center(
                 child: Container(
-                  color: Colors.black.withOpacity(0.1),
+                  color: Colors.transparent,
                   height: 200,
                   width: 200,
                   child: const Center(

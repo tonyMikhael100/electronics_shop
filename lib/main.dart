@@ -2,6 +2,7 @@ import 'package:electronics_shop/features/auth/presentation/view%20model/cubit/a
 import 'package:electronics_shop/core/router/router.dart';
 import 'package:electronics_shop/features/checkout/presentation/view%20model/cubit/address_cubit.dart';
 import 'package:electronics_shop/features/checkout/presentation/view%20model/cubit/cart_cubit.dart';
+import 'package:electronics_shop/features/checkout/presentation/view%20model/cubit/payment_cubit.dart';
 import 'package:electronics_shop/features/home/presentation/view%20model/cubit/home_cubit.dart';
 import 'package:electronics_shop/features/home/presentation/view%20model/cubit/whishlist_cubit.dart';
 import 'package:electronics_shop/features/search/presentation/view%20model/cubit/cubit/search_cubit.dart';
@@ -55,6 +56,9 @@ class MyApp extends StatelessWidget {
             ),
             BlocProvider(
               create: (context) => SearchCubit(),
+            ),
+            BlocProvider(
+              create: (context) => PaymentCubit(),
             ),
             BlocProvider(
               create: (context) => AddressCubit(),

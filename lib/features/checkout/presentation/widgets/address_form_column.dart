@@ -4,6 +4,7 @@ import 'package:electronics_shop/features/auth/presentation/view%20model/cubit/a
 import 'package:electronics_shop/features/checkout/data/models/address_model.dart';
 import 'package:electronics_shop/features/checkout/presentation/view%20model/cubit/address_cubit.dart';
 import 'package:electronics_shop/features/checkout/presentation/widgets/custom_address_text_form_field.dart';
+import 'package:electronics_shop/widgets/custom_small_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -38,6 +39,26 @@ class AddressFormColumn extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      'Add address',
+                      style: AppTextStyles.displayMedium(context),
+                    ),
+                    CustomSmallButton(
+                      icon: Icons.cancel,
+                      bgColor: Colors.grey.shade300,
+                      iconColor: AppColors.accent,
+                      onTap: () {
+                        context.pop();
+                      },
+                    )
+                  ],
+                ),
+                SizedBox(
+                  height: 16,
+                ),
                 CustomAddressTextFormField(
                   controller: streetController,
                   hintText: 'Street',

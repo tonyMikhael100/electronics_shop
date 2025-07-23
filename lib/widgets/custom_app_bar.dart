@@ -33,7 +33,7 @@ class CustomAppBar extends StatelessWidget {
                 },
                 child: Icon(
                   Icons.keyboard_arrow_left_rounded,
-                  size: 32.sp,
+                  size: 40.sp,
                 ),
               )
             : SizedBox(width: 32.sp), // Ensure same width even if not shown

@@ -18,8 +18,11 @@ class $AssetsAnimationGen {
   /// File path: assets/animation/error_animation.json
   String get errorAnimation => 'assets/animation/error_animation.json';
 
+  /// File path: assets/animation/order_placed.json
+  String get orderPlaced => 'assets/animation/order_placed.json';
+
   /// List of all assets
-  List<String> get values => [emptyCart, errorAnimation];
+  List<String> get values => [emptyCart, errorAnimation, orderPlaced];
 }
 
 class $AssetsImagesGen {

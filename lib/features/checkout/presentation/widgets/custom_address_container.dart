@@ -19,20 +19,20 @@ class CustomAddressContainer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AnimatedContainer(
-      duration: Duration(milliseconds: 400),
+      duration: Duration(milliseconds: 300),
       margin: EdgeInsets.symmetric(vertical: 8),
       width: double.infinity,
       padding: EdgeInsets.all(16),
       decoration: BoxDecoration(
         border: isSelected
-            ? Border.all(color: AppColors.accent, width: 2)
+            ? Border.all(color: AppColors.accent, width: 3)
             : Border.all(color: AppColors.primary),
-        color: AppColors.tertiary,
+        color: isSelected ? AppColors.tertiary : Colors.black38,
         borderRadius: BorderRadius.only(
-          topRight: Radius.circular(2),
-          topLeft: Radius.circular(24),
-          bottomLeft: Radius.circular(24),
-          bottomRight: Radius.circular(24),
+          topRight: Radius.circular(5),
+          topLeft: Radius.circular(30),
+          bottomLeft: Radius.circular(30),
+          bottomRight: Radius.circular(30),
         ),
       ),
       child: Column(

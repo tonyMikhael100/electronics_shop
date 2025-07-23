@@ -18,11 +18,13 @@ class CartItem extends StatelessWidget {
     this.onTapMenu,
     this.onTapPlus,
     this.onTapMinus,
+    this.showButtons = true,
   });
   final CartModel cartModel;
   final void Function()? onTapMenu;
   final void Function()? onTapPlus;
   final void Function()? onTapMinus;
+  final bool showButtons;
 
   @override
   Widget build(BuildContext context) {
@@ -81,25 +83,34 @@ class CartItem extends StatelessWidget {
                   ),
                   Row(
                     children: [
-                      InkWell(
-                        onTap: onTapMinus,
-                        child: Container(
-                            width: 26,
-                            height: 26,
-                            decoration: BoxDecoration(
-                              color: AppColors.secondary,
-                              borderRadius: BorderRadius.circular(8),
+                      showButtons
+                          ? InkWell(
+                              onTap: onTapMinus,
+                              child: Container(
+                                  width: 26,
+                                  height: 26,
+                                  decoration: BoxDecoration(
+                                    color: AppColors.secondary,
+                                    borderRadius: BorderRadius.circular(8),
+                                  ),
+                                  child: SvgPicture.asset(
+                                    Assets.images.minusSvgrepoCom,
+                                    color: AppColors.tertiary,
+                                    width: 10,
+                                    fit: BoxFit.scaleDown,
+                                  )),
+                            )
+                          : SizedBox(
+                              width: 26,
                             ),
-                            child: SvgPicture.asset(
-                              Assets.images.minusSvgrepoCom,
-                              color: AppColors.tertiary,
-                              width: 10,
-                              fit: BoxFit.scaleDown,
-                            )),
-                      ),
                       SizedBox(
                         width: 8,
                       ),
+                      showButtons
+                          ? SizedBox(
+                              width: 1,
+                            )
+                          : Text('Qty: '),
                       Text(
                         cartModel.quantity.toString(),
                         style: AppTextStyles.displaySmall(context)
@@ -108,21 +119,25 @@ class CartItem extends StatelessWidget {
                       SizedBox(
                         width: 8,
                       ),
-                      InkWell(
-                        onTap: onTapPlus,
-                        child: Container(
-                          width: 26,
-                          height: 26,
-                          decoration: BoxDecoration(
-                            color: AppColors.tertiary,
-                            borderRadius: BorderRadius.circular(8),
-                          ),
-                          child: Icon(
-                            Icons.add,
-                            color: AppColors.primary,
-                          ),
-                        ),
-                      ),
+                      showButtons
+                          ? InkWell(
+                              onTap: onTapPlus,
+                              child: Container(
+                                width: 26,
+                                height: 26,
+                                decoration: BoxDecoration(
+                                  color: AppColors.tertiary,
+                                  borderRadius: BorderRadius.circular(8),
+                                ),
+                                child: Icon(
+                                  Icons.add,
+                                  color: AppColors.primary,
+                                ),
+                              ),
+                            )
+                          : SizedBox(
+                              width: 26,
+                            ),
                     ],
                   )
                 ],

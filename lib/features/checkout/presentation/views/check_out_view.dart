@@ -4,6 +4,9 @@ import 'package:electronics_shop/features/auth/presentation/view%20model/cubit/a
 import 'package:electronics_shop/features/checkout/data/models/cart_model.dart';
 import 'package:electronics_shop/features/checkout/presentation/view%20model/cubit/address_cubit.dart';
 import 'package:electronics_shop/features/checkout/presentation/views/address_details_view.dart';
+import 'package:electronics_shop/features/checkout/presentation/views/payment_view.dart';
+import 'package:electronics_shop/features/checkout/presentation/views/review_products_view.dart';
+import 'package:electronics_shop/features/home/presentation/views/complete_payment.dart';
 import 'package:electronics_shop/widgets/custom_elvated_button.dart';
 import 'package:electronics_shop/widgets/custom_text_form_field.dart';
 import 'package:electronics_shop/widgets/custom_app_bar.dart';
@@ -40,11 +43,10 @@ class _CheckOutViewState extends State<CheckOutView>
         .getAddresses(userId: authCubit.userId);
     super.initState();
 
-    _tabController = TabController(length: 3, vsync: this);
+    _tabController = TabController(length: 4, vsync: this);
     _tabController.addListener(() {
       setState(() {});
     });
-    BlocProvider(create: (context) => AddressCubit());
   }
 
   @override
@@ -68,6 +70,7 @@ class _CheckOutViewState extends State<CheckOutView>
         preferredSize: const Size.fromHeight(56),
         child: CustomAppBar(
           title: 'Checkout',
+          showBackButton: _tabController.index == 4 ? true : false,
           onTap: () {
             context.pop();
           },
@@ -82,8 +85,9 @@ class _CheckOutViewState extends State<CheckOutView>
               controller: _tabController,
               tabs: const [
                 Tab(text: 'Address'),
-                Tab(text: 'Payment'),
                 Tab(text: 'Review'),
+                Tab(text: 'Payment'),
+                Tab(text: 'complete order'),
               ],
               labelColor: Colors.black,
               unselectedLabelColor: Colors.grey,
@@ -95,27 +99,13 @@ class _CheckOutViewState extends State<CheckOutView>
               controller: _tabController,
               physics: const NeverScrollableScrollPhysics(), // disable swipe
               children: [
-                // Tab 1: Address Details
                 AddressDetailsView(),
-                // Tab 2: Payment Method
-                const Center(
-                  child: Text(
-                    'Payment Method Selection (Pending)',
-                    textAlign: TextAlign.center,
-                  ),
-                ),
-
-                // Tab 3: Review
-                const Center(
-                  child: Text(
-                    'Order Review Page',
-                    textAlign: TextAlign.center,
-                  ),
-                ),
+                ReviewProductsView(),
+                PaymentView(),
+                CompletePayment(),
               ],
             ),
           ),
-
           // Back & Next Buttons
           Padding(
             padding: const EdgeInsets.all(16.0),
@@ -123,7 +113,8 @@ class _CheckOutViewState extends State<CheckOutView>
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Visibility(
-                  visible: _tabController.index > 0,
+                  visible:
+                      (_tabController.index > 0 && _tabController.index < 3),
                   child: CustomElevatedButton(
                     label: 'back',
                     backgroundColor: AppColors.tertiary,
@@ -140,7 +131,7 @@ class _CheckOutViewState extends State<CheckOutView>
                   ),
                 ),
                 Visibility(
-                  visible: _tabController.index < 2,
+                  visible: _tabController.index < 3,
                   child: CustomElevatedButton(
                     label: 'next',
                     backgroundColor: AppColors.accent,
@@ -148,7 +139,6 @@ class _CheckOutViewState extends State<CheckOutView>
                       final hasAddresses =
                           myAddressCubit.currentAddresses.isNotEmpty;
                       final selectedIndex = myAddressCubit.selectedAddress;
-
                       if (_tabController.index == 0) {
                         if (hasAddresses &&
                             selectedIndex >= 0 &&
@@ -162,7 +152,11 @@ class _CheckOutViewState extends State<CheckOutView>
                               bgColor: Colors.redAccent);
                         }
                       } else if (_tabController.index == 1) {
-                        _tabController.animateTo(2); // Payment → Review
+                        _tabController.animateTo(2); // review → payment
+                      } else if (_tabController.index == 2) {
+                        _tabController.animateTo(3);
+                      } else if (_tabController.index == 3) {
+                        _tabController.animateTo(4);
                       }
                     },
                     width: 1.sw / 4,

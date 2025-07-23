@@ -9,8 +9,8 @@ class TotalPriceSection extends StatelessWidget {
     required this.shipping,
     required this.total,
   });
-  final int shipping;
-  final int total;
+  final double shipping;
+  final double total;
 
   @override
   Widget build(BuildContext context) {
