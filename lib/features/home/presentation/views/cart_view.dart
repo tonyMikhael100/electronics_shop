@@ -156,7 +156,7 @@ class _CartViewState extends State<CartView> {
                             label: 'Checkout',
                             backgroundColor: AppColors.accent,
                             onTap: () {
-                              context.push('/delivery_address');
+                              context.push('/checkout', extra: state.cartList);
                             },
                           ),
                           buildPaymentMethods()

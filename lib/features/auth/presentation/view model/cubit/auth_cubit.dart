@@ -12,6 +12,7 @@ class AuthCubit extends Cubit<AuthState> {
 
   final AuthRepoImp _authRepoImp = AuthRepoImp();
   String userName = '';
+  String userId = '';
 
   Future<void> signUp({required UserModel userModel}) async {
     var respnose = await _authRepoImp.signUp(userModel: userModel);
@@ -47,6 +48,11 @@ class AuthCubit extends Cubit<AuthState> {
   Future<dynamic> getUserName() async {
     var res = await getUserData();
     userName = res[0]['name'];
+  }
+
+  Future<dynamic> getUserId() async {
+    var res = await getUserData();
+    userId = res[0]['id'];
   }
 
   Future<void> signOut() async {

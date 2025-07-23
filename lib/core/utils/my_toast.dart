@@ -1,5 +1,6 @@
 import 'package:electronics_shop/core/utils/app_styles.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:toastification/toastification.dart';
 
 class MyToast {
@@ -79,7 +80,7 @@ class MyToast {
         },
         onAutoCompleteCompleted: (toastItem) =>
             print('Toast ${toastItem.id} auto complete completed'),
-        onDismissed: (toastItem) => print('Toast ${toastItem.id} dismissed'),
+        onDismissed: (toastItem) {},
       ),
     );
   }

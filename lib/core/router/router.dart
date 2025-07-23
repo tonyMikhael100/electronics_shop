@@ -1,5 +1,7 @@
 import 'package:electronics_shop/features/auth/presentation/views/login_view.dart';
 import 'package:electronics_shop/features/auth/presentation/views/signup_view.dart';
+import 'package:electronics_shop/features/checkout/data/models/cart_model.dart';
+import 'package:electronics_shop/features/checkout/presentation/views/check_out_view.dart';
 import 'package:electronics_shop/features/checkout/presentation/views/payment_view.dart';
 import 'package:electronics_shop/features/home/data/models/product_item_model.dart';
 import 'package:electronics_shop/features/home/data/models/whishlist_model.dart';
@@ -69,6 +71,13 @@ class AppRouting {
       GoRoute(
         path: '/category',
         builder: (context, state) => const CategoryView(),
+      ),
+      GoRoute(
+        path: '/checkout',
+        builder: (context, state) {
+          final cartProducts = state.extra as List<CartModel>;
+          return CheckOutView(cartProducts: cartProducts);
+        },
       ),
       // GoRoute(
       //   path: '/payment',

@@ -152,4 +152,8 @@ class SupabaseService {
     var response = await _client.from('users').select('*').eq('email', email);
     return response;
   }
+
+  Future<void> delete({required String tableName, required String id}) async {
+    await Supabase.instance.client.from(tableName).delete().eq('id', id);
+  }
 }

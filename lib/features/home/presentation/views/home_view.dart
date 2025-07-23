@@ -1,29 +1,13 @@
-import 'package:electronics_shop/core/services/supabase_service.dart';
-import 'package:electronics_shop/core/utils/app_colors.dart';
-import 'package:electronics_shop/core/utils/app_styles.dart';
 import 'package:electronics_shop/features/auth/presentation/view%20model/cubit/auth_cubit.dart';
-import 'package:electronics_shop/features/checkout/presentation/view%20model/cubit/cart_cubit.dart';
-import 'package:electronics_shop/features/home/data/models/product_item_model.dart';
 import 'package:electronics_shop/features/home/presentation/view%20model/cubit/home_cubit.dart';
-import 'package:electronics_shop/features/home/presentation/view%20model/cubit/whishlist_cubit.dart';
 import 'package:electronics_shop/features/home/presentation/views/cart_view.dart';
 import 'package:electronics_shop/features/home/presentation/views/favourite_view.dart';
 import 'package:electronics_shop/features/home/presentation/views/main_view.dart';
 import 'package:electronics_shop/features/search/presentation/views/search_view.dart';
 import 'package:electronics_shop/gen/assets.gen.dart';
 import 'package:electronics_shop/widgets/bottom_nav_bar_item.dart';
-import 'package:electronics_shop/widgets/custom_app_bar.dart';
-import 'package:electronics_shop/widgets/custom_cursor_slider.dart';
-import 'package:electronics_shop/widgets/custom_layout_builder.dart';
-import 'package:electronics_shop/widgets/product_category_gid_view.dart';
-import 'package:electronics_shop/widgets/product_list_builder.dart';
-import 'package:electronics_shop/widgets/products_gird_builder.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_advanced_drawer/flutter_advanced_drawer.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_svg/svg.dart';
-import 'package:ionicons/ionicons.dart';
 
 class HomeView extends StatefulWidget {
   const HomeView({super.key});
@@ -96,6 +80,7 @@ class _HomeViewState extends State<HomeView> {
                 onTap: () {
                   setState(() {
                     selectedIndex = index;
+                    print(selectedIndex);
                   });
                 },
               );

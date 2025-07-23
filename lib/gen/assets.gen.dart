@@ -95,6 +95,9 @@ class $AssetsImagesGen {
   /// File path: assets/images/more.png
   AssetGenImage get more => const AssetGenImage('assets/images/more.png');
 
+  /// File path: assets/images/nolocation.svg
+  String get nolocation => 'assets/images/nolocation.svg';
+
   /// File path: assets/images/paypal-3-svgrepo-com.svg
   String get paypal3SvgrepoCom => 'assets/images/paypal-3-svgrepo-com.svg';
 
@@ -153,6 +156,7 @@ class $AssetsImagesGen {
     menuVerticalSvgrepoCom,
     minusSvgrepoCom,
     more,
+    nolocation,
     paypal3SvgrepoCom,
     paypal,
     profile1335SvgrepoCom,

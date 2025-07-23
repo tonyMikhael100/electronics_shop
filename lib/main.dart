@@ -1,5 +1,6 @@
 import 'package:electronics_shop/features/auth/presentation/view%20model/cubit/auth_cubit.dart';
 import 'package:electronics_shop/core/router/router.dart';
+import 'package:electronics_shop/features/checkout/presentation/view%20model/cubit/address_cubit.dart';
 import 'package:electronics_shop/features/checkout/presentation/view%20model/cubit/cart_cubit.dart';
 import 'package:electronics_shop/features/home/presentation/view%20model/cubit/home_cubit.dart';
 import 'package:electronics_shop/features/home/presentation/view%20model/cubit/whishlist_cubit.dart';
@@ -43,7 +44,10 @@ class MyApp extends StatelessWidget {
         return MultiBlocProvider(
           providers: [
             BlocProvider(
-              create: (context) => AuthCubit(),
+              create: (context) => AuthCubit()
+                ..getUserData()
+                ..getUserId()
+                ..getUserName(),
             ),
             BlocProvider(
               create: (context) =>
@@ -51,6 +55,9 @@ class MyApp extends StatelessWidget {
             ),
             BlocProvider(
               create: (context) => SearchCubit(),
+            ),
+            BlocProvider(
+              create: (context) => AddressCubit(),
             ),
             BlocProvider(
               create: (context) => CartCubit(),
