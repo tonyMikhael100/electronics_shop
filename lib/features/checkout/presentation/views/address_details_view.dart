@@ -104,8 +104,14 @@ class AddressDetailsView extends StatelessWidget {
           onTap: () {
             showModalBottomSheet(
               context: context,
+              isScrollControlled: true,
               builder: (bottomSheetContext) {
-                return AddressFormColumn();
+                return Padding(
+                  padding: EdgeInsets.only(
+                    bottom: MediaQuery.of(bottomSheetContext).viewInsets.bottom,
+                  ),
+                  child: AddressFormColumn(),
+                );
               },
             );
           },

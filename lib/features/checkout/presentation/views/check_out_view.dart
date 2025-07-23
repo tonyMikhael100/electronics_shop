@@ -70,7 +70,7 @@ class _CheckOutViewState extends State<CheckOutView>
         preferredSize: const Size.fromHeight(56),
         child: CustomAppBar(
           title: 'Checkout',
-          showBackButton: _tabController.index == 4 ? true : false,
+          showBackButton: _tabController.index < 4 ? true : false,
           onTap: () {
             context.pop();
           },
