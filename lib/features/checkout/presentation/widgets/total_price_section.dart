@@ -14,6 +14,7 @@ class TotalPriceSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final double total = this.total + shipping;
     return Column(
       children: [
         Divider(
@@ -44,12 +45,27 @@ class TotalPriceSection extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text(
+              'sub total',
+              style:
+                  AppTextStyles.displaySmall(context).copyWith(fontSize: 14.sp),
+            ),
+            Text(
+              '${this.total.toString()} LE',
+              style:
+                  AppTextStyles.displaySmall(context).copyWith(fontSize: 14.sp),
+            ),
+          ],
+        ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(
               'total',
               style:
                   AppTextStyles.displaySmall(context).copyWith(fontSize: 14.sp),
             ),
             Text(
-              '${total.toString()} LE',
+              '$total LE',
               style:
                   AppTextStyles.displaySmall(context).copyWith(fontSize: 14.sp),
             ),

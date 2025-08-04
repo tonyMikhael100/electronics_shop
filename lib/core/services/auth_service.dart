@@ -1,5 +1,3 @@
-import 'dart:developer';
-import 'package:electronics_shop/features/auth/data/models/user_model.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 class AuthService {

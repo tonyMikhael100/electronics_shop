@@ -47,7 +47,7 @@ class CustomCursorSlider extends StatelessWidget {
         } else {
           return Skeletonizer(
             enabled: true,
-            child: Container(
+            child: SizedBox(
               width: double.infinity,
               height: 200,
             ),

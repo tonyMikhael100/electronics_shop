@@ -13,9 +13,9 @@ class PaymentCubit extends Cubit<PaymentState> {
     PaymentModel(
         paymentImage: Assets.images.cod,
         paymentMethod: 'Cash on delivery (COD)'),
-    PaymentModel(paymentImage: Assets.images.visa, paymentMethod: 'Visa'),
-    PaymentModel(
-        paymentImage: Assets.images.paypal3SvgrepoCom, paymentMethod: 'paypal'),
+    // PaymentModel(paymentImage: Assets.images.visa, paymentMethod: 'Visa'),
+    // PaymentModel(
+    //     paymentImage: Assets.images.paypal3SvgrepoCom, paymentMethod: 'paypal'),
   ];
   void changeSelectedPayment(int index) {
     selectedPayment = index;

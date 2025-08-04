@@ -4,12 +4,8 @@ import 'package:electronics_shop/features/auth/presentation/view%20model/cubit/a
 import 'package:electronics_shop/features/home/presentation/view%20model/cubit/home_cubit.dart';
 import 'package:electronics_shop/gen/assets.gen.dart';
 import 'package:electronics_shop/widgets/custom_cursor_slider.dart';
-import 'package:electronics_shop/widgets/product_category_gid_view.dart';
-import 'package:electronics_shop/widgets/product_item.dart';
-import 'package:electronics_shop/widgets/product_list_builder.dart';
 import 'package:electronics_shop/widgets/products_gird_builder.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_advanced_drawer/flutter_advanced_drawer.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';

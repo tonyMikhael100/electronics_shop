@@ -1,6 +1,3 @@
-import 'dart:developer';
-
-import 'package:electronics_shop/features/home/presentation/view%20model/cubit/whishlist_cubit.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
@@ -155,5 +152,35 @@ class SupabaseService {
 
   Future<void> delete({required String tableName, required String id}) async {
     await Supabase.instance.client.from(tableName).delete().eq('id', id);
+  }
+
+  Future<String> insertOrder({
+    required String userId,
+    required String addressId,
+    required double total,
+  }) async {
+    final response = await _client
+        .from('orders')
+        .insert({
+          'user_id': userId,
+          'address_id': addressId,
+          'total': total,
+        })
+        .select()
+        .single();
+    return response['id'] as String;
+  }
+
+  Future<void> insertOrderItem(
+      {required String orderId,
+      required String productId,
+      required int quantity,
+      required double unitPrice}) async {
+    await _client.from('order_items').insert({
+      'order_id': orderId,
+      'product_id': productId,
+      'quantity': quantity,
+      'unit_price': unitPrice
+    });
   }
 }

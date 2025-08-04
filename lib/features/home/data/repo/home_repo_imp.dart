@@ -4,9 +4,7 @@ import 'package:electronics_shop/core/services/supabase_service.dart';
 import 'package:electronics_shop/features/home/data/models/banner_model.dart';
 import 'package:electronics_shop/features/home/data/models/product_category_model.dart';
 import 'package:electronics_shop/features/home/data/models/product_item_model.dart';
-import 'package:electronics_shop/features/home/data/models/whishlist_model.dart';
 import 'package:electronics_shop/features/home/data/repo/home_repo.dart';
-import 'package:electronics_shop/features/home/presentation/view%20model/cubit/whishlist_cubit.dart';
 
 class HomeRepoImp implements HomeRepo {
   final SupabaseService supabaseService = SupabaseService();

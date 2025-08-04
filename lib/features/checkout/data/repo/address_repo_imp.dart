@@ -3,7 +3,6 @@ import 'package:electronics_shop/core/errors/failure.dart';
 import 'package:electronics_shop/features/checkout/data/models/address_model.dart';
 import 'package:electronics_shop/features/checkout/data/repo/address_repo.dart';
 import 'package:electronics_shop/core/services/supabase_service.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
 
 class AddressRepoImp implements AddressRepo {
   final SupabaseService supabaseService = SupabaseService();

@@ -1,6 +1,5 @@
 import 'package:electronics_shop/features/checkout/presentation/view%20model/cubit/cart_cubit.dart';
 import 'package:electronics_shop/widgets/cart_item.dart';
-import 'package:electronics_shop/widgets/product_item.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 

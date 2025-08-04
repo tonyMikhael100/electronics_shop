@@ -1,6 +1,5 @@
 import 'package:electronics_shop/core/utils/app_styles.dart';
 import 'package:flutter/material.dart';
-import 'package:ionicons/ionicons.dart';
 
 class SettingsListTile extends StatelessWidget {
   const SettingsListTile({

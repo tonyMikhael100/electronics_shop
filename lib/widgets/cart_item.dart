@@ -2,14 +2,11 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:electronics_shop/core/utils/app_colors.dart';
 import 'package:electronics_shop/core/utils/app_styles.dart';
 import 'package:electronics_shop/features/checkout/data/models/cart_model.dart';
-import 'package:electronics_shop/features/home/data/models/product_item_model.dart';
 import 'package:electronics_shop/gen/assets.gen.dart';
-import 'package:electronics_shop/widgets/custom_small_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
-import 'package:ionicons/ionicons.dart';
 
 class CartItem extends StatelessWidget {
   const CartItem({

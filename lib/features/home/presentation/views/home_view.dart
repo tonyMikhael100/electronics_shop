@@ -1,8 +1,12 @@
 import 'package:electronics_shop/features/auth/presentation/view%20model/cubit/auth_cubit.dart';
+import 'package:electronics_shop/features/checkout/data/models/order_model.dart';
+import 'package:electronics_shop/features/checkout/data/repo/order_repo_imp.dart';
 import 'package:electronics_shop/features/home/presentation/view%20model/cubit/home_cubit.dart';
+import 'package:electronics_shop/features/home/presentation/view%20model/cubit/whishlist_cubit.dart';
 import 'package:electronics_shop/features/home/presentation/views/cart_view.dart';
 import 'package:electronics_shop/features/home/presentation/views/favourite_view.dart';
 import 'package:electronics_shop/features/home/presentation/views/main_view.dart';
+import 'package:electronics_shop/features/home/presentation/views/profile_view.dart';
 import 'package:electronics_shop/features/search/presentation/views/search_view.dart';
 import 'package:electronics_shop/gen/assets.gen.dart';
 import 'package:electronics_shop/widgets/bottom_nav_bar_item.dart';
@@ -30,14 +34,24 @@ class _HomeViewState extends State<HomeView> {
   final List<Widget> screens = [
     MainView(),
     SearchView(),
-    FavouriteView(),
+    FavouriteView(
+      showBackButton: false,
+    ),
     CartView(),
+    ProfileView(),
   ];
-
   @override
   void initState() {
-    BlocProvider.of<AuthCubit>(context).getUserName();
+    initializeUserDataAndWishlist();
     super.initState();
+  }
+
+  void initializeUserDataAndWishlist() async {
+    await BlocProvider.of<AuthCubit>(context).getUserData();
+    await BlocProvider.of<AuthCubit>(context).getUserId();
+    await BlocProvider.of<AuthCubit>(context).getUserName();
+    await BlocProvider.of<WhishlistCubit>(context)
+        .fetchWhishlist(tableName: 'wishlists');
   }
 
   @override
@@ -89,7 +103,9 @@ class _HomeViewState extends State<HomeView> {
         ),
       ),
       // floatingActionButton: FloatingActionButton(onPressed: () async {
-      //   var res = await AuthCubit().getUserData();
+      //   var res = await OrderRepoImp().insertOrder(
+      //       orderModel:
+      //           OrderModel(userId: 'userId', addressId: 'addressId', total: 1));
       //   print(res);
       // }),
     );

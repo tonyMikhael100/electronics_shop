@@ -1,19 +1,13 @@
 import 'package:electronics_shop/core/utils/app_colors.dart';
 import 'package:electronics_shop/core/utils/app_styles.dart';
-import 'package:electronics_shop/core/utils/my_toast.dart';
 import 'package:electronics_shop/features/auth/presentation/view%20model/cubit/auth_cubit.dart';
 import 'package:electronics_shop/features/checkout/data/models/address_model.dart';
 import 'package:electronics_shop/features/checkout/presentation/view%20model/cubit/address_cubit.dart';
 import 'package:electronics_shop/features/checkout/presentation/widgets/address_form_column.dart';
 import 'package:electronics_shop/features/checkout/presentation/widgets/custom_address_container.dart';
-import 'package:electronics_shop/features/checkout/presentation/widgets/custom_address_text_form_field.dart';
-import 'package:electronics_shop/widgets/custom_elvated_button.dart';
-import 'package:electronics_shop/widgets/custom_small_button.dart';
 import 'package:electronics_shop/widgets/not_found_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:go_router/go_router.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
 class AddressDetailsView extends StatelessWidget {

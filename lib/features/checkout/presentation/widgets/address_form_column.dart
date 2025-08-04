@@ -74,8 +74,9 @@ class AddressFormColumn extends StatelessWidget {
                   controller: streetController,
                   hintText: 'Street',
                   validator: (value) {
-                    if (value == null || value.isEmpty)
+                    if (value == null || value.isEmpty) {
                       return 'Street is required';
+                    }
                     return null;
                   },
                 ),
@@ -84,8 +85,9 @@ class AddressFormColumn extends StatelessWidget {
                   controller: buildingController,
                   hintText: 'Building',
                   validator: (value) {
-                    if (value == null || value.isEmpty)
+                    if (value == null || value.isEmpty) {
                       return 'Building is required';
+                    }
                     return null;
                   },
                 ),
@@ -94,8 +96,9 @@ class AddressFormColumn extends StatelessWidget {
                   controller: floorController,
                   hintText: 'Floor',
                   validator: (value) {
-                    if (value == null || value.isEmpty)
+                    if (value == null || value.isEmpty) {
                       return 'Floor is required';
+                    }
                     return null;
                   },
                 ),
@@ -104,8 +107,9 @@ class AddressFormColumn extends StatelessWidget {
                   controller: apartmentController,
                   hintText: 'Apartment',
                   validator: (value) {
-                    if (value == null || value.isEmpty)
+                    if (value == null || value.isEmpty) {
                       return 'Apartment is required';
+                    }
                     return null;
                   },
                 ),
@@ -114,8 +118,9 @@ class AddressFormColumn extends StatelessWidget {
                   controller: cityController,
                   hintText: 'City',
                   validator: (value) {
-                    if (value == null || value.isEmpty)
+                    if (value == null || value.isEmpty) {
                       return 'City is required';
+                    }
                     return null;
                   },
                 ),
@@ -124,8 +129,9 @@ class AddressFormColumn extends StatelessWidget {
                   controller: countryController,
                   hintText: 'Country',
                   validator: (value) {
-                    if (value == null || value.isEmpty)
+                    if (value == null || value.isEmpty) {
                       return 'Country is required';
+                    }
                     return null;
                   },
                 ),

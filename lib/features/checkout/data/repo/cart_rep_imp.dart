@@ -57,6 +57,7 @@ class CartRepImp implements CartRepo {
     }
   }
 
+  @override
   Future<Either<Failure, void>> updateCartQuantity(
       {required String id, required int quantity}) async {
     try {

@@ -1,7 +1,4 @@
 import 'package:electronics_shop/core/utils/app_colors.dart';
-import 'package:electronics_shop/core/utils/app_styles.dart';
-import 'package:electronics_shop/features/auth/presentation/view%20model/cubit/auth_cubit.dart';
-import 'package:electronics_shop/features/checkout/data/models/cart_model.dart';
 import 'package:electronics_shop/features/checkout/presentation/view%20model/cubit/cart_cubit.dart';
 import 'package:electronics_shop/features/checkout/presentation/widgets/total_price_section.dart';
 import 'package:electronics_shop/features/home/data/models/product_item_model.dart';
@@ -13,7 +10,6 @@ import 'package:electronics_shop/widgets/favourite_product_item.dart';
 import 'package:electronics_shop/widgets/not_found_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';

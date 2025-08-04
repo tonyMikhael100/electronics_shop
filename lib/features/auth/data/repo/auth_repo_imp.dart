@@ -8,8 +8,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class AuthRepoImp implements AuthRepo {
-  AuthService _authService = AuthService();
-  SupabaseService _supabaseService = SupabaseService();
+  final AuthService _authService = AuthService();
+  final SupabaseService _supabaseService = SupabaseService();
   @override
   Future<Either<Failure, dynamic>> signIn({
     required String email,

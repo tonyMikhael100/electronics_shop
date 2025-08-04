@@ -1,27 +1,21 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:electronics_shop/core/utils/app_colors.dart';
 import 'package:electronics_shop/core/utils/app_styles.dart';
 import 'package:electronics_shop/features/auth/presentation/view%20model/cubit/auth_cubit.dart';
 import 'package:electronics_shop/features/checkout/data/models/cart_model.dart';
 import 'package:electronics_shop/features/checkout/presentation/view%20model/cubit/cart_cubit.dart';
 import 'package:electronics_shop/features/home/data/models/product_item_model.dart';
-import 'package:electronics_shop/features/home/data/models/whishlist_model.dart';
 import 'package:electronics_shop/features/home/presentation/view%20model/cubit/whishlist_cubit.dart';
-import 'package:electronics_shop/gen/assets.gen.dart';
 import 'package:electronics_shop/widgets/custom_app_bar.dart';
 import 'package:electronics_shop/widgets/favourite_product_item.dart';
 import 'package:electronics_shop/widgets/not_found_widget.dart';
-import 'package:electronics_shop/widgets/product_item.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
-import 'package:ionicons/ionicons.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
 class FavouriteView extends StatelessWidget {
-  const FavouriteView({super.key});
+  const FavouriteView({super.key, required this.showBackButton});
+  final bool showBackButton;
 
   @override
   Widget build(BuildContext context) {
@@ -32,7 +26,7 @@ class FavouriteView extends StatelessWidget {
         child: CustomAppBar(
           widget: Icon(Icons.delete),
           title: 'Wishlist',
-          showBackButton: false,
+          showBackButton: showBackButton,
           showDeleteButton: true,
           onTap: () {},
         ),
@@ -69,7 +63,8 @@ class FavouriteView extends StatelessWidget {
               itemBuilder: (context, index) {
                 final product = cubit.products[index];
                 return Padding(
-                  padding: const EdgeInsets.only(bottom: 16),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
                   child: FavouriteProductItem(
                     product: product,
                     onTapColumn: () {

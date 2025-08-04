@@ -2,13 +2,15 @@ import 'package:electronics_shop/core/utils/app_colors.dart';
 import 'package:electronics_shop/core/utils/my_toast.dart';
 import 'package:electronics_shop/features/auth/presentation/view%20model/cubit/auth_cubit.dart';
 import 'package:electronics_shop/features/checkout/data/models/cart_model.dart';
+import 'package:electronics_shop/features/checkout/data/models/order_model.dart';
 import 'package:electronics_shop/features/checkout/presentation/view%20model/cubit/address_cubit.dart';
+import 'package:electronics_shop/features/checkout/presentation/view%20model/cubit/cart_cubit.dart';
+import 'package:electronics_shop/features/checkout/presentation/view%20model/cubit/order_cubit.dart';
 import 'package:electronics_shop/features/checkout/presentation/views/address_details_view.dart';
 import 'package:electronics_shop/features/checkout/presentation/views/payment_view.dart';
 import 'package:electronics_shop/features/checkout/presentation/views/review_products_view.dart';
 import 'package:electronics_shop/features/home/presentation/views/complete_payment.dart';
 import 'package:electronics_shop/widgets/custom_elvated_button.dart';
-import 'package:electronics_shop/widgets/custom_text_form_field.dart';
 import 'package:electronics_shop/widgets/custom_app_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -70,7 +72,7 @@ class _CheckOutViewState extends State<CheckOutView>
         preferredSize: const Size.fromHeight(56),
         child: CustomAppBar(
           title: 'Checkout',
-          showBackButton: _tabController.index < 4 ? true : false,
+          showBackButton: _tabController.index > 2 ? false : true,
           onTap: () {
             context.pop();
           },
@@ -133,9 +135,9 @@ class _CheckOutViewState extends State<CheckOutView>
                 Visibility(
                   visible: _tabController.index < 3,
                   child: CustomElevatedButton(
-                    label: 'next',
+                    label: _tabController.index > 1 ? 'Place Order' : 'Next',
                     backgroundColor: AppColors.accent,
-                    onTap: () {
+                    onTap: () async {
                       final hasAddresses =
                           myAddressCubit.currentAddresses.isNotEmpty;
                       final selectedIndex = myAddressCubit.selectedAddress;
@@ -154,6 +156,26 @@ class _CheckOutViewState extends State<CheckOutView>
                       } else if (_tabController.index == 1) {
                         _tabController.animateTo(2); // review → payment
                       } else if (_tabController.index == 2) {
+                        print(
+                            'order placeddd---------------------------------------');
+                        final myOrderCubit =
+                            BlocProvider.of<OrderCubit>(context);
+                        final myAuthCubit = BlocProvider.of<AuthCubit>(context);
+                        final myAddressCubit =
+                            BlocProvider.of<AddressCubit>(context);
+                        final myCartCubit = BlocProvider.of<CartCubit>(context);
+                        await myOrderCubit.placeOrder(
+                          orderModel: OrderModel(
+                            userId: myAuthCubit.userId,
+                            addressId: myAddressCubit
+                                .currentAddresses[
+                                    myAddressCubit.selectedAddress]
+                                .id!,
+                            total: myCartCubit.total,
+                          ),
+                        );
+                        //delete all cart after place order
+                        myCartCubit.deleteAllCart();
                         _tabController.animateTo(3);
                       } else if (_tabController.index == 3) {
                         _tabController.animateTo(4);

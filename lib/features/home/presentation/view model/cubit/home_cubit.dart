@@ -1,10 +1,7 @@
-import 'dart:developer';
-
 import 'package:bloc/bloc.dart';
 import 'package:electronics_shop/features/home/data/models/banner_model.dart';
 import 'package:electronics_shop/features/home/data/models/product_category_model.dart';
 import 'package:electronics_shop/features/home/data/models/product_item_model.dart';
-import 'package:electronics_shop/features/home/data/models/whishlist_model.dart';
 import 'package:electronics_shop/features/home/data/repo/home_repo_imp.dart';
 import 'package:meta/meta.dart';
 

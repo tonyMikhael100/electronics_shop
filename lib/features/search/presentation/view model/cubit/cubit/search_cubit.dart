@@ -2,7 +2,6 @@ import 'package:bloc/bloc.dart';
 import 'package:electronics_shop/features/home/data/models/product_item_model.dart';
 import 'package:electronics_shop/features/search/data/repo/search_repo_imp.dart';
 import 'package:flutter/material.dart';
-import 'package:meta/meta.dart';
 
 part 'search_state.dart';
 

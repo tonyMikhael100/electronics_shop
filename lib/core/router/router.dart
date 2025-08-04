@@ -2,9 +2,7 @@ import 'package:electronics_shop/features/auth/presentation/views/login_view.dar
 import 'package:electronics_shop/features/auth/presentation/views/signup_view.dart';
 import 'package:electronics_shop/features/checkout/data/models/cart_model.dart';
 import 'package:electronics_shop/features/checkout/presentation/views/check_out_view.dart';
-import 'package:electronics_shop/features/checkout/presentation/views/payment_view.dart';
 import 'package:electronics_shop/features/home/data/models/product_item_model.dart';
-import 'package:electronics_shop/features/home/data/models/whishlist_model.dart';
 import 'package:electronics_shop/features/home/presentation/views/cart_view.dart';
 import 'package:electronics_shop/features/home/presentation/views/category_view.dart';
 import 'package:electronics_shop/features/home/presentation/views/error_view.dart';
@@ -65,9 +63,13 @@ class AppRouting {
         builder: (context, state) => const SearchView(),
       ),
       GoRoute(
-        path: '/favourite',
-        builder: (context, state) => FavouriteView(),
-      ),
+          path: '/favourite',
+          builder: (context, state) {
+            final showBackButton = state.extra as bool;
+            return FavouriteView(
+              showBackButton: showBackButton,
+            );
+          }),
       GoRoute(
         path: '/category',
         builder: (context, state) => const CategoryView(),

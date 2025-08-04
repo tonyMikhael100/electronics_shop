@@ -1,7 +1,9 @@
 import 'package:electronics_shop/features/auth/presentation/view%20model/cubit/auth_cubit.dart';
 import 'package:electronics_shop/core/router/router.dart';
+import 'package:electronics_shop/features/checkout/data/repo/order_repo_imp.dart';
 import 'package:electronics_shop/features/checkout/presentation/view%20model/cubit/address_cubit.dart';
 import 'package:electronics_shop/features/checkout/presentation/view%20model/cubit/cart_cubit.dart';
+import 'package:electronics_shop/features/checkout/presentation/view%20model/cubit/order_cubit.dart';
 import 'package:electronics_shop/features/checkout/presentation/view%20model/cubit/payment_cubit.dart';
 import 'package:electronics_shop/features/home/presentation/view%20model/cubit/home_cubit.dart';
 import 'package:electronics_shop/features/home/presentation/view%20model/cubit/whishlist_cubit.dart';
@@ -44,15 +46,9 @@ class MyApp extends StatelessWidget {
       builder: (context, child) {
         return MultiBlocProvider(
           providers: [
+            BlocProvider(create: (context) => AuthCubit()),
             BlocProvider(
-              create: (context) => AuthCubit()
-                ..getUserData()
-                ..getUserId()
-                ..getUserName(),
-            ),
-            BlocProvider(
-              create: (context) =>
-                  WhishlistCubit()..fetchWhishlist(tableName: 'wishlists'),
+              create: (context) => WhishlistCubit(),
             ),
             BlocProvider(
               create: (context) => SearchCubit(),
@@ -65,6 +61,12 @@ class MyApp extends StatelessWidget {
             ),
             BlocProvider(
               create: (context) => CartCubit(),
+            ),
+            BlocProvider(
+              create: (context) => OrderCubit(
+                cartCubit: BlocProvider.of<CartCubit>(context),
+                orderRepoImp: OrderRepoImp(),
+              ),
             ),
             BlocProvider(create: (context) {
               return HomeCubit()
