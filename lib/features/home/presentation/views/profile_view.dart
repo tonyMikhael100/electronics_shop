@@ -1,3 +1,4 @@
+import 'package:electronics_shop/core/utils/app_colors.dart';
 import 'package:electronics_shop/core/utils/app_styles.dart';
 import 'package:electronics_shop/features/auth/presentation/view%20model/cubit/auth_cubit.dart';
 import 'package:electronics_shop/gen/assets.gen.dart';
@@ -12,6 +13,7 @@ class ProfileView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final myAuthCubit = BlocProvider.of<AuthCubit>(context);
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: PreferredSize(
@@ -32,6 +34,30 @@ class ProfileView extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              ListTile(
+                leading: CircleAvatar(
+                  backgroundColor: AppColors.tertiary,
+                  child: Text(
+                    '${myAuthCubit.userName[0].toUpperCase()}',
+                    style: AppTextStyles.displayMedium(context)
+                        .copyWith(fontSize: 20.sp),
+                  ),
+                ),
+                contentPadding: EdgeInsets.all(0),
+                title: Text(
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  '${myAuthCubit.userName.toUpperCase()}',
+                  style: AppTextStyles.displayMedium(context)
+                      .copyWith(fontSize: 20.sp),
+                ),
+                subtitle: Text(
+                  '${myAuthCubit.userEmail}',
+                  style: AppTextStyles.displayMedium(context)
+                      .copyWith(fontSize: 16.sp, color: AppColors.tertiary),
+                ),
+              ),
+              Divider(),
               Text(
                 'General Settings',
                 style: AppTextStyles.bodyLarge(context)
@@ -39,6 +65,14 @@ class ProfileView extends StatelessWidget {
               ),
               SizedBox(
                 height: 16,
+              ),
+              ProfileListTile(
+                leading: SvgPicture.asset(Assets.images.cart),
+                title: 'My orders',
+                trailling: Icon(Icons.keyboard_arrow_right_rounded),
+                onTap: () {
+                  context.push('/my_orders');
+                },
               ),
               ProfileListTile(
                 leading: Icon(Icons.language),
@@ -54,7 +88,7 @@ class ProfileView extends StatelessWidget {
               ),
               ProfileListTile(
                 leading: SvgPicture.asset(Assets.images.favouriteSvgrepoCom),
-                title: 'My Wishlist',
+                title: 'Wishlist',
                 trailling: Icon(Icons.keyboard_arrow_right_rounded),
                 onTap: () {
                   context.push('/favourite', extra: true);
@@ -62,7 +96,10 @@ class ProfileView extends StatelessWidget {
               ),
               Divider(),
               ProfileListTile(
-                leading: Icon(Icons.logout_rounded),
+                leading: Icon(
+                  Icons.logout_rounded,
+                  color: Colors.redAccent,
+                ),
                 title: 'Log out',
                 trailling: Icon(Icons.keyboard_arrow_right_rounded),
                 onTap: () async {

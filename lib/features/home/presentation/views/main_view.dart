@@ -49,11 +49,14 @@ class MainView extends StatelessWidget {
                         SizedBox(
                           width: 20,
                         ),
-                        Text(
-                          overflow: TextOverflow.ellipsis,
-                          'Hello ${BlocProvider.of<AuthCubit>(context).userName}',
-                          style: AppTextStyles.displayLarge(context).copyWith(
-                              fontWeight: FontWeight.bold, fontSize: 32.sp),
+                        Expanded(
+                          child: Text(
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                            'Hello ${BlocProvider.of<AuthCubit>(context).userName.toUpperCase().split(' ').first}',
+                            style: AppTextStyles.displayLarge(context).copyWith(
+                                fontWeight: FontWeight.bold, fontSize: 28.sp),
+                          ),
                         ),
                       ],
                     ),

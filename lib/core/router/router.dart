@@ -9,6 +9,7 @@ import 'package:electronics_shop/features/home/presentation/views/error_view.dar
 import 'package:electronics_shop/features/home/presentation/views/favourite_view.dart';
 import 'package:electronics_shop/features/home/presentation/views/home_view.dart';
 import 'package:electronics_shop/features/home/presentation/views/product_details_view.dart';
+import 'package:electronics_shop/features/order/presentation/views/my_orders_view.dart';
 import 'package:electronics_shop/features/search/presentation/views/search_view.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -79,6 +80,12 @@ class AppRouting {
         builder: (context, state) {
           final cartProducts = state.extra as List<CartModel>;
           return CheckOutView(cartProducts: cartProducts);
+        },
+      ),
+      GoRoute(
+        path: '/my_orders',
+        builder: (context, state) {
+          return MyOrdersView();
         },
       ),
       // GoRoute(

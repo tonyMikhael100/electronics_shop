@@ -1,9 +1,9 @@
 import 'package:dartz/dartz.dart';
 import 'package:electronics_shop/core/errors/failure.dart';
 import 'package:electronics_shop/core/services/supabase_service.dart';
-import 'package:electronics_shop/features/checkout/data/models/order_item_model.dart';
-import 'package:electronics_shop/features/checkout/data/models/order_model.dart';
-import 'package:electronics_shop/features/checkout/data/repo/order_repo.dart';
+import 'package:electronics_shop/features/order/data/models/order_item_model.dart';
+import 'package:electronics_shop/features/order/data/models/order_model.dart';
+import 'package:electronics_shop/features/order/data/repo/order_repo.dart';
 
 class OrderRepoImp implements OrderRepo {
   final SupabaseService supabaseService = SupabaseService();

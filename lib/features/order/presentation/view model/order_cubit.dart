@@ -1,9 +1,9 @@
 import 'package:bloc/bloc.dart';
-import 'package:electronics_shop/features/checkout/data/models/order_item_model.dart';
-import 'package:electronics_shop/features/checkout/data/models/order_model.dart';
-import 'package:electronics_shop/features/checkout/data/repo/order_repo.dart';
-import 'package:electronics_shop/features/checkout/data/repo/order_repo_imp.dart';
+import 'package:electronics_shop/features/order/data/models/order_item_model.dart';
+import 'package:electronics_shop/features/order/data/repo/order_repo.dart';
+import 'package:electronics_shop/features/order/data/repo/order_repo_imp.dart';
 import 'package:electronics_shop/features/checkout/presentation/view%20model/cubit/cart_cubit.dart';
+import 'package:electronics_shop/features/order/data/models/order_model.dart';
 import 'package:meta/meta.dart';
 
 part 'order_state.dart';

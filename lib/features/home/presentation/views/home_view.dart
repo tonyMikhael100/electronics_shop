@@ -1,6 +1,5 @@
 import 'package:electronics_shop/features/auth/presentation/view%20model/cubit/auth_cubit.dart';
-import 'package:electronics_shop/features/checkout/data/models/order_model.dart';
-import 'package:electronics_shop/features/checkout/data/repo/order_repo_imp.dart';
+import 'package:electronics_shop/features/order/data/repo/order_repo_imp.dart';
 import 'package:electronics_shop/features/home/presentation/view%20model/cubit/home_cubit.dart';
 import 'package:electronics_shop/features/home/presentation/view%20model/cubit/whishlist_cubit.dart';
 import 'package:electronics_shop/features/home/presentation/views/cart_view.dart';
@@ -50,6 +49,7 @@ class _HomeViewState extends State<HomeView> {
     await BlocProvider.of<AuthCubit>(context).getUserData();
     await BlocProvider.of<AuthCubit>(context).getUserId();
     await BlocProvider.of<AuthCubit>(context).getUserName();
+    await BlocProvider.of<AuthCubit>(context).getUserEmail();
     await BlocProvider.of<WhishlistCubit>(context)
         .fetchWhishlist(tableName: 'wishlists');
   }
