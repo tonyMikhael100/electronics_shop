@@ -1,6 +1,7 @@
 import 'package:electronics_shop/features/home/data/models/product_item_model.dart';
 import 'package:electronics_shop/widgets/product_item.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 
 class ProductsGridBuilder extends StatelessWidget {
@@ -16,10 +17,10 @@ class ProductsGridBuilder extends StatelessWidget {
       itemCount: products.length,
       physics: const NeverScrollableScrollPhysics(),
       shrinkWrap: true,
-      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: 2,
+      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+        crossAxisCount: MediaQuery.sizeOf(context).width > 600 ? 3 : 2,
         crossAxisSpacing: 8,
-        childAspectRatio: 0.7,
+        childAspectRatio: MediaQuery.sizeOf(context).width > 1000 ? 1.4 : 0.7,
       ),
       itemBuilder: (context, index) {
         return InkWell(

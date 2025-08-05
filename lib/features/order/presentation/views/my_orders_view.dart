@@ -2,11 +2,13 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:electronics_shop/core/utils/app_colors.dart';
 import 'package:electronics_shop/core/utils/app_styles.dart';
 import 'package:electronics_shop/features/auth/presentation/view%20model/cubit/auth_cubit.dart';
+import 'package:electronics_shop/features/home/presentation/views/empty_cart_view.dart';
 import 'package:electronics_shop/features/order/data/models/order_item_model.dart';
 import 'package:electronics_shop/features/order/data/models/order_model.dart';
 import 'package:electronics_shop/features/order/presentation/view%20model/order_cubit.dart';
 import 'package:electronics_shop/features/order/presentation/widgets/order_details_list_tile.dart';
 import 'package:electronics_shop/widgets/custom_app_bar.dart';
+import 'package:electronics_shop/widgets/not_found_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
@@ -35,15 +37,19 @@ class _MyOrdersViewState extends State<MyOrdersView> {
       backgroundColor: Colors.white,
       appBar: PreferredSize(
         preferredSize: const Size.fromHeight(56),
-        child: CustomAppBar(
-          title: 'My Orders',
-          onTap: () => context.pop(),
-          widget: const Icon(Icons.keyboard_arrow_right_rounded),
-          showBackButton: true,
-          showDeleteButton: false,
+        child: SafeArea(
+          child: CustomAppBar(
+            title: 'My Orders',
+            onTap: () => context.pop(),
+            widget: const Icon(Icons.keyboard_arrow_right_rounded),
+            showBackButton: true,
+            showDeleteButton: false,
+          ),
         ),
       ),
       body: RefreshIndicator(
+        backgroundColor: AppColors.secondary,
+        color: AppColors.accent,
         onRefresh: () async {
           final userId = BlocProvider.of<AuthCubit>(context).userId;
           context.read<OrderCubit>().getOrdersWithProductDetails(userId);
@@ -54,7 +60,7 @@ class _MyOrdersViewState extends State<MyOrdersView> {
               return buildLoadingSkeltonizer();
             } else if (state is OrderWithItemsLoaded) {
               if (state.orders.isEmpty) {
-                return const Center(child: Text("No orders yet."));
+                return NotFoundWidget(title: 'No Orders Yet!');
               }
               return Padding(
                 padding: const EdgeInsets.all(16.0),

@@ -34,7 +34,7 @@ class OrderDetailsListTile extends StatelessWidget {
             imageUrl: imageUrl ?? '', // fallback to empty if null
             width: 50,
             height: 50,
-            fit: BoxFit.cover,
+            fit: BoxFit.contain,
             placeholder: (context, url) =>
                 const CircularProgressIndicator(strokeWidth: 1),
             errorWidget: (context, url, error) => const Icon(Icons.image),

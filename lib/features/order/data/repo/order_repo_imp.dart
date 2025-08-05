@@ -109,7 +109,6 @@ class OrderRepoImp implements OrderRepo {
 
         return OrderWithItems(order: order, items: items);
       }).toList();
-
       return Right(result);
     } catch (e) {
       return Left(Failure(errorMessage: e.toString()));
