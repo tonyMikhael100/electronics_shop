@@ -5,8 +5,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class OrderDetailsListTile extends StatelessWidget {
+  final String title;
+  final double price;
+  final int quantity;
+  final String? imageUrl;
+
   const OrderDetailsListTile({
     super.key,
+    required this.title,
+    required this.price,
+    required this.quantity,
+    this.imageUrl,
   });
 
   @override
@@ -14,38 +23,49 @@ class OrderDetailsListTile extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 8),
       child: ListTile(
-        contentPadding: EdgeInsets.all(0),
+        contentPadding: EdgeInsets.zero,
         leading: Container(
-          padding: EdgeInsets.all(5),
+          padding: const EdgeInsets.all(5),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(8),
             color: AppColors.secondary,
           ),
           child: CachedNetworkImage(
-            imageUrl:
-                'https://nclsdhzpcxkiizuunell.supabase.co/storage/v1/object/public/images//iphone2.png',
+            imageUrl: imageUrl ?? '', // fallback to empty if null
+            width: 50,
+            height: 50,
+            fit: BoxFit.cover,
+            placeholder: (context, url) =>
+                const CircularProgressIndicator(strokeWidth: 1),
+            errorWidget: (context, url, error) => const Icon(Icons.image),
           ),
         ),
         title: Text(
-          'iphone 15 pro max',
+          title,
           maxLines: 1,
           overflow: TextOverflow.ellipsis,
-          style: AppTextStyles.bodyMedium(context)
-              .copyWith(fontSize: 14.sp, fontWeight: FontWeight.w800),
+          style: AppTextStyles.bodyMedium(context).copyWith(
+            fontSize: 14.sp,
+            fontWeight: FontWeight.w800,
+          ),
         ),
         subtitle: Text(
-          'Quantity: 2',
+          'Quantity: $quantity',
           maxLines: 1,
           overflow: TextOverflow.ellipsis,
-          style: AppTextStyles.bodyMedium(context)
-              .copyWith(fontSize: 14.sp, color: Colors.black45),
+          style: AppTextStyles.bodyMedium(context).copyWith(
+            fontSize: 14.sp,
+            color: Colors.black45,
+          ),
         ),
         trailing: Text(
-          '\$299',
+          '\$${(price * quantity).toStringAsFixed(2)}',
           maxLines: 1,
           overflow: TextOverflow.ellipsis,
-          style: AppTextStyles.bodyMedium(context)
-              .copyWith(fontSize: 14.sp, fontWeight: FontWeight.w300),
+          style: AppTextStyles.bodyMedium(context).copyWith(
+            fontSize: 14.sp,
+            fontWeight: FontWeight.w300,
+          ),
         ),
       ),
     );

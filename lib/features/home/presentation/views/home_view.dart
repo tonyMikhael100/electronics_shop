@@ -103,10 +103,11 @@ class _HomeViewState extends State<HomeView> {
         ),
       ),
       // floatingActionButton: FloatingActionButton(onPressed: () async {
-      //   var res = await OrderRepoImp().insertOrder(
-      //       orderModel:
-      //           OrderModel(userId: 'userId', addressId: 'addressId', total: 1));
-      //   print(res);
+      //   var res = await OrderRepoImp().getOrdersWithItems(
+      //       userId: BlocProvider.of<AuthCubit>(context).userId);
+      //   res.fold((failure) {}, (success) {
+      //     print(success[2].items);
+      //   });
       // }),
     );
   }

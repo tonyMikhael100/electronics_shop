@@ -10,6 +10,11 @@ class OrderLoading extends OrderState {}
 class OrderSuccess extends OrderState {}
 
 class OrderError extends OrderState {
-  final String message;
-  OrderError(this.message);
+  final String errorMessage;
+  OrderError(this.errorMessage);
+}
+
+class OrderWithItemsLoaded extends OrderState {
+  final List<OrderWithItems> orders;
+  OrderWithItemsLoaded(this.orders);
 }

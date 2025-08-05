@@ -1,35 +1,29 @@
+import 'package:electronics_shop/features/home/data/models/product_item_model.dart';
+
 class OrderItemModel {
-  final String? id;
   final String orderId;
   final String productId;
   final int quantity;
   final double unitPirce;
+  final ProductModel? product;
 
   OrderItemModel({
-    this.id,
     required this.orderId,
     required this.productId,
     required this.quantity,
     required this.unitPirce,
+    this.product,
   });
 
   factory OrderItemModel.fromJson(Map<String, dynamic> json) {
     return OrderItemModel(
-      id: json['id'],
       orderId: json['order_id'],
       productId: json['product_id'],
       quantity: json['quantity'],
-      unitPirce: json['unit_price'],
+      unitPirce: (json['unit_price'] as num).toDouble(),
+      product: json['products'] != null
+          ? ProductModel.fromJson(json['products'])
+          : null,
     );
-  }
-
-  Map<String, dynamic> toJson() {
-    return {
-      'id': id,
-      'order_id': orderId,
-      'product_id': productId,
-      'quantity': quantity,
-      'unit_price': unitPirce,
-    };
   }
 }

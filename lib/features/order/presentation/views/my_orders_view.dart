@@ -1,58 +1,117 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:electronics_shop/core/utils/app_colors.dart';
 import 'package:electronics_shop/core/utils/app_styles.dart';
+import 'package:electronics_shop/features/auth/presentation/view%20model/cubit/auth_cubit.dart';
+import 'package:electronics_shop/features/order/data/models/order_item_model.dart';
+import 'package:electronics_shop/features/order/data/models/order_model.dart';
+import 'package:electronics_shop/features/order/presentation/view%20model/order_cubit.dart';
 import 'package:electronics_shop/features/order/presentation/widgets/order_details_list_tile.dart';
 import 'package:electronics_shop/widgets/custom_app_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
+import 'package:electronics_shop/features/order/data/models/order_with_item_model.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:skeletonizer/skeletonizer.dart';
 
-class MyOrdersView extends StatelessWidget {
+class MyOrdersView extends StatefulWidget {
   const MyOrdersView({super.key});
+
+  @override
+  State<MyOrdersView> createState() => _MyOrdersViewState();
+}
+
+class _MyOrdersViewState extends State<MyOrdersView> {
+  @override
+  void initState() {
+    super.initState();
+    final userId = BlocProvider.of<AuthCubit>(context).userId;
+    context.read<OrderCubit>().getOrdersWithProductDetails(userId);
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: PreferredSize(
-        preferredSize: Size.fromHeight(56),
+        preferredSize: const Size.fromHeight(56),
         child: CustomAppBar(
-          title: 'My orders',
-          onTap: () {
-            context.pop();
-          },
-          widget: Icon(Icons.keyboard_arrow_right_rounded),
+          title: 'My Orders',
+          onTap: () => context.pop(),
+          widget: const Icon(Icons.keyboard_arrow_right_rounded),
           showBackButton: true,
           showDeleteButton: false,
         ),
       ),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Column(
-            children: [
-              OrderDetailsContainer(),
-              OrderDetailsContainer(),
-              OrderDetailsContainer(),
-              OrderDetailsContainer(),
-            ],
-          ),
+      body: RefreshIndicator(
+        onRefresh: () async {
+          final userId = BlocProvider.of<AuthCubit>(context).userId;
+          context.read<OrderCubit>().getOrdersWithProductDetails(userId);
+        },
+        child: BlocBuilder<OrderCubit, OrderState>(
+          builder: (context, state) {
+            if (state is OrderLoading) {
+              return buildLoadingSkeltonizer();
+            } else if (state is OrderWithItemsLoaded) {
+              if (state.orders.isEmpty) {
+                return const Center(child: Text("No orders yet."));
+              }
+              return Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: ListView.builder(
+                  itemCount: state.orders.length,
+                  itemBuilder: (context, index) {
+                    final orderWithItems = state.orders[index];
+                    return OrderDetailsContainer(order: orderWithItems);
+                  },
+                ),
+              );
+            } else if (state is OrderError) {
+              return Center(child: Text(state.errorMessage));
+            } else {
+              return const SizedBox.shrink();
+            }
+          },
         ),
       ),
     );
   }
+
+  Skeletonizer buildLoadingSkeltonizer() {
+    return Skeletonizer(
+        enabled: true,
+        child: OrderDetailsContainer(
+            order: OrderWithItems(
+                order:
+                    OrderModel(userId: 'dumy', addressId: 'dumy', total: 123),
+                items: [
+              OrderItemModel(
+                  orderId: 'dumy',
+                  productId: 'dumy',
+                  quantity: 1,
+                  unitPirce: 123),
+              OrderItemModel(
+                  orderId: 'dumy',
+                  productId: 'dumy',
+                  quantity: 1,
+                  unitPirce: 123)
+            ])));
+  }
 }
 
 class OrderDetailsContainer extends StatelessWidget {
+  final OrderWithItems order;
+
   const OrderDetailsContainer({
     super.key,
+    required this.order,
   });
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.symmetric(vertical: 5),
-      padding: EdgeInsets.all(16),
+      margin: const EdgeInsets.symmetric(vertical: 5),
+      padding: const EdgeInsets.all(16),
       width: double.infinity,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(12),
@@ -63,22 +122,23 @@ class OrderDetailsContainer extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          // ✅ Order status row
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                'status',
+                'Status',
                 style: AppTextStyles.displaySmall(context)
                     .copyWith(fontSize: 16.sp),
               ),
               Container(
-                padding: EdgeInsets.all(5),
+                padding: const EdgeInsets.all(5),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(12),
-                  color: Color.fromARGB(255, 255, 203, 209),
+                  color: const Color.fromARGB(255, 255, 203, 209),
                 ),
                 child: Text(
-                  'Pending',
+                  order.order.status ?? 'Pending',
                   style: AppTextStyles.displaySmall(context).copyWith(
                     fontSize: 16.sp,
                     color: Colors.redAccent,
@@ -87,18 +147,25 @@ class OrderDetailsContainer extends StatelessWidget {
               ),
             ],
           ),
-          SizedBox(
-            height: 10,
-          ),
+          const SizedBox(height: 10),
           Text(
-            '#522b29b6-0f8f-4148-89bc-eb0cd6f27ef5',
+            '#${order.order.id}',
             style: AppTextStyles.displaySmall(context)
                 .copyWith(color: Colors.black38),
           ),
-          Divider(),
-          OrderDetailsListTile(),
-          OrderDetailsListTile(),
-          Divider(),
+          const Divider(),
+
+          ...order.items.map(
+            (item) => OrderDetailsListTile(
+              title: item.product?.name ?? 'Unknown',
+              price: item.unitPirce,
+              quantity: item.quantity,
+              imageUrl: item.product?.imageUrl,
+            ),
+          ),
+
+          const Divider(),
+
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -108,7 +175,7 @@ class OrderDetailsContainer extends StatelessWidget {
                     .copyWith(fontSize: 16.sp),
               ),
               Text(
-                '\$799',
+                '\$${order.order.total}',
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
                 style: AppTextStyles.bodyMedium(context)

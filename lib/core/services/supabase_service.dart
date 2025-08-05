@@ -183,4 +183,20 @@ class SupabaseService {
       'unit_price': unitPrice
     });
   }
+
+  Future<List<Map<String, dynamic>>> getOrdersWithItemsAndProducts({
+    required String userId,
+  }) async {
+    final response = await _client.from('orders').select('''
+        *,
+        order_items (
+          *,
+          products (
+            id, name, price, image_url, description, product_category, status
+          )
+        )
+      ''').eq('user_id', userId).order('created_at', ascending: false);
+
+    return response;
+  }
 }
