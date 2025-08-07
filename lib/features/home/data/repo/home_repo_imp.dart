@@ -41,11 +41,11 @@ class HomeRepoImp implements HomeRepo {
   }
 
   @override
-  Future<Either<Failure, List<ProductModel>>> fetchProducts(
+  Future<Either<Failure, List<ProductModel>>> fetchNewestProducts(
       {required String tableName}) async {
     List<ProductModel> products = [];
     try {
-      var response = await supabaseService.getAll(table: tableName);
+      var response = await supabaseService.getNewestProducts(table: tableName);
       for (int i = 0; i < response.length; i++) {
         var item = ProductModel.fromJson(response[i]);
         products.add(item);

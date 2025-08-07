@@ -80,12 +80,12 @@ class ProfileView extends StatelessWidget {
                 trailling: Icon(Icons.keyboard_arrow_right_rounded),
                 onTap: () {},
               ),
-              ProfileListTile(
-                leading: Icon(Icons.sunny),
-                title: 'Apperances',
-                trailling: Icon(Icons.keyboard_arrow_right_rounded),
-                onTap: () {},
-              ),
+              // ProfileListTile(
+              //   leading: Icon(Icons.sunny),
+              //   title: 'Apperances',
+              //   trailling: Icon(Icons.keyboard_arrow_right_rounded),
+              //   onTap: () {},
+              // ),
               ProfileListTile(
                 leading: SvgPicture.asset(Assets.images.favouriteSvgrepoCom),
                 title: 'Wishlist',

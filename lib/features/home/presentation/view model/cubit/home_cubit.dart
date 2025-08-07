@@ -42,7 +42,7 @@ class HomeCubit extends Cubit<HomeState> {
   }
 
   Future<void> fetchProducts({required String tableName}) async {
-    var response = await homeRepoImp.fetchProducts(tableName: tableName);
+    var response = await homeRepoImp.fetchNewestProducts(tableName: tableName);
     print(response);
     response.fold(
       (failure) {

@@ -12,6 +12,18 @@ class SupabaseService {
     return response;
   }
 
+  Future<List<Map<String, dynamic>>> getNewestProducts({
+    required String table,
+  }) async {
+    final response = await _client
+        .from(table)
+        .select('*')
+        .order('created_at', ascending: false)
+        .limit(6);
+
+    return response;
+  }
+
   Future<List<Map<String, dynamic>>> getAllWithQuery({
     required String table,
     required String columnName,

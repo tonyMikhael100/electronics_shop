@@ -22,58 +22,61 @@ class CustomAppBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      children: [
-        showBackButton
-            ? InkWell(
-                onTap: () {
-                  context.pop();
-                },
-                child: Icon(
-                  Icons.keyboard_arrow_left_rounded,
-                  size: 40.sp,
+    return Padding(
+      padding: const EdgeInsets.only(top: 10),
+      child: Row(
+        children: [
+          showBackButton
+              ? InkWell(
+                  onTap: () {
+                    context.pop();
+                  },
+                  child: Icon(
+                    Icons.keyboard_arrow_left_rounded,
+                    size: 50.sp,
+                  ),
+                )
+              : SizedBox(width: 50.sp), // Ensure same width even if not shown
+          Expanded(
+            child: Center(
+              child: Text(
+                title,
+                style: AppTextStyles.displayMedium(context).copyWith(
+                  color: AppColors.accent,
                 ),
-              )
-            : SizedBox(width: 32.sp), // Ensure same width even if not shown
-        Expanded(
-          child: Center(
-            child: Text(
-              title,
-              style: AppTextStyles.displayMedium(context).copyWith(
-                color: AppColors.accent,
               ),
             ),
           ),
-        ),
 
-        // dummy icon to balance layout visually
-        showDeleteButton
-            ? Row(
-                children: [
-                  InkWell(
-                    onTap: onTap,
-                    child: Container(
-                      width: 40,
-                      height: 40,
-                      decoration: BoxDecoration(
-                          color: AppColors.secondary,
-                          borderRadius: BorderRadius.circular(8)),
-                      child: widget,
+          // dummy icon to balance layout visually
+          showDeleteButton
+              ? Row(
+                  children: [
+                    InkWell(
+                      onTap: onTap,
+                      child: Container(
+                        width: 40,
+                        height: 40,
+                        decoration: BoxDecoration(
+                            color: AppColors.secondary,
+                            borderRadius: BorderRadius.circular(8)),
+                        child: widget,
+                      ),
                     ),
+                    SizedBox(
+                      width: 8,
+                    ),
+                  ],
+                )
+              : Opacity(
+                  opacity: 0,
+                  child: Icon(
+                    Icons.keyboard_arrow_left_rounded,
+                    size: 50.sp,
                   ),
-                  SizedBox(
-                    width: 8,
-                  ),
-                ],
-              )
-            : Opacity(
-                opacity: 0,
-                child: Icon(
-                  Icons.keyboard_arrow_left_rounded,
-                  size: 32.sp,
                 ),
-              ),
-      ],
+        ],
+      ),
     );
   }
 }

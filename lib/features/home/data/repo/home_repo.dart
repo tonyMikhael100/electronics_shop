@@ -9,7 +9,7 @@ abstract class HomeRepo {
       {required String tableName});
   Future<Either<Failure, List<ProductCategoryModel>>> fetchCategories(
       {required String tableName});
-  Future<Either<Failure, List<ProductModel>>> fetchProducts(
+  Future<Either<Failure, List<ProductModel>>> fetchNewestProducts(
       {required String tableName});
 
   Future<Either<Failure, void>> addToWhishlist(
