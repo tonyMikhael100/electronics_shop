@@ -2,6 +2,7 @@ import 'package:electronics_shop/features/auth/presentation/views/login_view.dar
 import 'package:electronics_shop/features/auth/presentation/views/signup_view.dart';
 import 'package:electronics_shop/features/checkout/data/models/cart_model.dart';
 import 'package:electronics_shop/features/checkout/presentation/views/check_out_view.dart';
+import 'package:electronics_shop/features/home/data/models/product_category_model.dart';
 import 'package:electronics_shop/features/home/data/models/product_item_model.dart';
 import 'package:electronics_shop/features/home/presentation/views/cart_view.dart';
 import 'package:electronics_shop/features/home/presentation/views/category_view.dart';
@@ -72,9 +73,14 @@ class AppRouting {
             );
           }),
       GoRoute(
-        path: '/category',
-        builder: (context, state) => const CategoryView(),
-      ),
+          path: '/category_view',
+          builder: (context, state) {
+            final ProductCategoryModel productCategoryModel =
+                state.extra as ProductCategoryModel;
+            return CategoryView(
+              productCategoryModel: productCategoryModel,
+            );
+          }),
       GoRoute(
         path: '/checkout',
         builder: (context, state) {

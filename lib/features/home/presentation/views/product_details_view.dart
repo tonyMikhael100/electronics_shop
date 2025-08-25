@@ -31,13 +31,11 @@ class _ProductDetailsViewState extends State<ProductDetailsView> {
     final email = FirebaseAuth.instance.currentUser!.email!;
     final userData = await SupabaseService().getUserData(email: email);
     userId = userData[0]['id'];
-
     await context.read<WhishlistCubit>().checkIfInWhishlist(
           tableName: 'wishlists',
           userId: userId,
           productId: widget.product.id,
         );
-
     setState(() {
       _userLoaded = true;
     });
@@ -57,12 +55,14 @@ class _ProductDetailsViewState extends State<ProductDetailsView> {
       backgroundColor: Colors.white,
       appBar: PreferredSize(
         preferredSize: Size(double.infinity, 56),
-        child: CustomAppBar(
-          title: widget.product.productCategory,
-          showBackButton: true,
-          showDeleteButton: false,
-          widget: Icon(Icons.delete),
-          onTap: () {},
+        child: SafeArea(
+          child: CustomAppBar(
+            title: widget.product.productCategory,
+            showBackButton: true,
+            showDeleteButton: false,
+            widget: Icon(Icons.delete),
+            onTap: () {},
+          ),
         ),
       ),
       body: Padding(
@@ -119,8 +119,10 @@ class _ProductDetailsViewState extends State<ProductDetailsView> {
               ),
               Text(
                 '${widget.product.price.toString()} LE',
-                style: AppTextStyles.displayMedium(context)
-                    .copyWith(fontWeight: FontWeight.bold, fontSize: 20.sp),
+                style: AppTextStyles.displayMedium(context).copyWith(
+                    fontWeight: FontWeight.bold,
+                    color: AppColors.priceColor,
+                    fontSize: 20.sp),
               ),
               SizedBox(
                 height: 5,

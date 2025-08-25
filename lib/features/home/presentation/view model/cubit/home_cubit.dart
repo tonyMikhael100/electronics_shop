@@ -15,7 +15,6 @@ class HomeCubit extends Cubit<HomeState> {
   List<BannerModel> bannersList = [];
   List<ProductCategoryModel> categoryList = [];
   List<ProductModel> productsList = [];
-
   Future<void> fetchBanners({required String tableName}) async {
     var response = await homeRepoImp.fetchBanners(tableName: tableName);
     print(response);

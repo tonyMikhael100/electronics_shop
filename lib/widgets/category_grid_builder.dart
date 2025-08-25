@@ -3,6 +3,7 @@ import 'package:electronics_shop/core/utils/app_colors.dart';
 import 'package:electronics_shop/core/utils/app_styles.dart';
 import 'package:electronics_shop/features/home/presentation/view%20model/cubit/home_cubit.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 class CategoryGridBuilder extends StatelessWidget {
   const CategoryGridBuilder({
@@ -29,7 +30,8 @@ class CategoryGridBuilder extends StatelessWidget {
         final category = myHomeCubit.categoryList[index];
         return InkWell(
           onTap: () {
-            // handle category click
+            context.push('/category_view', extra: category);
+            // myHomeCubit.categoryList[index].categoryName
           },
           child: Container(
             padding: const EdgeInsets.all(8),

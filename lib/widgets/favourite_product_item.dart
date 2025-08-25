@@ -53,19 +53,21 @@ class FavouriteProductItem extends StatelessWidget {
                       .copyWith(fontWeight: FontWeight.bold, fontSize: 16.sp),
                 ),
                 Text(
-                  '${product.price.toString()} LE',
-                  style: AppTextStyles.displayMedium(context)
-                      .copyWith(fontSize: 16.sp),
+                  product.productCategory,
+                  style: AppTextStyles.displaySmall(context).copyWith(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 12.sp,
+                      color: AppColors.tertiary),
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      product.productCategory,
-                      style: AppTextStyles.displaySmall(context).copyWith(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 12.sp,
-                          color: AppColors.tertiary),
+                      '${product.price.toString()} LE',
+                      style: AppTextStyles.displayMedium(context).copyWith(
+                        fontSize: 16.sp,
+                        color: AppColors.priceColor,
+                      ),
                     ),
                     InkWell(
                       onTap: onTapAddToCart,

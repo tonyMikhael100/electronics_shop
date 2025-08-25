@@ -24,11 +24,11 @@ class CartModel {
         productCategory: json['category_name'],
         name: json['name'],
         description: json['description'],
-        price: json['price'],
+        price: (json['price'] as num).toInt(),
         imageUrl: json['image_url'],
         status: json['status'],
       ),
-      quantity: json['quantity'],
+      quantity: (json['quantity'] as num).toInt(),
     );
   }
 

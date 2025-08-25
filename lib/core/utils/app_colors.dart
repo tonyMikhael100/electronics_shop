@@ -7,4 +7,5 @@ class AppColors {
   static Color tertiary = Color(0xff868D94);
   static Color primary = Colors.white;
   static Color secondary = Color(0xffF5F5F5);
+  static Color priceColor = const Color.fromARGB(255, 3, 64, 117);
 }

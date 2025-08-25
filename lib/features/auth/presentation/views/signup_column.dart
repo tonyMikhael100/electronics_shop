@@ -43,17 +43,10 @@ class SignupColumn extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text('Malak El5alig',
-                  style: AppTextStyles.displayLarge(context)
-                      .copyWith(color: AppColors.primaryColor)),
-              SizedBox(height: 40),
-              Text('Hello there!',
-                  style: AppTextStyles.displayMedium(context).copyWith()),
-              SizedBox(height: 8),
               Text(
                 'Create a new account',
-                style: AppTextStyles.bodyMedium(context)
-                    .copyWith(color: Colors.black45),
+                style: AppTextStyles.displayMedium(context)
+                    .copyWith(color: AppColors.accent),
               ),
               SizedBox(height: 20),
               CustomTextFormField(
@@ -125,6 +118,7 @@ class SignupColumn extends StatelessWidget {
               ),
               SizedBox(height: 32),
               CustomLoginButton(
+                backgroundColor: AppColors.accent,
                 label: 'SignUp',
                 onPressed: () async {
                   if (formKey.currentState!.validate()) {

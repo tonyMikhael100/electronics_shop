@@ -10,7 +10,7 @@ part 'cart_state.dart';
 class CartCubit extends Cubit<CartState> {
   CartCubit() : super(CartInitial());
 
-  double total = 0;
+  int total = 0;
   final CartRepImp cartRepImp = CartRepImp();
   List<CartModel> currentCartList = [];
 

@@ -17,4 +17,11 @@ abstract class HomeRepo {
 
   Future<Either<Failure, List<ProductModel>>> fetchWishlist(
       {required String tableName});
+
+  Future<Either<Failure, List<ProductModel>>> fetchFilteredProducts({
+    required String tableName,
+    required String categoryName,
+    required String columnName,
+    required bool ascending,
+  });
 }

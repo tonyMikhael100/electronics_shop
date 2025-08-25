@@ -3,7 +3,7 @@ class OrderModel {
   final String userId;
   final String addressId;
   final String? status;
-  final double total;
+  final int total;
 
   OrderModel(
       {this.id,
@@ -18,7 +18,7 @@ class OrderModel {
       userId: json['user_id'],
       addressId: json['address_id'],
       status: json['status'],
-      total: json['total'],
+      total: (json['total'] as num).toInt(),
     );
   }
   Map<String, dynamic> toJson() {

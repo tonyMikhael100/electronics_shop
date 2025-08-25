@@ -20,6 +20,7 @@ class ProductItem extends StatelessWidget {
       children: [
         Container(
           height: 170,
+          padding: EdgeInsets.all(10),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(16),
             color: AppColors.secondary,
@@ -37,9 +38,10 @@ class ProductItem extends StatelessWidget {
         ),
         SizedBox(height: 8),
         Text(
-          '${productItem.price} EGP',
+          '${productItem.price} LE',
           style: AppTextStyles.bodyMedium(context).copyWith(
             fontWeight: FontWeight.bold,
+            color: AppColors.priceColor,
             fontSize: 16.sp,
           ),
         ),
@@ -48,8 +50,8 @@ class ProductItem extends StatelessWidget {
           maxLines: 1,
           overflow: TextOverflow.ellipsis,
           style: AppTextStyles.bodyMedium(context).copyWith(
-            fontWeight: FontWeight.w700,
-            fontSize: 14.sp,
+            fontWeight: FontWeight.bold,
+            fontSize: 16.sp,
           ),
         ),
         Text(
@@ -57,7 +59,7 @@ class ProductItem extends StatelessWidget {
           maxLines: 1,
           overflow: TextOverflow.ellipsis,
           style: AppTextStyles.bodyMedium(context).copyWith(
-            fontSize: 12.sp,
+            fontSize: 14.sp,
             color: AppColors.tertiary,
           ),
         ),

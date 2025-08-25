@@ -34,7 +34,7 @@ class OrderRepoImp implements OrderRepo {
           orderId: orderId,
           productId: item.productId,
           quantity: item.quantity,
-          unitPrice: item.unitPirce,
+          unitPrice: item.unitPrice,
         );
       }
       return const Right(null);

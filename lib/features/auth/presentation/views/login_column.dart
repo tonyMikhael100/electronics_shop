@@ -41,13 +41,13 @@ class LoginColumn extends StatelessWidget {
           children: [
             Text('Malak El5alig',
                 style: AppTextStyles.displayLarge(context)
-                    .copyWith(color: AppColors.primaryColor)),
+                    .copyWith(color: AppColors.accent)),
             SizedBox(height: 40),
             Text('Welcome Back',
                 style: AppTextStyles.displayMedium(context).copyWith()),
             SizedBox(height: 8),
             Text(
-              'please lgin to your account',
+              'please login to your account',
               style: AppTextStyles.bodyMedium(context)
                   .copyWith(color: Colors.black45),
             ),
@@ -89,6 +89,7 @@ class LoginColumn extends StatelessWidget {
             ),
             SizedBox(height: 32),
             CustomLoginButton(
+              backgroundColor: AppColors.accent,
               label: 'Login',
               onPressed: () {
                 if (formKey.currentState!.validate()) {
@@ -129,8 +130,8 @@ class LoginColumn extends StatelessWidget {
                   },
                   child: Text(
                     'Sign Up',
-                    style: AppTextStyles.bodyMedium(context)
-                        .copyWith(color: AppColors.primaryColor),
+                    style: AppTextStyles.bodyMedium(context).copyWith(
+                        color: AppColors.accent, fontWeight: FontWeight.bold),
                   ),
                 ),
               ],

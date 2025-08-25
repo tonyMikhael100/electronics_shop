@@ -143,9 +143,10 @@ class _CartViewState extends State<CartView> {
                           BlocBuilder<CartCubit, CartState>(
                             builder: (context, state) {
                               return TotalPriceSection(
-                                shipping: 70,
-                                total:
-                                    BlocProvider.of<CartCubit>(context).total,
+                                shipping: 70.0,
+                                total: BlocProvider.of<CartCubit>(context)
+                                    .total
+                                    .toDouble(),
                               );
                             },
                           ),

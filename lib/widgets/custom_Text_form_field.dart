@@ -26,7 +26,7 @@ class CustomTextFormField extends StatelessWidget {
       decoration: InputDecoration(
         suffixIcon: Icon(
           suffixIcon,
-          color: AppColors.primaryColor,
+          color: AppColors.tertiary,
         ),
         labelText: labelText,
         floatingLabelBehavior: FloatingLabelBehavior.auto,

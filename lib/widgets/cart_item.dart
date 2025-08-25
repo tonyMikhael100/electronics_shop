@@ -62,21 +62,21 @@ class CartItem extends StatelessWidget {
                     .copyWith(fontWeight: FontWeight.bold, fontSize: 18.sp),
               ),
               Text(
-                '${cartModel.product.price.toString()} LE',
-                style: AppTextStyles.displayMedium(context)
-                    .copyWith(fontSize: 16.sp),
+                overflow: TextOverflow.ellipsis,
+                maxLines: 1,
+                cartModel.product.productCategory,
+                style: AppTextStyles.displaySmall(context).copyWith(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 12.sp,
+                    color: AppColors.tertiary),
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    overflow: TextOverflow.ellipsis,
-                    maxLines: 1,
-                    cartModel.product.productCategory,
-                    style: AppTextStyles.displaySmall(context).copyWith(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 12.sp,
-                        color: AppColors.tertiary),
+                    '${cartModel.product.price.toString()} LE',
+                    style: AppTextStyles.displayMedium(context)
+                        .copyWith(fontSize: 16.sp, color: AppColors.priceColor),
                   ),
                   Row(
                     children: [

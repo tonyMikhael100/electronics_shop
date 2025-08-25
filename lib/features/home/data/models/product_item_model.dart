@@ -23,7 +23,7 @@ class ProductModel {
       productCategory: data['product_category'],
       name: data['name'],
       description: data['description'],
-      price: data['price'],
+      price: (data['price'] as num).toInt(),
       imageUrl: data['image_url'],
       status: data['status'],
     );

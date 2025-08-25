@@ -4,14 +4,14 @@ class OrderItemModel {
   final String orderId;
   final String productId;
   final int quantity;
-  final double unitPirce;
+  final int unitPrice;
   final ProductModel? product;
 
   OrderItemModel({
     required this.orderId,
     required this.productId,
     required this.quantity,
-    required this.unitPirce,
+    required this.unitPrice,
     this.product,
   });
 
@@ -19,8 +19,8 @@ class OrderItemModel {
     return OrderItemModel(
       orderId: json['order_id'],
       productId: json['product_id'],
-      quantity: json['quantity'],
-      unitPirce: (json['unit_price'] as num).toDouble(),
+      quantity: (json['quantity'] as num).toInt(),
+      unitPrice: (json['unit_price'] as num).toInt(),
       product: json['products'] != null
           ? ProductModel.fromJson(json['products'])
           : null,

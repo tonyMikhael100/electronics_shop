@@ -33,7 +33,7 @@ class OrderCubit extends Cubit<OrderState> {
             orderId: orderId,
             productId: item.product.id,
             quantity: item.quantity,
-            unitPirce: item.product.price.toDouble(),
+            unitPrice: item.product.price,
           );
         }).toList();
 

@@ -1,4 +1,5 @@
 import 'package:electronics_shop/features/auth/presentation/views/signup_column.dart';
+import 'package:electronics_shop/widgets/custom_app_bar.dart';
 import 'package:electronics_shop/widgets/custom_layout_builder.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -9,6 +10,13 @@ class SignupView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
+      appBar: PreferredSize(
+          preferredSize: Size.fromHeight(54),
+          child: CustomAppBar(
+              title: 'Sign up',
+              onTap: () {},
+              widget: Icon(Icons.arrow_back_ios_new_rounded))),
       body: Padding(
         padding: const EdgeInsets.all(50.0),
         child: CustomLayoutBuilder(

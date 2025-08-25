@@ -95,12 +95,12 @@ class _MyOrdersViewState extends State<MyOrdersView> {
                   orderId: 'dumy',
                   productId: 'dumy',
                   quantity: 1,
-                  unitPirce: 123),
+                  unitPrice: 123),
               OrderItemModel(
                   orderId: 'dumy',
                   productId: 'dumy',
                   quantity: 1,
-                  unitPirce: 123)
+                  unitPrice: 123)
             ])));
   }
 }
@@ -164,7 +164,7 @@ class OrderDetailsContainer extends StatelessWidget {
           ...order.items.map(
             (item) => OrderDetailsListTile(
               title: item.product?.name ?? 'Unknown',
-              price: item.unitPirce,
+              price: item.unitPrice,
               quantity: item.quantity,
               imageUrl: item.product?.imageUrl,
             ),

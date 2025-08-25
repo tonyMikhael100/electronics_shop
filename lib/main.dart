@@ -1,6 +1,7 @@
 import 'package:device_preview/device_preview.dart';
 import 'package:electronics_shop/features/auth/presentation/view%20model/cubit/auth_cubit.dart';
 import 'package:electronics_shop/core/router/router.dart';
+import 'package:electronics_shop/features/home/presentation/view%20model/cubit/category_cubit.dart';
 import 'package:electronics_shop/features/order/data/repo/order_repo_imp.dart';
 import 'package:electronics_shop/features/checkout/presentation/view%20model/cubit/address_cubit.dart';
 import 'package:electronics_shop/features/checkout/presentation/view%20model/cubit/cart_cubit.dart';
@@ -81,6 +82,9 @@ class MyApp extends StatelessWidget {
                 ..fetchCategories(tableName: 'categories')
                 ..fetchProducts(tableName: 'products');
             }),
+            BlocProvider(
+              create: (context) => CategoryCubit(),
+            ),
           ],
           child: ToastificationWrapper(
             child: MaterialApp.router(

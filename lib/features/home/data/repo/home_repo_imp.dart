@@ -5,6 +5,7 @@ import 'package:electronics_shop/features/home/data/models/banner_model.dart';
 import 'package:electronics_shop/features/home/data/models/product_category_model.dart';
 import 'package:electronics_shop/features/home/data/models/product_item_model.dart';
 import 'package:electronics_shop/features/home/data/repo/home_repo.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 class HomeRepoImp implements HomeRepo {
   final SupabaseService supabaseService = SupabaseService();
@@ -19,8 +20,10 @@ class HomeRepoImp implements HomeRepo {
         banners.add(item);
       }
       return Right(banners);
-    } on SupabaseFailure catch (e) {
-      return Left(Failure(errorMessage: e.errorMessage));
+    } on PostgrestException catch (e) {
+      return Left(SupabaseFailure.fromPostgrestException(e));
+    } catch (e) {
+      return Left(SupabaseFailure(errorMessage: e.toString()));
     }
   }
 
@@ -35,8 +38,10 @@ class HomeRepoImp implements HomeRepo {
         categories.add(item);
       }
       return Right(categories);
-    } on SupabaseFailure catch (e) {
-      return Left(Failure(errorMessage: e.errorMessage));
+    } on PostgrestException catch (e) {
+      return Left(SupabaseFailure.fromPostgrestException(e));
+    } catch (e) {
+      return Left(SupabaseFailure(errorMessage: e.toString()));
     }
   }
 
@@ -52,8 +57,10 @@ class HomeRepoImp implements HomeRepo {
       }
 
       return Right(products);
-    } on SupabaseFailure catch (e) {
-      return Left(Failure(errorMessage: e.errorMessage));
+    } on PostgrestException catch (e) {
+      return Left(SupabaseFailure.fromPostgrestException(e));
+    } catch (e) {
+      return Left(SupabaseFailure(errorMessage: e.toString()));
     }
   }
 
@@ -68,11 +75,10 @@ class HomeRepoImp implements HomeRepo {
         values: whishlistData,
       );
       return Right(response);
-    } on SupabaseFailure catch (e) {
-      return Left(Failure(errorMessage: e.errorMessage));
+    } on PostgrestException catch (e) {
+      return Left(SupabaseFailure.fromPostgrestException(e));
     } catch (e) {
-      print(e.toString());
-      return Left(Failure(errorMessage: e.toString()));
+      return Left(SupabaseFailure(errorMessage: e.toString()));
     }
   }
 
@@ -91,10 +97,35 @@ class HomeRepoImp implements HomeRepo {
       }
 
       return Right(products);
-    } on SupabaseFailure catch (e) {
-      return Left(Failure(errorMessage: e.errorMessage));
+    } on PostgrestException catch (e) {
+      return Left(SupabaseFailure.fromPostgrestException(e));
     } catch (e) {
-      return Left(Failure(errorMessage: e.toString()));
+      return Left(SupabaseFailure(errorMessage: e.toString()));
+    }
+  }
+
+  @override
+  Future<Either<Failure, List<ProductModel>>> fetchFilteredProducts({
+    required String tableName,
+    required String categoryName,
+    required String columnName,
+    required bool ascending,
+  }) async {
+    try {
+      List<ProductModel> filteredProducts = [];
+      var response = await supabaseService.getAllFiltered(
+          categoryName: categoryName,
+          tableName: tableName,
+          columnName: columnName,
+          ascending: ascending);
+      for (var product in response) {
+        filteredProducts.add(ProductModel.fromJson(product));
+      }
+      return Right(filteredProducts);
+    } on PostgrestException catch (e) {
+      return Left(SupabaseFailure.fromPostgrestException(e));
+    } catch (e) {
+      return Left(SupabaseFailure(errorMessage: e.toString()));
     }
   }
 }

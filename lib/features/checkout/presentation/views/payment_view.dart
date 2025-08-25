@@ -52,7 +52,8 @@ class PaymentView extends StatelessWidget {
               );
             },
           ),
-          TotalPriceSection(shipping: 70, total: myCartCubit.total),
+          TotalPriceSection(
+              shipping: 70.0, total: myCartCubit.total.toDouble()),
         ],
       ),
     );

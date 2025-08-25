@@ -7,6 +7,7 @@ import 'package:electronics_shop/widgets/not_found_widget.dart';
 import 'package:electronics_shop/widgets/products_gird_builder.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
 class SearchView extends StatelessWidget {
@@ -40,7 +41,10 @@ class SearchView extends StatelessWidget {
                   itemCount: myHomeCubit.categoryList.length,
                   itemBuilder: (context, index) {
                     return InkWell(
-                      onTap: () {},
+                      onTap: () {
+                        context.push('/category_view',
+                            extra: myHomeCubit.categoryList[index]);
+                      },
                       child: SearchCategoryRow(
                         imageUrl: myHomeCubit.categoryList[index].imageUrl,
                         categoryLabel:

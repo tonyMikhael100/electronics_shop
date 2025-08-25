@@ -23,7 +23,7 @@ class CustomLoginButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return SizedBox(
       width: double.infinity,
-      height: 58.h,
+      height: 48,
       child: ElevatedButton.icon(
         icon: icon,
         style: ElevatedButton.styleFrom(

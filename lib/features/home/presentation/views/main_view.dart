@@ -73,14 +73,6 @@ class MainView extends StatelessWidget {
                           'Deals of the day',
                           style: AppTextStyles.displayMedium(context),
                         ),
-                        InkWell(
-                          onTap: () {},
-                          child: Text(
-                            'see all',
-                            style: AppTextStyles.displaySmall(context)
-                                .copyWith(color: AppColors.tertiary),
-                          ),
-                        ),
                       ],
                     ),
                     SizedBox(

@@ -19,7 +19,7 @@ class ProductsGridBuilder extends StatelessWidget {
       shrinkWrap: true,
       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: MediaQuery.sizeOf(context).width > 600 ? 3 : 2,
-        crossAxisSpacing: 8,
+        crossAxisSpacing: 5,
         childAspectRatio: MediaQuery.sizeOf(context).width > 1000 ? 1.4 : 0.7,
       ),
       itemBuilder: (context, index) {

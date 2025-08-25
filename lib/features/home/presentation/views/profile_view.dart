@@ -49,7 +49,7 @@ class ProfileView extends StatelessWidget {
                   overflow: TextOverflow.ellipsis,
                   '${myAuthCubit.userName.toUpperCase()}',
                   style: AppTextStyles.displayMedium(context)
-                      .copyWith(fontSize: 20.sp),
+                      .copyWith(fontSize: 18.sp),
                 ),
                 subtitle: Text(
                   '${myAuthCubit.userEmail}',
@@ -80,12 +80,6 @@ class ProfileView extends StatelessWidget {
                 trailling: Icon(Icons.keyboard_arrow_right_rounded),
                 onTap: () {},
               ),
-              // ProfileListTile(
-              //   leading: Icon(Icons.sunny),
-              //   title: 'Apperances',
-              //   trailling: Icon(Icons.keyboard_arrow_right_rounded),
-              //   onTap: () {},
-              // ),
               ProfileListTile(
                 leading: SvgPicture.asset(Assets.images.favouriteSvgrepoCom),
                 title: 'Wishlist',
@@ -93,6 +87,12 @@ class ProfileView extends StatelessWidget {
                 onTap: () {
                   context.push('/favourite', extra: true);
                 },
+              ),
+              ProfileListTile(
+                leading: Icon(Icons.info_outlined),
+                title: 'About us',
+                trailling: Icon(Icons.keyboard_arrow_right_rounded),
+                onTap: () {},
               ),
               Divider(),
               ProfileListTile(

@@ -12,7 +12,6 @@ import 'package:go_router/go_router.dart';
 
 class AddressFormColumn extends StatelessWidget {
   AddressFormColumn({super.key});
-
   final TextEditingController streetController = TextEditingController();
   final TextEditingController buildingController = TextEditingController();
   final TextEditingController floorController = TextEditingController();

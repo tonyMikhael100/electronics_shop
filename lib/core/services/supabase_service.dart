@@ -34,6 +34,20 @@ class SupabaseService {
     return response;
   }
 
+  Future<List<Map<String, dynamic>>> getAllFiltered({
+    required String tableName,
+    required String columnName,
+    required String categoryName,
+    required bool ascending,
+  }) async {
+    final response = await _client
+        .from(tableName)
+        .select('*')
+        .eq('product_category', categoryName)
+        .order(columnName, ascending: ascending);
+    return response;
+  }
+
   Future<List<Map<String, dynamic>>> searchByName({
     required String table,
     required String searchKey,
@@ -169,7 +183,7 @@ class SupabaseService {
   Future<String> insertOrder({
     required String userId,
     required String addressId,
-    required double total,
+    required int total,
   }) async {
     final response = await _client
         .from('orders')
@@ -187,7 +201,7 @@ class SupabaseService {
       {required String orderId,
       required String productId,
       required int quantity,
-      required double unitPrice}) async {
+      required int unitPrice}) async {
     await _client.from('order_items').insert({
       'order_id': orderId,
       'product_id': productId,

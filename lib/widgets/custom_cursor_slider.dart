@@ -32,7 +32,8 @@ class CustomCursorSlider extends StatelessWidget {
           final List banners = myHomeCubit.bannersList;
           return CarouselSlider(
               options: CarouselOptions(
-                  height: 1.sw > 800 ? 500.h : null,
+                  height:
+                      MediaQuery.sizeOf(context).width > 600 ? 600.h : 400.h,
                   aspectRatio: 16 / 9,
                   autoPlay: true,
                   enableInfiniteScroll: true,
