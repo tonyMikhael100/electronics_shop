@@ -1,5 +1,6 @@
 import 'package:electronics_shop/core/utils/app_colors.dart';
 import 'package:electronics_shop/core/utils/app_styles.dart';
+import 'package:electronics_shop/core/utils/my_toast.dart';
 import 'package:electronics_shop/features/auth/presentation/view%20model/cubit/auth_cubit.dart';
 import 'package:electronics_shop/features/checkout/data/models/cart_model.dart';
 import 'package:electronics_shop/features/checkout/presentation/view%20model/cubit/cart_cubit.dart';
@@ -46,12 +47,11 @@ class FavouriteView extends StatelessWidget {
             if (state is FailureWhishlitState) {
               return Center(
                 child: Text(
-                  state.errorMessage,
-                  style: AppTextStyles.displayMedium(context),
+                  'An error occur, check your internet connection',
+                  style: AppTextStyles.bodyMedium(context),
                 ),
               );
             }
-
             if (cubit.products.isEmpty) {
               return const NotFoundWidget(
                 title: 'No Wishlist Yet!',
@@ -82,6 +82,12 @@ class FavouriteView extends StatelessWidget {
                           product: product,
                           quantity: 1,
                         ),
+                      );
+                      MyToast.showMyToast(
+                        context,
+                        icon: Icons.done,
+                        title: 'Added To Cart',
+                        bgColor: AppColors.accent,
                       );
                     },
                   ),

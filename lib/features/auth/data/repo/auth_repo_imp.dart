@@ -1,3 +1,4 @@
+import 'dart:io'; // 👈 لازم نضيفه
 import 'package:dartz/dartz.dart';
 import 'package:electronics_shop/core/errors/failure.dart';
 import 'package:electronics_shop/core/services/auth_service.dart';
@@ -10,6 +11,7 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 class AuthRepoImp implements AuthRepo {
   final AuthService _authService = AuthService();
   final SupabaseService _supabaseService = SupabaseService();
+
   @override
   Future<Either<Failure, dynamic>> signIn({
     required String email,
@@ -21,6 +23,8 @@ class AuthRepoImp implements AuthRepo {
         password: password,
       );
       return Right(response);
+    } on SocketException {
+      return Left(Failure(errorMessage: "No Internet Connection"));
     } on FirebaseAuthException catch (e) {
       return Left(FirebaseFailure.fromFirebaseAuthException(e));
     } catch (e) {
@@ -29,21 +33,33 @@ class AuthRepoImp implements AuthRepo {
   }
 
   @override
-  Future<Either<Failure, dynamic>> signUp(
-      {required UserModel userModel}) async {
+  Future<Either<Failure, dynamic>> signUp({
+    required UserModel userModel,
+  }) async {
     try {
-      var response = await _authService.signUpWithEmail(
-          email: userModel.email, password: userModel.password);
-      await _supabaseService.insert(table: 'users', value: {
-        "name": userModel.fullName,
-        "email": userModel.email,
-        "password": userModel.password,
-        "phone": userModel.phone
-      });
+      final response = await _authService.signUpWithEmail(
+        email: userModel.email,
+        password: userModel.password,
+      );
+
+      await _supabaseService.insert(
+        table: 'users',
+        value: {
+          "name": userModel.fullName,
+          "email": userModel.email,
+          "password": userModel.password,
+          "phone": userModel.phone,
+        },
+      );
+
       await FirebaseAuth.instance.signOut();
       return Right(response);
+    } on SocketException {
+      return Left(Failure(errorMessage: "No Internet Connection"));
     } on FirebaseAuthException catch (e) {
       return Left(FirebaseFailure.fromFirebaseAuthException(e));
+    } on PostgrestException catch (e) {
+      return Left(SupabaseFailure.fromPostgrestException(e));
     } catch (e) {
       return Left(Failure(errorMessage: 'Unknown error: $e'));
     }

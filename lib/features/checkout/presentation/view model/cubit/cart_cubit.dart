@@ -1,8 +1,11 @@
+import 'dart:io';
+
 import 'package:bloc/bloc.dart';
 import 'package:electronics_shop/features/auth/presentation/view%20model/cubit/auth_cubit.dart';
 import 'package:electronics_shop/features/checkout/data/models/cart_model.dart';
 import 'package:electronics_shop/features/checkout/data/repo/cart_rep_imp.dart';
 import 'package:meta/meta.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:uuid/uuid.dart';
 
 part 'cart_state.dart';
@@ -17,21 +20,24 @@ class CartCubit extends Cubit<CartState> {
   Future<void> getAllCart({required String tableName}) async {
     emit(CartLoadingState());
 
-    final user = await AuthCubit().getUserData();
+    try {
+      final user = await AuthCubit().getUserData();
 
-    final response = await cartRepImp.getAllCart(
-      tableName: tableName,
-      userId: user[0]['id'],
-    );
-
-    response.fold(
-      (failure) => emit(CartFailureState(errorMessage: failure.errorMessage)),
-      (cartList) {
-        currentCartList = cartList;
-        calculateTotalAmount();
-        emit(CartSuccessState(cartList: cartList));
-      },
-    );
+      final response = await cartRepImp.getAllCart(
+        tableName: tableName,
+        userId: user[0]['id'],
+      );
+      response.fold(
+        (failure) => emit(CartFailureState(errorMessage: failure.errorMessage)),
+        (cartList) {
+          currentCartList = cartList;
+          calculateTotalAmount();
+          emit(CartSuccessState(cartList: cartList));
+        },
+      );
+    } on SocketException {
+      emit(CartFailureState(errorMessage: "No Internet Connection"));
+    }
   }
 
   Future<void> addToCart({

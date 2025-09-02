@@ -73,7 +73,11 @@ class _MyOrdersViewState extends State<MyOrdersView> {
                 ),
               );
             } else if (state is OrderError) {
-              return Center(child: Text(state.errorMessage));
+              return Center(
+                  child: Text(
+                'An error occur, check your internet connection',
+                style: AppTextStyles.bodyMedium(context),
+              ));
             } else {
               return const SizedBox.shrink();
             }

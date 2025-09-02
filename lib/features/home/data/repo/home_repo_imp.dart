@@ -1,3 +1,4 @@
+import 'dart:io'; // 👈 مهم
 import 'package:dartz/dartz.dart';
 import 'package:electronics_shop/core/errors/failure.dart';
 import 'package:electronics_shop/core/services/supabase_service.dart';
@@ -9,17 +10,17 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 
 class HomeRepoImp implements HomeRepo {
   final SupabaseService supabaseService = SupabaseService();
+
   @override
-  Future<Either<Failure, List<BannerModel>>> fetchBanners(
-      {required String tableName}) async {
-    List<BannerModel> banners = [];
+  Future<Either<Failure, List<BannerModel>>> fetchBanners({
+    required String tableName,
+  }) async {
     try {
-      var response = await supabaseService.getAll(table: tableName);
-      for (int i = 0; i < response.length; i++) {
-        var item = BannerModel.fromJson(response[i]);
-        banners.add(item);
-      }
+      final response = await supabaseService.getAll(table: tableName);
+      final banners = response.map((e) => BannerModel.fromJson(e)).toList();
       return Right(banners);
+    } on SocketException {
+      return Left(Failure(errorMessage: "No Internet Connection"));
     } on PostgrestException catch (e) {
       return Left(SupabaseFailure.fromPostgrestException(e));
     } catch (e) {
@@ -28,16 +29,16 @@ class HomeRepoImp implements HomeRepo {
   }
 
   @override
-  Future<Either<Failure, List<ProductCategoryModel>>> fetchCategories(
-      {required String tableName}) async {
-    List<ProductCategoryModel> categories = [];
+  Future<Either<Failure, List<ProductCategoryModel>>> fetchCategories({
+    required String tableName,
+  }) async {
     try {
-      var response = await supabaseService.getAll(table: tableName);
-      for (int i = 0; i < response.length; i++) {
-        var item = ProductCategoryModel.fromJson(response[i]);
-        categories.add(item);
-      }
+      final response = await supabaseService.getAll(table: tableName);
+      final categories =
+          response.map((e) => ProductCategoryModel.fromJson(e)).toList();
       return Right(categories);
+    } on SocketException {
+      return Left(Failure(errorMessage: "No Internet Connection"));
     } on PostgrestException catch (e) {
       return Left(SupabaseFailure.fromPostgrestException(e));
     } catch (e) {
@@ -46,17 +47,16 @@ class HomeRepoImp implements HomeRepo {
   }
 
   @override
-  Future<Either<Failure, List<ProductModel>>> fetchNewestProducts(
-      {required String tableName}) async {
-    List<ProductModel> products = [];
+  Future<Either<Failure, List<ProductModel>>> fetchNewestProducts({
+    required String tableName,
+  }) async {
     try {
-      var response = await supabaseService.getNewestProducts(table: tableName);
-      for (int i = 0; i < response.length; i++) {
-        var item = ProductModel.fromJson(response[i]);
-        products.add(item);
-      }
-
+      final response =
+          await supabaseService.getNewestProducts(table: tableName);
+      final products = response.map((e) => ProductModel.fromJson(e)).toList();
       return Right(products);
+    } on SocketException {
+      return Left(Failure(errorMessage: "No Internet Connection"));
     } on PostgrestException catch (e) {
       return Left(SupabaseFailure.fromPostgrestException(e));
     } catch (e) {
@@ -70,11 +70,13 @@ class HomeRepoImp implements HomeRepo {
     required Map<String, dynamic> whishlistData,
   }) async {
     try {
-      var response = await supabaseService.insertToWhishlist(
+      final response = await supabaseService.insertToWhishlist(
         table: tableName,
         values: whishlistData,
       );
       return Right(response);
+    } on SocketException {
+      return Left(Failure(errorMessage: "No Internet Connection"));
     } on PostgrestException catch (e) {
       return Left(SupabaseFailure.fromPostgrestException(e));
     } catch (e) {
@@ -86,17 +88,15 @@ class HomeRepoImp implements HomeRepo {
   Future<Either<Failure, List<ProductModel>>> fetchWishlist({
     required String tableName,
   }) async {
-    List<ProductModel> products = [];
-
     try {
-      var response = await supabaseService.fetchUserWishlist(table: tableName);
-
-      for (int i = 0; i < response.length; i++) {
-        var item = response[i]['products']; // fixed this line
-        products.add(ProductModel.fromJson(item));
-      }
-
+      final response =
+          await supabaseService.fetchUserWishlist(table: tableName);
+      final products = response
+          .map<ProductModel>((e) => ProductModel.fromJson(e['products']))
+          .toList();
       return Right(products);
+    } on SocketException {
+      return Left(Failure(errorMessage: "No Internet Connection"));
     } on PostgrestException catch (e) {
       return Left(SupabaseFailure.fromPostgrestException(e));
     } catch (e) {
@@ -112,16 +112,16 @@ class HomeRepoImp implements HomeRepo {
     required bool ascending,
   }) async {
     try {
-      List<ProductModel> filteredProducts = [];
-      var response = await supabaseService.getAllFiltered(
-          categoryName: categoryName,
-          tableName: tableName,
-          columnName: columnName,
-          ascending: ascending);
-      for (var product in response) {
-        filteredProducts.add(ProductModel.fromJson(product));
-      }
-      return Right(filteredProducts);
+      final response = await supabaseService.getAllFiltered(
+        categoryName: categoryName,
+        tableName: tableName,
+        columnName: columnName,
+        ascending: ascending,
+      );
+      final products = response.map((e) => ProductModel.fromJson(e)).toList();
+      return Right(products);
+    } on SocketException {
+      return Left(Failure(errorMessage: "No Internet Connection"));
     } on PostgrestException catch (e) {
       return Left(SupabaseFailure.fromPostgrestException(e));
     } catch (e) {

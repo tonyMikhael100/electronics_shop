@@ -33,6 +33,17 @@ class FirebaseFailure extends Failure {
       case 'too-many-requests':
         return FirebaseFailure(
             errorMessage: "Too many requests. Try again later.");
+      case 'network-request-failed':
+        return FirebaseFailure(errorMessage: "No Internet Connection");
+      case 'invalid-credential':
+        return FirebaseFailure(errorMessage: "email or password is incorrect");
+      case 'invalid-email':
+        return FirebaseFailure(errorMessage: "Invalid Email");
+      case 'invalid-verification-code':
+        return FirebaseFailure(errorMessage: "Invalid Verification Code");
+      case 'invalid-verification-id':
+        return FirebaseFailure(errorMessage: "Invalid Verification ID");
+
       default:
         return FirebaseFailure(
             errorMessage: exception.message ?? "An unknown error occurred.");

@@ -17,7 +17,6 @@ class HomeCubit extends Cubit<HomeState> {
   List<ProductModel> productsList = [];
   Future<void> fetchBanners({required String tableName}) async {
     var response = await homeRepoImp.fetchBanners(tableName: tableName);
-    print(response);
     response.fold((filure) {
       emit(HomeBannerFailureState(errorMessage: 'An error occur'));
     }, (banners) {

@@ -45,12 +45,12 @@ class _HomeViewState extends State<HomeView> {
     super.initState();
   }
 
-  void initializeUserDataAndWishlist() async {
-    await BlocProvider.of<AuthCubit>(context).getUserData();
-    await BlocProvider.of<AuthCubit>(context).getUserId();
-    await BlocProvider.of<AuthCubit>(context).getUserName();
-    await BlocProvider.of<AuthCubit>(context).getUserEmail();
-    await BlocProvider.of<WhishlistCubit>(context)
+  void initializeUserDataAndWishlist() {
+    BlocProvider.of<AuthCubit>(context).getUserData();
+    BlocProvider.of<AuthCubit>(context).getUserId();
+    BlocProvider.of<AuthCubit>(context).getUserName();
+    BlocProvider.of<AuthCubit>(context).getUserEmail();
+    BlocProvider.of<WhishlistCubit>(context)
         .fetchWhishlist(tableName: 'wishlists');
   }
 
@@ -102,13 +102,6 @@ class _HomeViewState extends State<HomeView> {
           ),
         ),
       ),
-      // floatingActionButton: FloatingActionButton(onPressed: () async {
-      //   var res = await OrderRepoImp().getOrdersWithItems(
-      //       userId: BlocProvider.of<AuthCubit>(context).userId);
-      //   res.fold((failure) {}, (success) {
-      //     print(success[2].items);
-      //   });
-      // }),
     );
   }
 }

@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
@@ -172,8 +174,11 @@ class SupabaseService {
   }
 
   Future<dynamic> getUserData({required String email}) async {
-    var response = await _client.from('users').select('*').eq('email', email);
-    return response;
+    var response;
+    try {
+      response = await _client.from('users').select('*').eq('email', email);
+      return response;
+    } on SocketException catch (e) {}
   }
 
   Future<void> delete({required String tableName, required String id}) async {

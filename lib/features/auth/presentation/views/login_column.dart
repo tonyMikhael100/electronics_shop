@@ -20,124 +20,136 @@ class LoginColumn extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocListener<AuthCubit, AuthState>(
-      listener: (context, state) {
-        if (state is LoginFailuregState) {
-          MyToast.showMyToast(context,
-              bgColor: Colors.redAccent,
-              icon: Icons.error,
-              title: state.errorMessage);
-        }
-        if (state is LoginSuccessState) {
-          MyToast.showMyToast(context,
-              icon: Icons.done, title: 'Login', bgColor: Colors.green);
-          context.go('/home_view');
-        }
-      },
-      child: Form(
-        key: formKey,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text('Malak El5alig',
-                style: AppTextStyles.displayLarge(context)
-                    .copyWith(color: AppColors.accent)),
-            SizedBox(height: 40),
-            Text('Welcome Back',
-                style: AppTextStyles.displayMedium(context).copyWith()),
-            SizedBox(height: 8),
-            Text(
-              'please login to your account',
-              style: AppTextStyles.bodyMedium(context)
-                  .copyWith(color: Colors.black45),
-            ),
-            SizedBox(height: 20),
-            CustomTextFormField(
-              labelText: 'Email',
-              suffixIcon: Ionicons.mail_outline,
-              validator: (value) {
-                if (value == null || value.trim().isEmpty) {
-                  return 'Email is required';
-                }
-                if (!RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$')
-                    .hasMatch(value.trim())) {
-                  return 'Enter a valid email';
-                }
-                return null;
-              },
-              onChanged: (value) {
-                emailController.text = value;
-              },
-            ),
-            SizedBox(height: 16),
-            CustomTextFormField(
-              obscureText: true,
-              labelText: 'Password',
-              suffixIcon: Ionicons.lock_closed_outline,
-              validator: (value) {
-                if (value == null || value.isEmpty) {
-                  return 'Password is required';
-                }
-                if (value.length < 6) {
-                  return 'Password must be at least 6 characters';
-                }
-                return null;
-              },
-              onChanged: (value) {
-                passwordController.text = value;
-              },
-            ),
-            SizedBox(height: 32),
-            CustomLoginButton(
-              backgroundColor: AppColors.accent,
-              label: 'Login',
-              onPressed: () {
-                if (formKey.currentState!.validate()) {
-                  BlocProvider.of<AuthCubit>(context).signIn(
-                      email: emailController.text,
-                      password: passwordController.text);
-                }
-              },
-            ),
-            SizedBox(height: 16),
-            Row(
-              children: [
-                Expanded(child: Divider(thickness: 1)),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                  child: Text(
-                    'or login with',
-                    style: AppTextStyles.bodyMedium(context)
-                        .copyWith(color: Colors.black54),
-                  ),
-                ),
-                Expanded(child: Divider(thickness: 1)),
-              ],
-            ),
-            SizedBox(height: 24),
-            SizedBox(height: 16),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(
-                  'Don\'t have an account? ',
+    return Form(
+      key: formKey,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text('Malak El5alig',
+              style: AppTextStyles.displayLarge(context)
+                  .copyWith(color: AppColors.accent)),
+          SizedBox(height: 40),
+          Text('Welcome Back',
+              style: AppTextStyles.displayMedium(context).copyWith()),
+          SizedBox(height: 8),
+          Text(
+            'please login to your account',
+            style: AppTextStyles.bodyMedium(context)
+                .copyWith(color: Colors.black45),
+          ),
+          SizedBox(height: 20),
+          CustomTextFormField(
+            labelText: 'Email',
+            suffixIcon: Ionicons.mail_outline,
+            validator: (value) {
+              if (value == null || value.trim().isEmpty) {
+                return 'Email is required';
+              }
+              if (!RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$')
+                  .hasMatch(value.trim())) {
+                return 'Enter a valid email';
+              }
+              return null;
+            },
+            onChanged: (value) {
+              emailController.text = value;
+            },
+          ),
+          SizedBox(height: 16),
+          CustomTextFormField(
+            obscureText: true,
+            labelText: 'Password',
+            suffixIcon: Ionicons.lock_closed_outline,
+            validator: (value) {
+              if (value == null || value.isEmpty) {
+                return 'Password is required';
+              }
+              if (value.length < 6) {
+                return 'Password must be at least 6 characters';
+              }
+              return null;
+            },
+            onChanged: (value) {
+              passwordController.text = value;
+            },
+          ),
+          SizedBox(height: 32),
+          BlocConsumer<AuthCubit, AuthState>(
+            listener: (context, state) {
+              if (state is LoginFailuregState) {
+                MyToast.showMyToast(
+                  context,
+                  bgColor: Colors.redAccent,
+                  icon: Icons.error,
+                  title: state.errorMessage,
+                );
+              }
+              if (state is LoginSuccessState) {
+                MyToast.showMyToast(context,
+                    icon: Icons.done,
+                    title: 'Logged In Successfully',
+                    bgColor: AppColors.accent);
+                context.go('/home_view');
+              }
+            },
+            builder: (context, state) {
+              if (state is LoginLoadingState) {
+                return CustomLoginButton(
+                  backgroundColor: Colors.grey,
+                  label: 'Loading...',
+                  onPressed: () {},
+                );
+              }
+              return CustomLoginButton(
+                backgroundColor: AppColors.accent,
+                label: 'Login',
+                onPressed: () {
+                  if (formKey.currentState!.validate()) {
+                    BlocProvider.of<AuthCubit>(context).signIn(
+                        email: emailController.text,
+                        password: passwordController.text);
+                  }
+                },
+              );
+            },
+          ),
+          SizedBox(height: 16),
+          Row(
+            children: [
+              Expanded(child: Divider(thickness: 1)),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                child: Text(
+                  'or login with',
                   style: AppTextStyles.bodyMedium(context)
                       .copyWith(color: Colors.black54),
                 ),
-                TextButton(
-                  onPressed: () {
-                    context.push('/signup');
-                  },
-                  child: Text(
-                    'Sign Up',
-                    style: AppTextStyles.bodyMedium(context).copyWith(
-                        color: AppColors.accent, fontWeight: FontWeight.bold),
-                  ),
+              ),
+              Expanded(child: Divider(thickness: 1)),
+            ],
+          ),
+          SizedBox(height: 24),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                'Don\'t have an account? ',
+                style: AppTextStyles.bodyMedium(context)
+                    .copyWith(color: Colors.black54),
+              ),
+              TextButton(
+                onPressed: () {
+                  context.push('/signup');
+                },
+                child: Text(
+                  'Sign Up',
+                  style: AppTextStyles.bodyMedium(context).copyWith(
+                      color: AppColors.accent, fontWeight: FontWeight.bold),
                 ),
-              ],
-            ),
-          ],
-        ),
+              ),
+            ],
+          ),
+        ],
       ),
     );
   }

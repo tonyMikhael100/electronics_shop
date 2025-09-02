@@ -1,7 +1,10 @@
+import 'dart:io';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:electronics_shop/core/services/supabase_service.dart';
 import 'package:electronics_shop/core/utils/app_colors.dart';
 import 'package:electronics_shop/core/utils/app_styles.dart';
+import 'package:electronics_shop/core/utils/my_toast.dart';
 import 'package:electronics_shop/features/checkout/data/models/cart_model.dart';
 import 'package:electronics_shop/features/checkout/presentation/view%20model/cubit/cart_cubit.dart';
 import 'package:electronics_shop/features/home/data/models/product_item_model.dart';
@@ -14,6 +17,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 class ProductDetailsView extends StatefulWidget {
   const ProductDetailsView({super.key, required this.product});
@@ -28,17 +32,34 @@ class _ProductDetailsViewState extends State<ProductDetailsView> {
   bool _userLoaded = false;
 
   Future<void> _loadUserAndCheckWishlist() async {
-    final email = FirebaseAuth.instance.currentUser!.email!;
-    final userData = await SupabaseService().getUserData(email: email);
-    userId = userData[0]['id'];
-    await context.read<WhishlistCubit>().checkIfInWhishlist(
-          tableName: 'wishlists',
-          userId: userId,
-          productId: widget.product.id,
-        );
-    setState(() {
-      _userLoaded = true;
-    });
+    try {
+      final email = FirebaseAuth.instance.currentUser!.email!;
+      final userData = await SupabaseService().getUserData(email: email);
+      userId = userData[0]['id'];
+      await context.read<WhishlistCubit>().checkIfInWhishlist(
+            tableName: 'wishlists',
+            userId: userId,
+            productId: widget.product.id,
+          );
+      setState(() {
+        _userLoaded = true;
+      });
+    } on SocketException catch (e) {
+    } on PostgrestException catch (e) {
+      MyToast.showMyToast(
+        context,
+        icon: Icons.error,
+        title: 'An error occur, check your internet connection',
+        bgColor: AppColors.accent,
+      );
+    } catch (e) {
+      MyToast.showMyToast(
+        context,
+        icon: Icons.error,
+        title: 'An error occur, check your internet connection',
+        bgColor: AppColors.accent,
+      );
+    }
   }
 
   @override
@@ -156,14 +177,15 @@ class _ProductDetailsViewState extends State<ProductDetailsView> {
           label: 'Add to Cart',
           backgroundColor: AppColors.accent,
           onTap: () async {
-            await BlocProvider.of<CartCubit>(context).addToCart(
-                tableName: 'cart',
-                cartModel: CartModel(
-                  id: '',
-                  userId: userId,
-                  product: product,
-                  quantity: 1,
-                ));
+            // await BlocProvider.of<CartCubit>(context).addToCart(
+            //   tableName: 'cart',
+            //   cartModel: CartModel(
+            //     id: '',
+            //     userId: userId,
+            //     product: product,
+            //     quantity: 1,
+            //   ),
+            // );
           },
         ),
       ),

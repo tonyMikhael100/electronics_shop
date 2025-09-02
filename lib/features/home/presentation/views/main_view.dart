@@ -39,15 +39,7 @@ class MainView extends StatelessWidget {
                   children: [
                     Row(
                       children: [
-                        InkWell(
-                          onTap: () {
-                            //opend advanced Drawer
-                          },
-                          child: SvgPicture.asset(
-                            Assets.images.alignLeft,
-                            width: 30.w,
-                          ),
-                        ),
+                        Icon(Icons.waving_hand_rounded),
                         SizedBox(
                           width: 20,
                         ),
@@ -55,7 +47,7 @@ class MainView extends StatelessWidget {
                           child: Text(
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
-                            'Hello ${BlocProvider.of<AuthCubit>(context).userName.toUpperCase().split(' ').first}',
+                            'Hello, ${BlocProvider.of<AuthCubit>(context).userName.toUpperCase().split(' ').first}',
                             style: AppTextStyles.displayLarge(context).copyWith(
                                 fontWeight: FontWeight.bold, fontSize: 28.sp),
                           ),

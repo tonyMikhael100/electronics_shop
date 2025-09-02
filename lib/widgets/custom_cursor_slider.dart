@@ -4,6 +4,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:electronics_shop/core/utils/app_colors.dart';
 import 'package:electronics_shop/core/utils/app_styles.dart';
+import 'package:electronics_shop/features/auth/presentation/view%20model/cubit/auth_cubit.dart';
 import 'package:electronics_shop/features/home/data/models/banner_model.dart';
 import 'package:electronics_shop/features/home/presentation/view%20model/cubit/home_cubit.dart';
 import 'package:flutter/material.dart';
@@ -23,11 +24,33 @@ class CustomCursorSlider extends StatelessWidget {
       builder: (context, state) {
         if (state is HomeBannerFailureState) {
           return Center(
-              child: Text(
-            'An error occur',
-            style: AppTextStyles.bodyMedium(context)
-                .copyWith(color: Colors.redAccent),
-          ));
+            child: Column(
+              children: [
+                Text(
+                  'No intenet connection',
+                  style: AppTextStyles.displayMedium(context)
+                      .copyWith(color: Colors.redAccent),
+                ),
+                TextButton(
+                  onPressed: () {
+                    myHomeCubit.fetchBanners(tableName: 'banner');
+                    myHomeCubit.fetchCategories(tableName: 'categories');
+                    myHomeCubit.fetchProducts(tableName: 'products');
+                    context.read<AuthCubit>().getUserData();
+                  },
+                  style: TextButton.styleFrom(
+                    backgroundColor: AppColors.accent,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                  ),
+                  child: Text('Try again',
+                      style: AppTextStyles.bodyMedium(context)
+                          .copyWith(color: Colors.white)),
+                )
+              ],
+            ),
+          );
         } else if (state is HomeDataLoadedState) {
           final List banners = myHomeCubit.bannersList;
           return CarouselSlider(
