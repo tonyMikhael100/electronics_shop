@@ -1,4 +1,5 @@
 import 'package:electronics_shop/features/auth/presentation/views/signup_column.dart';
+import 'package:electronics_shop/l10n/app_localizations.dart';
 import 'package:electronics_shop/widgets/custom_app_bar.dart';
 import 'package:electronics_shop/widgets/custom_layout_builder.dart';
 import 'package:flutter/material.dart';
@@ -14,7 +15,7 @@ class SignupView extends StatelessWidget {
       appBar: PreferredSize(
           preferredSize: Size.fromHeight(54),
           child: CustomAppBar(
-              title: 'Sign up',
+              title: AppLocalizations.of(context)!.signUp,
               onTap: () {},
               widget: Icon(Icons.arrow_back_ios_new_rounded))),
       body: Padding(

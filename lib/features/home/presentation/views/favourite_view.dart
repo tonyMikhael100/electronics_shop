@@ -6,6 +6,7 @@ import 'package:electronics_shop/features/checkout/data/models/cart_model.dart';
 import 'package:electronics_shop/features/checkout/presentation/view%20model/cubit/cart_cubit.dart';
 import 'package:electronics_shop/features/home/data/models/product_item_model.dart';
 import 'package:electronics_shop/features/home/presentation/view%20model/cubit/whishlist_cubit.dart';
+import 'package:electronics_shop/l10n/app_localizations.dart';
 import 'package:electronics_shop/widgets/custom_app_bar.dart';
 import 'package:electronics_shop/widgets/favourite_product_item.dart';
 import 'package:electronics_shop/widgets/not_found_widget.dart';
@@ -20,13 +21,14 @@ class FavouriteView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(56),
         child: CustomAppBar(
           widget: Icon(Icons.delete),
-          title: 'Wishlist',
+          title: l10n.wishlist,
           showBackButton: showBackButton,
           showDeleteButton: true,
           onTap: () {},
@@ -86,7 +88,7 @@ class FavouriteView extends StatelessWidget {
                       MyToast.showMyToast(
                         context,
                         icon: Icons.done,
-                        title: 'Added To Cart',
+                        title: l10n.addedToCart,
                         bgColor: AppColors.accent,
                       );
                     },

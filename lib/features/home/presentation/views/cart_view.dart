@@ -3,6 +3,7 @@ import 'package:electronics_shop/features/checkout/presentation/view%20model/cub
 import 'package:electronics_shop/features/checkout/presentation/widgets/total_price_section.dart';
 import 'package:electronics_shop/features/home/data/models/product_item_model.dart';
 import 'package:electronics_shop/gen/assets.gen.dart';
+import 'package:electronics_shop/l10n/app_localizations.dart';
 import 'package:electronics_shop/widgets/cart_item.dart';
 import 'package:electronics_shop/widgets/custom_app_bar.dart';
 import 'package:electronics_shop/widgets/custom_elvated_button.dart';
@@ -39,6 +40,7 @@ class _CartViewState extends State<CartView> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return BlocBuilder<CartCubit, CartState>(
       builder: (context, state) {
         final isQuantityLoading = state is CartQuantityLoadingState;
@@ -54,7 +56,7 @@ class _CartViewState extends State<CartView> {
                   onTap: () async {
                     await BlocProvider.of<CartCubit>(context).deleteAllCart();
                   },
-                  title: 'Cart',
+                  title: l10n.cartTitle,
                   showBackButton: false,
                 ),
               ),
@@ -76,7 +78,7 @@ class _CartViewState extends State<CartView> {
                       );
                     } else if (state is CartSuccessState) {
                       if (state.cartList.isEmpty) {
-                        return NotFoundWidget(title: 'Cart is Empty ! ');
+                        return NotFoundWidget(title: l10n.emptyCartTitle);
                       }
                       return Column(
                         children: [
@@ -155,7 +157,7 @@ class _CartViewState extends State<CartView> {
                               Assets.images.cart,
                               color: Colors.white,
                             ),
-                            label: 'Checkout',
+                            label: l10n.checkoutButton,
                             backgroundColor: AppColors.accent,
                             onTap: () {
                               context.push('/checkout', extra: state.cartList);

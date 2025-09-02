@@ -15,7 +15,6 @@ class CustomTextFormField extends StatelessWidget {
   final IconData? suffixIcon;
   final void Function(String) onChanged;
   final bool? obscureText;
-
   @override
   Widget build(BuildContext context) {
     return TextFormField(

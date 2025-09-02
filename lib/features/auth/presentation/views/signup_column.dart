@@ -3,6 +3,7 @@ import 'package:electronics_shop/core/utils/app_styles.dart';
 import 'package:electronics_shop/core/utils/my_toast.dart';
 import 'package:electronics_shop/features/auth/data/models/user_model.dart';
 import 'package:electronics_shop/features/auth/presentation/view%20model/cubit/auth_cubit.dart';
+import 'package:electronics_shop/l10n/app_localizations.dart';
 import 'package:electronics_shop/widgets/custom_Text_form_field.dart';
 import 'package:electronics_shop/widgets/custom_login_button.dart';
 import 'package:flutter/material.dart';
@@ -21,61 +22,62 @@ class SignupColumn extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return Form(
       key: formKey,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            'Create a new account',
+            l10n.createNewAccount,
             style: AppTextStyles.displayMedium(context)
                 .copyWith(color: AppColors.accent),
           ),
           SizedBox(height: 20),
           CustomTextFormField(
-            labelText: 'Full Name',
+            labelText: l10n.fullName,
             onChanged: (value) {
               fullNamaController.text = value;
             },
             validator: (value) {
               if (value == null || value.isEmpty) {
-                return 'Full Name is required';
+                return l10n.fullNameRequired;
               } else if (value.trim().length < 3) {
-                return 'Full Name must be at least 3 characters';
+                return l10n.fullNameMinLength;
               }
               return null;
             },
           ),
           SizedBox(height: 20),
           CustomTextFormField(
-            labelText: 'Phone Number',
+            labelText: l10n.phone,
             onChanged: (value) {
               phoneController.text = value;
             },
             validator: (value) {
               if (value == null || value.trim().isEmpty) {
-                return 'Phone Number is required';
+                return l10n.phoneRequired;
               }
               if (!RegExp(r'^\d{10,15}$').hasMatch(value.trim())) {
-                return 'Enter a valid phone number';
+                return l10n.phoneMinLength;
               }
               return null;
             },
           ),
           SizedBox(height: 16),
           CustomTextFormField(
-            labelText: 'Email',
+            labelText: l10n.email,
             suffixIcon: Ionicons.mail_outline,
             onChanged: (value) {
               emailController.text = value;
             },
             validator: (value) {
               if (value == null || value.trim().isEmpty) {
-                return 'Email is required';
+                return l10n.emailRequired;
               }
               if (!RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$')
                   .hasMatch(value.trim())) {
-                return 'Enter a valid email';
+                return l10n.invalidEmailFormat;
               }
               return null;
             },
@@ -83,17 +85,17 @@ class SignupColumn extends StatelessWidget {
           SizedBox(height: 16),
           CustomTextFormField(
             obscureText: true,
-            labelText: 'Password',
+            labelText: l10n.password,
             suffixIcon: Ionicons.lock_closed_outline,
             onChanged: (value) {
               passwordController.text = value;
             },
             validator: (value) {
               if (value == null || value.isEmpty) {
-                return 'Password is required';
+                return l10n.passwordRequired;
               }
               if (value.length < 6) {
-                return 'Password must be at least 6 characters';
+                return l10n.passwordMinLength;
               } else {
                 return null;
               }
@@ -124,13 +126,13 @@ class SignupColumn extends StatelessWidget {
               if (state is AuthLoadingState) {
                 return CustomLoginButton(
                   backgroundColor: Colors.grey,
-                  label: 'Loading...',
+                  label: l10n.loading,
                   onPressed: () {},
                 );
               }
               return CustomLoginButton(
                 backgroundColor: AppColors.accent,
-                label: 'SignUp',
+                label: l10n.signUp,
                 onPressed: () async {
                   if (formKey.currentState!.validate()) {
                     BlocProvider.of<AuthCubit>(context).signUp(

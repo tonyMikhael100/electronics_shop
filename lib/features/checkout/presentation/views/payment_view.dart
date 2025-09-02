@@ -5,6 +5,7 @@ import 'package:electronics_shop/features/checkout/presentation/view%20model/cub
 import 'package:electronics_shop/features/checkout/presentation/widgets/custom_payment_container.dart';
 import 'package:electronics_shop/features/checkout/presentation/widgets/total_price_section.dart';
 import 'package:electronics_shop/gen/assets.gen.dart';
+import 'package:electronics_shop/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -14,6 +15,7 @@ class PaymentView extends StatelessWidget {
   const PaymentView({super.key});
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     final myPaymentCubit = BlocProvider.of<PaymentCubit>(context);
     final myCartCubit = BlocProvider.of<CartCubit>(context);
     return Padding(
@@ -24,7 +26,7 @@ class PaymentView extends StatelessWidget {
           Row(
             children: [
               Text(
-                'Select Payment Method',
+                l10n.selectPaymentMethod,
                 style: AppTextStyles.bodyLarge(context),
               ),
               const SizedBox(width: 10),

@@ -10,6 +10,7 @@ import 'package:electronics_shop/features/checkout/presentation/views/address_de
 import 'package:electronics_shop/features/checkout/presentation/views/payment_view.dart';
 import 'package:electronics_shop/features/checkout/presentation/views/review_products_view.dart';
 import 'package:electronics_shop/features/home/presentation/views/complete_payment.dart';
+import 'package:electronics_shop/l10n/app_localizations.dart';
 import 'package:electronics_shop/widgets/custom_elvated_button.dart';
 import 'package:electronics_shop/widgets/custom_app_bar.dart';
 import 'package:flutter/material.dart';
@@ -65,13 +66,14 @@ class _CheckOutViewState extends State<CheckOutView>
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     final myAddressCubit = context.watch<AddressCubit>();
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: PreferredSize(
         preferredSize: const Size.fromHeight(56),
         child: CustomAppBar(
-          title: 'Checkout',
+          title: l10n.checkout,
           showBackButton: _tabController.index > 2 ? false : true,
           onTap: () {
             context.pop();
@@ -85,11 +87,11 @@ class _CheckOutViewState extends State<CheckOutView>
             ignoring: true,
             child: TabBar(
               controller: _tabController,
-              tabs: const [
-                Tab(text: 'Address'),
-                Tab(text: 'Review'),
-                Tab(text: 'Payment'),
-                Tab(text: 'complete order'),
+              tabs: [
+                Tab(text: l10n.address),
+                Tab(text: l10n.review),
+                Tab(text: l10n.payment),
+                Tab(text: l10n.completeOrder),
               ],
               labelColor: Colors.black,
               unselectedLabelColor: Colors.grey,
