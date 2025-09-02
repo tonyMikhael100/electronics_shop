@@ -19,17 +19,18 @@ class CustomTextFormField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      onTapOutside: (event) {
+        FocusManager.instance.primaryFocus?.unfocus();
+      },
       validator: validator,
       onChanged: onChanged,
       obscureText: obscureText ?? false,
-      autofocus: true,
       decoration: InputDecoration(
         suffixIcon: Icon(
           suffixIcon,
           color: AppColors.tertiary,
         ),
         labelText: labelText,
-        floatingLabelBehavior: FloatingLabelBehavior.auto,
         filled: true,
         fillColor: Colors.grey[200],
         border: OutlineInputBorder(
@@ -45,7 +46,6 @@ class CustomTextFormField extends StatelessWidget {
           borderSide: BorderSide.none,
         ),
       ),
-      keyboardType: TextInputType.emailAddress,
     );
   }
 }
