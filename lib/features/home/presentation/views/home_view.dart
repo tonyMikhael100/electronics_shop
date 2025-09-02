@@ -8,6 +8,7 @@ import 'package:electronics_shop/features/home/presentation/views/main_view.dart
 import 'package:electronics_shop/features/home/presentation/views/profile_view.dart';
 import 'package:electronics_shop/features/search/presentation/views/search_view.dart';
 import 'package:electronics_shop/gen/assets.gen.dart';
+import 'package:electronics_shop/l10n/app_localizations.dart';
 import 'package:electronics_shop/widgets/bottom_nav_bar_item.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -22,13 +23,16 @@ class HomeView extends StatefulWidget {
 class _HomeViewState extends State<HomeView> {
   int selectedIndex = 0;
 
-  final List<_NavItem> navItems = [
-    _NavItem(label: 'Home', image: Assets.images.home2SvgrepoCom),
-    _NavItem(label: 'Browse', image: Assets.images.searchSvgrepoCom),
-    _NavItem(label: 'Favourite', image: Assets.images.favouriteSvgrepoCom),
-    _NavItem(label: 'Cart', image: Assets.images.cart),
-    _NavItem(label: 'Profile', image: Assets.images.profile1335SvgrepoCom),
-  ];
+  List<_NavItem> getNavItems(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+    return [
+      _NavItem(label: l10n.home, image: Assets.images.home2SvgrepoCom),
+      _NavItem(label: l10n.browse, image: Assets.images.searchSvgrepoCom),
+      _NavItem(label: l10n.favourite, image: Assets.images.favouriteSvgrepoCom),
+      _NavItem(label: l10n.cart, image: Assets.images.cart),
+      _NavItem(label: l10n.profile, image: Assets.images.profile1335SvgrepoCom),
+    ];
+  }
 
   final List<Widget> screens = [
     MainView(),
@@ -85,8 +89,8 @@ class _HomeViewState extends State<HomeView> {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             crossAxisAlignment: CrossAxisAlignment.center,
-            children: List.generate(navItems.length, (index) {
-              final item = navItems[index];
+            children: List.generate(getNavItems(context).length, (index) {
+              final item = getNavItems(context)[index];
               return CustomBottomNavBarItem(
                 label: item.label,
                 imageUrl: item.image,

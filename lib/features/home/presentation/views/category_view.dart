@@ -5,6 +5,7 @@ import 'package:electronics_shop/features/home/data/models/product_item_model.da
 import 'package:electronics_shop/features/home/presentation/view%20model/cubit/category_cubit.dart';
 import 'package:electronics_shop/features/home/presentation/view%20model/cubit/home_cubit.dart';
 import 'package:electronics_shop/gen/assets.gen.dart';
+import 'package:electronics_shop/l10n/app_localizations.dart';
 import 'package:electronics_shop/widgets/custom_app_bar.dart';
 import 'package:electronics_shop/widgets/not_found_widget.dart';
 import 'package:electronics_shop/widgets/product_item.dart';
@@ -43,6 +44,7 @@ class _CategoryViewState extends State<CategoryView> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: PreferredSize(
@@ -97,7 +99,7 @@ class _CategoryViewState extends State<CategoryView> {
                                       children: [
                                         Center(
                                           child: Text(
-                                            'Sort by ',
+                                            l10n.sortBy,
                                             style: AppTextStyles.displayMedium(
                                                 context),
                                           ),
@@ -126,7 +128,7 @@ class _CategoryViewState extends State<CategoryView> {
                                                 size: 40.sp,
                                               ),
                                               Text(
-                                                'Highest to Lowest',
+                                                l10n.highestToLowest,
                                                 style: AppTextStyles
                                                         .displaySmall(context)
                                                     .copyWith(fontSize: 20.sp),
@@ -159,7 +161,7 @@ class _CategoryViewState extends State<CategoryView> {
                                                 size: 40.sp,
                                               ),
                                               Text(
-                                                'lowest to hightes ',
+                                                l10n.lowestToHighest,
                                                 style: AppTextStyles
                                                         .displaySmall(context)
                                                     .copyWith(fontSize: 20.sp),
@@ -177,7 +179,7 @@ class _CategoryViewState extends State<CategoryView> {
                               children: [
                                 const Icon(Icons.keyboard_arrow_down_rounded),
                                 Text(
-                                  'Price',
+                                  l10n.price,
                                   style: AppTextStyles.bodyMedium(context)
                                       .copyWith(
                                     color: AppColors.accent,
@@ -195,7 +197,7 @@ class _CategoryViewState extends State<CategoryView> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
-                          '${products.length} products',
+                          '${products.length} ${l10n.products}',
                           style: AppTextStyles.bodyMedium(context).copyWith(
                             color: AppColors.tertiary,
                             fontWeight: FontWeight.w800,
@@ -204,14 +206,16 @@ class _CategoryViewState extends State<CategoryView> {
                         Row(
                           children: [
                             Text(
-                              'Sorted By ',
+                              l10n.sortedBy,
                               style: AppTextStyles.bodyMedium(context).copyWith(
                                 color: AppColors.tertiary,
                                 fontWeight: FontWeight.w800,
                               ),
                             ),
                             Text(
-                              sortByLowest ? 'Lowest Price' : 'Highest price',
+                              sortByLowest
+                                  ? l10n.lowestPrice
+                                  : l10n.highestPrice,
                               style: AppTextStyles.bodyMedium(context).copyWith(
                                 color: AppColors.accent,
                                 fontWeight: FontWeight.bold,

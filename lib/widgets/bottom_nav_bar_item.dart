@@ -32,10 +32,18 @@ class CustomBottomNavBarItem extends StatelessWidget {
           SizedBox(
             height: 5,
           ),
-          Text(label,
+          Flexible(
+            child: Text(
+              label,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+              textAlign: TextAlign.center,
               style: AppTextStyles.displaySmall(context).copyWith(
                 color: isActive ? AppColors.accent : AppColors.tertiary,
-              )),
+                fontSize: 10.sp,
+              ),
+            ),
+          ),
         ],
       ),
     );

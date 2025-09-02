@@ -1,9 +1,11 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:electronics_shop/core/localization/cubit/localization_cubit.dart';
 import 'package:electronics_shop/core/utils/app_colors.dart';
 import 'package:electronics_shop/core/utils/app_styles.dart';
 import 'package:electronics_shop/features/auth/presentation/view%20model/cubit/auth_cubit.dart';
 import 'package:electronics_shop/features/home/presentation/view%20model/cubit/home_cubit.dart';
 import 'package:electronics_shop/gen/assets.gen.dart';
+import 'package:electronics_shop/l10n/app_localizations.dart';
 import 'package:electronics_shop/widgets/category_grid_builder.dart';
 import 'package:electronics_shop/widgets/custom_cursor_slider.dart';
 import 'package:electronics_shop/widgets/products_gird_builder.dart';
@@ -44,12 +46,26 @@ class MainView extends StatelessWidget {
                           width: 20,
                         ),
                         Expanded(
-                          child: Text(
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                            'Hello, ${BlocProvider.of<AuthCubit>(context).userName.toUpperCase().split(' ').first}',
-                            style: AppTextStyles.displayLarge(context).copyWith(
-                                fontWeight: FontWeight.bold, fontSize: 28.sp),
+                          child:
+                              BlocBuilder<LocalizationCubit, LocalizationState>(
+                            builder: (context, state) {
+                              final userName =
+                                  BlocProvider.of<AuthCubit>(context)
+                                      .userName
+                                      .toUpperCase()
+                                      .split(' ')
+                                      .first;
+                              final l10n = AppLocalizations.of(context)!;
+                              return Text(
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                                '${l10n.hello}, $userName',
+                                style: AppTextStyles.displayLarge(context)
+                                    .copyWith(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 28.sp),
+                              );
+                            },
                           ),
                         ),
                       ],
@@ -62,7 +78,7 @@ class MainView extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
-                          'Deals of the day',
+                          AppLocalizations.of(context)!.dealsOfTheDay,
                           style: AppTextStyles.displayMedium(context),
                         ),
                       ],
@@ -81,7 +97,7 @@ class MainView extends StatelessWidget {
                     ),
                     CategoryGridBuilder(myHomeCubit: MyHomeCubit),
                     Text(
-                      'Newest products',
+                      AppLocalizations.of(context)!.newestProducts,
                       style: AppTextStyles.displayMedium(context),
                     ),
                   ],

@@ -12,7 +12,8 @@ class PaymentCubit extends Cubit<PaymentState> {
   List<PaymentModel> paymentMethods = [
     PaymentModel(
         paymentImage: Assets.images.cod,
-        paymentMethod: 'Cash on delivery (COD)'),
+        paymentMethod:
+            'Cash on delivery (COD)'), // This will be localized in the UI
     // PaymentModel(paymentImage: Assets.images.visa, paymentMethod: 'Visa'),
     // PaymentModel(
     //     paymentImage: Assets.images.paypal3SvgrepoCom, paymentMethod: 'paypal'),

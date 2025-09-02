@@ -1,4 +1,5 @@
 import 'package:device_preview/device_preview.dart';
+import 'package:electronics_shop/core/localization/cubit/localization_cubit.dart';
 import 'package:electronics_shop/features/auth/presentation/view%20model/cubit/auth_cubit.dart';
 import 'package:electronics_shop/core/router/router.dart';
 import 'package:electronics_shop/features/home/presentation/view%20model/cubit/category_cubit.dart';
@@ -12,13 +13,15 @@ import 'package:electronics_shop/features/home/presentation/view%20model/cubit/w
 import 'package:electronics_shop/features/search/presentation/view%20model/cubit/cubit/search_cubit.dart';
 import 'package:electronics_shop/firebase_options.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:flutter/foundation.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:toastification/toastification.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:electronics_shop/l10n/app_localizations.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -54,6 +57,7 @@ class MyApp extends StatelessWidget {
       builder: (context, child) {
         return MultiBlocProvider(
           providers: [
+            BlocProvider(create: (context) => LocalizationCubit()),
             BlocProvider(create: (context) => AuthCubit()),
             BlocProvider(
               create: (context) => WhishlistCubit(),
@@ -87,12 +91,22 @@ class MyApp extends StatelessWidget {
             ),
           ],
           child: ToastificationWrapper(
-            child: MaterialApp.router(
-              useInheritedMediaQuery: true,
-              locale: DevicePreview.locale(context),
-              builder: DevicePreview.appBuilder,
-              debugShowCheckedModeBanner: false,
-              routerConfig: router,
+            child: BlocBuilder<LocalizationCubit, LocalizationState>(
+              builder: (context, localizationState) {
+                return MaterialApp.router(
+                  locale: context.read<LocalizationCubit>().currentLocale,
+                  localizationsDelegates: const [
+                    AppLocalizations.delegate,
+                    GlobalMaterialLocalizations.delegate,
+                    GlobalWidgetsLocalizations.delegate,
+                    GlobalCupertinoLocalizations.delegate,
+                  ],
+                  supportedLocales: AppLocalizations.supportedLocales,
+                  builder: DevicePreview.appBuilder,
+                  debugShowCheckedModeBanner: false,
+                  routerConfig: router,
+                );
+              },
             ),
           ),
         );

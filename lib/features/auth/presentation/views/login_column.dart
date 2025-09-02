@@ -2,6 +2,7 @@ import 'package:electronics_shop/core/utils/app_colors.dart';
 import 'package:electronics_shop/core/utils/app_styles.dart';
 import 'package:electronics_shop/core/utils/my_toast.dart';
 import 'package:electronics_shop/features/auth/presentation/view%20model/cubit/auth_cubit.dart';
+import 'package:electronics_shop/l10n/app_localizations.dart';
 import 'package:electronics_shop/widgets/custom_Text_form_field.dart';
 import 'package:electronics_shop/widgets/custom_login_button.dart';
 import 'package:flutter/material.dart';
@@ -20,34 +21,35 @@ class LoginColumn extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return Form(
       key: formKey,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text('Malak El5alig',
+          Text(l10n.appTitle,
               style: AppTextStyles.displayLarge(context)
                   .copyWith(color: AppColors.accent)),
           SizedBox(height: 40),
-          Text('Welcome Back',
+          Text(l10n.welcomeBack,
               style: AppTextStyles.displayMedium(context).copyWith()),
           SizedBox(height: 8),
           Text(
-            'please login to your account',
+            l10n.pleaseLoginToAccount,
             style: AppTextStyles.bodyMedium(context)
                 .copyWith(color: Colors.black45),
           ),
           SizedBox(height: 20),
           CustomTextFormField(
-            labelText: 'Email',
+            labelText: l10n.email,
             suffixIcon: Ionicons.mail_outline,
             validator: (value) {
               if (value == null || value.trim().isEmpty) {
-                return 'Email is required';
+                return l10n.emailRequired;
               }
               if (!RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$')
                   .hasMatch(value.trim())) {
-                return 'Enter a valid email';
+                return l10n.invalidEmailFormat;
               }
               return null;
             },
@@ -58,14 +60,14 @@ class LoginColumn extends StatelessWidget {
           SizedBox(height: 16),
           CustomTextFormField(
             obscureText: true,
-            labelText: 'Password',
+            labelText: l10n.password,
             suffixIcon: Ionicons.lock_closed_outline,
             validator: (value) {
               if (value == null || value.isEmpty) {
-                return 'Password is required';
+                return l10n.passwordRequired;
               }
               if (value.length < 6) {
-                return 'Password must be at least 6 characters';
+                return l10n.passwordMinLength;
               }
               return null;
             },
@@ -87,7 +89,7 @@ class LoginColumn extends StatelessWidget {
               if (state is LoginSuccessState) {
                 MyToast.showMyToast(context,
                     icon: Icons.done,
-                    title: 'Logged In Successfully',
+                    title: l10n.loggedInSuccessfully,
                     bgColor: AppColors.accent);
                 context.go('/home_view');
               }
@@ -96,13 +98,13 @@ class LoginColumn extends StatelessWidget {
               if (state is LoginLoadingState) {
                 return CustomLoginButton(
                   backgroundColor: Colors.grey,
-                  label: 'Loading...',
+                  label: l10n.loading,
                   onPressed: () {},
                 );
               }
               return CustomLoginButton(
                 backgroundColor: AppColors.accent,
-                label: 'Login',
+                label: l10n.login,
                 onPressed: () {
                   if (formKey.currentState!.validate()) {
                     BlocProvider.of<AuthCubit>(context).signIn(
@@ -120,7 +122,7 @@ class LoginColumn extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 8.0),
                 child: Text(
-                  'or login with',
+                  l10n.orLoginWith,
                   style: AppTextStyles.bodyMedium(context)
                       .copyWith(color: Colors.black54),
                 ),
@@ -133,7 +135,7 @@ class LoginColumn extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(
-                'Don\'t have an account? ',
+                l10n.dontHaveAccount,
                 style: AppTextStyles.bodyMedium(context)
                     .copyWith(color: Colors.black54),
               ),
@@ -142,7 +144,7 @@ class LoginColumn extends StatelessWidget {
                   context.push('/signup');
                 },
                 child: Text(
-                  'Sign Up',
+                  l10n.signUp,
                   style: AppTextStyles.bodyMedium(context).copyWith(
                       color: AppColors.accent, fontWeight: FontWeight.bold),
                 ),

@@ -10,6 +10,7 @@ import 'package:electronics_shop/features/checkout/presentation/view%20model/cub
 import 'package:electronics_shop/features/home/data/models/product_item_model.dart';
 import 'package:electronics_shop/features/home/presentation/view%20model/cubit/whishlist_cubit.dart';
 import 'package:electronics_shop/gen/assets.gen.dart';
+import 'package:electronics_shop/l10n/app_localizations.dart';
 import 'package:electronics_shop/widgets/custom_app_bar.dart';
 import 'package:electronics_shop/widgets/custom_elvated_button.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -174,7 +175,7 @@ class _ProductDetailsViewState extends State<ProductDetailsView> {
             Assets.images.cart,
             color: Colors.white,
           ),
-          label: 'Add to Cart',
+          label: AppLocalizations.of(context)!.addToCart,
           backgroundColor: AppColors.accent,
           onTap: () async {
             // await BlocProvider.of<CartCubit>(context).addToCart(

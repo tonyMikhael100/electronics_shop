@@ -22,6 +22,7 @@ class CustomAppBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isRTL = Directionality.of(context) == TextDirection.rtl;
     return Padding(
       padding: const EdgeInsets.only(top: 10),
       child: Row(
@@ -32,7 +33,9 @@ class CustomAppBar extends StatelessWidget {
                     context.pop();
                   },
                   child: Icon(
-                    Icons.keyboard_arrow_left_rounded,
+                    isRTL
+                        ? Icons.keyboard_arrow_right_rounded
+                        : Icons.keyboard_arrow_left_rounded,
                     size: 50.sp,
                   ),
                 )
@@ -71,7 +74,9 @@ class CustomAppBar extends StatelessWidget {
               : Opacity(
                   opacity: 0,
                   child: Icon(
-                    Icons.keyboard_arrow_left_rounded,
+                    isRTL
+                        ? Icons.keyboard_arrow_right_rounded
+                        : Icons.keyboard_arrow_left_rounded,
                     size: 50.sp,
                   ),
                 ),
