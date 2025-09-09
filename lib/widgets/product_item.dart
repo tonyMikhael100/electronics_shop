@@ -38,7 +38,7 @@ class ProductItem extends StatelessWidget {
         ),
         SizedBox(height: 8),
         Text(
-          '${productItem.price} LE',
+          '${productItem.price} KWD',
           style: AppTextStyles.bodyMedium(context).copyWith(
             fontWeight: FontWeight.bold,
             color: AppColors.priceColor,

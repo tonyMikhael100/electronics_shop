@@ -1,25 +1,51 @@
+import 'dart:developer';
+
 import 'package:electronics_shop/core/utils/app_colors.dart';
 import 'package:electronics_shop/core/utils/app_styles.dart';
+import 'package:electronics_shop/core/utils/my_toast.dart';
 import 'package:electronics_shop/features/auth/presentation/view%20model/cubit/auth_cubit.dart';
 import 'package:electronics_shop/features/checkout/data/models/address_model.dart';
+import 'package:electronics_shop/features/checkout/data/models/delivery_model.dart';
 import 'package:electronics_shop/features/checkout/presentation/view%20model/cubit/address_cubit.dart';
+import 'package:electronics_shop/features/checkout/presentation/view%20model/cubit/delivery_cubit.dart';
 import 'package:electronics_shop/features/checkout/presentation/widgets/custom_address_text_form_field.dart';
+import 'package:electronics_shop/features/checkout/presentation/widgets/delivery_row_select.dart';
 import 'package:electronics_shop/widgets/custom_small_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
+import 'package:skeletonizer/skeletonizer.dart';
 
-class AddressFormColumn extends StatelessWidget {
-  AddressFormColumn({super.key});
+class AddressFormColumn extends StatefulWidget {
+  const AddressFormColumn({super.key});
+
+  @override
+  State<AddressFormColumn> createState() => _AddressFormColumnState();
+}
+
+class _AddressFormColumnState extends State<AddressFormColumn> {
   final TextEditingController streetController = TextEditingController();
+
   final TextEditingController buildingController = TextEditingController();
+
   final TextEditingController floorController = TextEditingController();
+
   final TextEditingController apartmentController = TextEditingController();
+
   final TextEditingController cityController = TextEditingController();
+
   final TextEditingController countryController = TextEditingController();
 
   final _formKey = GlobalKey<FormState>();
+
+  @override
+  void initState() {
+    super.initState();
+    context.read<DeliveryCubit>().getAllDelivery(tableName: 'delivery');
+  }
+
+  int selectedDeliveryIndex = -1;
 
   @override
   Widget build(BuildContext context) {
@@ -113,14 +139,40 @@ class AddressFormColumn extends StatelessWidget {
                   },
                 ),
                 const SizedBox(height: 16),
-                CustomAddressTextFormField(
-                  controller: cityController,
-                  hintText: 'City',
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'City is required';
+                BlocBuilder<DeliveryCubit, DeliveryState>(
+                  builder: (context, state) {
+                    if (state is DeliveryLoadingState) {
+                      return loadingDelivery();
+                    } else if (state is DeliverySuccessState) {
+                      print(state.deliveryList);
+                      return GridView.builder(
+                          shrinkWrap: true,
+                          physics: NeverScrollableScrollPhysics(),
+                          itemCount: state.deliveryList.length,
+                          gridDelegate:
+                              SliverGridDelegateWithFixedCrossAxisCount(
+                                  crossAxisCount: 2, childAspectRatio: 3 / 1),
+                          itemBuilder: (context, index) {
+                            return InkWell(
+                              onTap: () {
+                                setState(() {
+                                  selectedDeliveryIndex = index;
+                                });
+                              },
+                              child: DeliveryRowSelect(
+                                isSelected: selectedDeliveryIndex == index,
+                                deliveryModel: DeliveryModel(
+                                    id: 'id',
+                                    deliveryZone:
+                                        state.deliveryList[index].deliveryZone,
+                                    deliveryCost:
+                                        state.deliveryList[index].deliveryCost),
+                              ),
+                            );
+                          });
+                    } else {
+                      return SizedBox.shrink();
                     }
-                    return null;
                   },
                 ),
                 const SizedBox(height: 16),
@@ -159,21 +211,37 @@ class AddressFormColumn extends StatelessWidget {
                     ),
                     InkWell(
                       onTap: () async {
-                        if (_formKey.currentState!.validate()) {
-                          final authCubit = BlocProvider.of<AuthCubit>(context);
-                          final addressModel = AddressModel(
-                            id: '',
-                            userId: authCubit.userId,
-                            street: streetController.text,
-                            building: buildingController.text,
-                            floor: floorController.text,
-                            apartment: apartmentController.text,
-                            city: cityController.text,
-                            country: countryController.text,
-                          );
-                          await cubit.addAddress(addressModel: addressModel);
-                          await cubit.getAddresses(userId: authCubit.userId);
-                          context.pop(); // ترجع بعد الإضافة
+                        if (selectedDeliveryIndex != -1) {
+                          if (_formKey.currentState!.validate()) {
+                            final authCubit =
+                                BlocProvider.of<AuthCubit>(context);
+                            final addressModel = AddressModel(
+                              id: '',
+                              deliveryId: context
+                                  .read<DeliveryCubit>()
+                                  .deliveryList[selectedDeliveryIndex]
+                                  .id
+                                  .toString(),
+                              userId: authCubit.userId,
+                              street: streetController.text,
+                              building: buildingController.text,
+                              floor: floorController.text,
+                              apartment: apartmentController.text,
+                              city: context
+                                  .read<DeliveryCubit>()
+                                  .deliveryList[selectedDeliveryIndex]
+                                  .deliveryZone,
+                              country: countryController.text,
+                            );
+                            await cubit.addAddress(addressModel: addressModel);
+                            await cubit.getAddresses(userId: authCubit.userId);
+                            context.pop(); // ترجع بعد الإضافة
+                          }
+                        } else {
+                          MyToast.showMyToast(context,
+                              icon: Icons.error,
+                              title: 'Please Select Delivery zone first',
+                              bgColor: Colors.redAccent);
                         }
                       },
                       child: Container(
@@ -198,6 +266,15 @@ class AddressFormColumn extends StatelessWidget {
           ),
         ),
       ),
+    );
+  }
+
+  Skeletonizer loadingDelivery() {
+    return Skeletonizer(
+      child: DeliveryRowSelect(
+          deliveryModel:
+              DeliveryModel(id: 'id', deliveryZone: 'dummy', deliveryCost: 100),
+          isSelected: false),
     );
   }
 }

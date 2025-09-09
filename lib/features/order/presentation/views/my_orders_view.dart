@@ -180,12 +180,12 @@ class OrderDetailsContainer extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                'Total amount:',
+                'Total :',
                 style: AppTextStyles.displaySmall(context)
                     .copyWith(fontSize: 16.sp),
               ),
               Text(
-                '\$${order.order.total}',
+                '${order.order.total} KWD',
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
                 style: AppTextStyles.bodyMedium(context)
