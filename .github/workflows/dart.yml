@@ -1,0 +1,53 @@
+name: iOS IPA Build
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build-ios:
+    name: 🚀 Build iOS IPA
+    runs-on: macos-latest
+
+    steps:
+      - name: 📥 Checkout source
+        uses: actions/checkout@v3
+
+      - name: 🔧 Set up Flutter (v3.32.5)
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.32.5'
+          channel: stable
+          architecture: x64
+
+      - name: 📦 Get dependencies
+        run: flutter pub get
+
+      - name: 🔨 Set iOS Deployment Target to 14.0
+        run: |
+          sed -i '' "s/platform :ios, .*/platform :ios, '14.0'/" ios/Podfile
+          find ios -name project.pbxproj -print0 | xargs -0 sed -i '' "s/IPHONEOS_DEPLOYMENT_TARGET = [0-9.]*/IPHONEOS_DEPLOYMENT_TARGET = 14.0/g"
+
+      - name: 🧰 Install CocoaPods
+        run: |
+          cd ios
+          pod install
+
+      - name: 🛠 Build iOS App (no code signing)
+        run: flutter build ios --release --no-codesign
+
+      - name: 📁 Create Payload Folder
+        run: |
+          mkdir -p build/ios/ipa/Payload
+          cp -r build/ios/iphoneos/Runner.app build/ios/ipa/Payload
+
+      - name: 📦 Package into .ipa
+        run: |
+          cd build/ios/ipa
+          zip -r Runner.ipa Payload
+
+      - name: 📤 Upload IPA as GitHub Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: iOS-IPA
+          path: build/ios/ipa/Runner.ipa
+          retention-days: 7
