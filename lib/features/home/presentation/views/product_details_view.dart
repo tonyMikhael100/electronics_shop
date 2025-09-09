@@ -140,7 +140,7 @@ class _ProductDetailsViewState extends State<ProductDetailsView> {
                 height: 10,
               ),
               Text(
-                '${widget.product.price.toString()} LE',
+                '${widget.product.price.toString()} KWD',
                 style: AppTextStyles.displayMedium(context).copyWith(
                     fontWeight: FontWeight.bold,
                     color: AppColors.priceColor,

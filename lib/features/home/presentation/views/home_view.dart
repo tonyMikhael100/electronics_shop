@@ -1,4 +1,5 @@
 import 'package:electronics_shop/features/auth/presentation/view%20model/cubit/auth_cubit.dart';
+import 'package:electronics_shop/features/checkout/presentation/view%20model/cubit/delivery_cubit.dart';
 import 'package:electronics_shop/features/order/data/repo/order_repo_imp.dart';
 import 'package:electronics_shop/features/home/presentation/view%20model/cubit/home_cubit.dart';
 import 'package:electronics_shop/features/home/presentation/view%20model/cubit/whishlist_cubit.dart';
@@ -106,6 +107,11 @@ class _HomeViewState extends State<HomeView> {
           ),
         ),
       ),
+      // floatingActionButton: FloatingActionButton(onPressed: () async {
+      //   await context
+      //       .read<DeliveryCubit>()
+      //       .getAllDelivery(tableName: 'delivery');
+      // }),
     );
   }
 }

@@ -1,6 +1,6 @@
 import 'package:electronics_shop/core/utils/app_colors.dart';
+import 'package:electronics_shop/core/utils/app_styles.dart';
 import 'package:electronics_shop/features/checkout/presentation/view%20model/cubit/cart_cubit.dart';
-import 'package:electronics_shop/features/checkout/presentation/widgets/total_price_section.dart';
 import 'package:electronics_shop/features/home/data/models/product_item_model.dart';
 import 'package:electronics_shop/gen/assets.gen.dart';
 import 'package:electronics_shop/l10n/app_localizations.dart';
@@ -144,11 +144,33 @@ class _CartViewState extends State<CartView> {
                           ),
                           BlocBuilder<CartCubit, CartState>(
                             builder: (context, state) {
-                              return TotalPriceSection(
-                                shipping: 70.0,
-                                total: BlocProvider.of<CartCubit>(context)
-                                    .total
-                                    .toDouble(),
+                              return Padding(
+                                padding:
+                                    const EdgeInsets.symmetric(vertical: 20),
+                                child: Column(
+                                  children: [
+                                    Divider(),
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Text(
+                                          'Total : ',
+                                          style:
+                                              AppTextStyles.bodyMedium(context),
+                                        ),
+                                        Text(
+                                          '${BlocProvider.of<CartCubit>(context).total.toDouble()} KWD',
+                                          style:
+                                              AppTextStyles.bodyMedium(context)
+                                                  .copyWith(
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                      ],
+                                    )
+                                  ],
+                                ),
                               );
                             },
                           ),

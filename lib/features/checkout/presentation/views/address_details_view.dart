@@ -77,6 +77,7 @@ class AddressDetailsView extends StatelessWidget {
         addressModel: AddressModel(
           id: 'id',
           userId: 'userId',
+          deliveryId: 'deliveryId',
           street: 'street',
           building: 'building',
           floor: 'floor',

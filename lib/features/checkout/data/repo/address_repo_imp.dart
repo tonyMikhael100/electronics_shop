@@ -17,6 +17,7 @@ class AddressRepoImp implements AddressRepo {
         table: _table,
         value: {
           'user_id': address.userId,
+          'delivery_id': address.deliveryId,
           'street': address.street,
           'building': address.building,
           'floor': address.floor,

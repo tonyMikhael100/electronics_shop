@@ -4,6 +4,7 @@ import 'package:electronics_shop/features/auth/presentation/view%20model/cubit/a
 import 'package:electronics_shop/features/checkout/data/models/cart_model.dart';
 import 'package:electronics_shop/features/checkout/presentation/view%20model/cubit/address_cubit.dart';
 import 'package:electronics_shop/features/checkout/presentation/view%20model/cubit/cart_cubit.dart';
+import 'package:electronics_shop/features/checkout/presentation/view%20model/cubit/delivery_cubit.dart';
 import 'package:electronics_shop/features/order/data/models/order_model.dart';
 import 'package:electronics_shop/features/order/presentation/view%20model/order_cubit.dart';
 import 'package:electronics_shop/features/checkout/presentation/views/address_details_view.dart';
@@ -158,27 +159,7 @@ class _CheckOutViewState extends State<CheckOutView>
                       } else if (_tabController.index == 1) {
                         _tabController.animateTo(2); // review → payment
                       } else if (_tabController.index == 2) {
-                        print(
-                            'order placeddd---------------------------------------');
-                        final myOrderCubit =
-                            BlocProvider.of<OrderCubit>(context);
-                        final myAuthCubit = BlocProvider.of<AuthCubit>(context);
-                        final myAddressCubit =
-                            BlocProvider.of<AddressCubit>(context);
-                        final myCartCubit = BlocProvider.of<CartCubit>(context);
-                        await myOrderCubit.placeOrder(
-                          orderModel: OrderModel(
-                            userId: myAuthCubit.userId,
-                            addressId: myAddressCubit
-                                .currentAddresses[
-                                    myAddressCubit.selectedAddress]
-                                .id!,
-                            total: myCartCubit.total,
-                          ),
-                        );
-                        //delete all cart after place order
-                        myCartCubit.deleteAllCart();
-                        _tabController.animateTo(3);
+                        await placeOrderMethod(context);
                       } else if (_tabController.index == 3) {
                         _tabController.animateTo(4);
                       }
@@ -196,5 +177,25 @@ class _CheckOutViewState extends State<CheckOutView>
         ],
       ),
     );
+  }
+
+  Future<void> placeOrderMethod(BuildContext context) async {
+    print('order placeddd---------------------------------------');
+    final myOrderCubit = BlocProvider.of<OrderCubit>(context);
+    final myAuthCubit = BlocProvider.of<AuthCubit>(context);
+    final myAddressCubit = BlocProvider.of<AddressCubit>(context);
+    final myCartCubit = BlocProvider.of<CartCubit>(context);
+    final myDeliveryCubit = BlocProvider.of<DeliveryCubit>(context);
+    await myOrderCubit.placeOrder(
+      orderModel: OrderModel(
+        userId: myAuthCubit.userId,
+        addressId:
+            myAddressCubit.currentAddresses[myAddressCubit.selectedAddress].id!,
+        total: myCartCubit.total + myDeliveryCubit.deliveryCost.toInt(),
+      ),
+    );
+    //delete all cart after place order
+    myCartCubit.deleteAllCart();
+    _tabController.animateTo(3);
   }
 }

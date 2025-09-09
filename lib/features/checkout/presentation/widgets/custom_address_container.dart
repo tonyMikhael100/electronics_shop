@@ -105,6 +105,20 @@ class CustomAddressContainer extends StatelessWidget {
               ),
             ],
           ),
+          Row(
+            children: [
+              Text(
+                'city : ',
+                style: AppTextStyles.displaySmall(context)
+                    .copyWith(color: AppColors.accent, fontSize: 14.sp),
+              ),
+              Text(
+                addressModel.city,
+                style: AppTextStyles.displaySmall(context)
+                    .copyWith(color: AppColors.primary, fontSize: 14.sp),
+              ),
+            ],
+          ),
         ],
       ),
     );

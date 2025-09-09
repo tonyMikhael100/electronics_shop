@@ -2,6 +2,7 @@ import 'package:device_preview/device_preview.dart';
 import 'package:electronics_shop/core/localization/cubit/localization_cubit.dart';
 import 'package:electronics_shop/features/auth/presentation/view%20model/cubit/auth_cubit.dart';
 import 'package:electronics_shop/core/router/router.dart';
+import 'package:electronics_shop/features/checkout/presentation/view%20model/cubit/delivery_cubit.dart';
 import 'package:electronics_shop/features/home/presentation/view%20model/cubit/category_cubit.dart';
 import 'package:electronics_shop/features/order/data/repo/order_repo_imp.dart';
 import 'package:electronics_shop/features/checkout/presentation/view%20model/cubit/address_cubit.dart';
@@ -22,9 +23,11 @@ import 'package:go_router/go_router.dart';
 import 'package:toastification/toastification.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:electronics_shop/l10n/app_localizations.dart';
+import 'package:flutter_native_splash/flutter_native_splash.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
@@ -88,6 +91,9 @@ class MyApp extends StatelessWidget {
             }),
             BlocProvider(
               create: (context) => CategoryCubit(),
+            ),
+            BlocProvider(
+              create: (context) => DeliveryCubit(),
             ),
           ],
           child: ToastificationWrapper(

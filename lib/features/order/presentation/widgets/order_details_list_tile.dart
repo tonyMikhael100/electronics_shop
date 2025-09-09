@@ -59,7 +59,7 @@ class OrderDetailsListTile extends StatelessWidget {
           ),
         ),
         trailing: Text(
-          '\$${(price * quantity).toStringAsFixed(2)}',
+          '${(price * quantity).toStringAsFixed(2)} KWD',
           maxLines: 1,
           overflow: TextOverflow.ellipsis,
           style: AppTextStyles.bodyMedium(context).copyWith(
