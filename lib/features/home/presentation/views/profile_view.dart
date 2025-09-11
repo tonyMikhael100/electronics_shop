@@ -2,6 +2,7 @@ import 'package:electronics_shop/core/localization/cubit/localization_cubit.dart
 import 'package:electronics_shop/core/localization/widgets/language_selection_dialog.dart';
 import 'package:electronics_shop/core/utils/app_colors.dart';
 import 'package:electronics_shop/core/utils/app_styles.dart';
+import 'package:electronics_shop/core/utils/my_toast.dart';
 import 'package:electronics_shop/features/auth/presentation/view%20model/cubit/auth_cubit.dart';
 import 'package:electronics_shop/gen/assets.gen.dart';
 import 'package:electronics_shop/l10n/app_localizations.dart';
@@ -10,6 +11,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class ProfileView extends StatelessWidget {
   const ProfileView({super.key});
@@ -124,10 +126,23 @@ class ProfileView extends StatelessWidget {
                     },
                   ),
                   ProfileListTile(
-                    leading: Icon(Icons.info_outlined),
-                    title: AppLocalizations.of(context)!.aboutUs,
+                    leading: Icon(Icons.message_rounded),
+                    title: AppLocalizations.of(context)!.contactUs,
                     trailling: Icon(Icons.keyboard_arrow_right_rounded),
-                    onTap: () {},
+                    onTap: () async {
+                      final Uri whatsappUrl =
+                          Uri.parse("https://wa.me/96566014467?text=Hello");
+                      if (!await launchUrl(whatsappUrl,
+                          mode: LaunchMode.externalApplication)) {
+                        debugPrint('Could not open WhatsApp');
+                        MyToast.showMyToast(
+                          context,
+                          icon: Icons.error,
+                          title: 'Could not open WhatsApp',
+                          bgColor: Colors.redAccent,
+                        );
+                      }
+                    },
                   ),
                   Divider(),
                   ProfileListTile(

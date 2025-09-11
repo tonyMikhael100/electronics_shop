@@ -178,15 +178,21 @@ class _ProductDetailsViewState extends State<ProductDetailsView> {
           label: AppLocalizations.of(context)!.addToCart,
           backgroundColor: AppColors.accent,
           onTap: () async {
-            // await BlocProvider.of<CartCubit>(context).addToCart(
-            //   tableName: 'cart',
-            //   cartModel: CartModel(
-            //     id: '',
-            //     userId: userId,
-            //     product: product,
-            //     quantity: 1,
-            //   ),
-            // );
+            await BlocProvider.of<CartCubit>(context).addToCart(
+              tableName: 'cart',
+              cartModel: CartModel(
+                id: '',
+                userId: userId,
+                product: product,
+                quantity: 1,
+              ),
+            );
+            MyToast.showMyToast(
+              context,
+              icon: Icons.check,
+              title: '${widget.product.name} added to cart',
+              bgColor: AppColors.accent,
+            );
           },
         ),
       ),
