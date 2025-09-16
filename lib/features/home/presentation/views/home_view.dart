@@ -1,6 +1,4 @@
 import 'package:electronics_shop/features/auth/presentation/view%20model/cubit/auth_cubit.dart';
-import 'package:electronics_shop/features/checkout/presentation/view%20model/cubit/delivery_cubit.dart';
-import 'package:electronics_shop/features/order/data/repo/order_repo_imp.dart';
 import 'package:electronics_shop/features/home/presentation/view%20model/cubit/home_cubit.dart';
 import 'package:electronics_shop/features/home/presentation/view%20model/cubit/whishlist_cubit.dart';
 import 'package:electronics_shop/features/home/presentation/views/cart_view.dart';
@@ -61,7 +59,6 @@ class _HomeViewState extends State<HomeView> {
 
   @override
   Widget build(BuildContext context) {
-    final homeCubit = BlocProvider.of<HomeCubit>(context);
     return Scaffold(
       backgroundColor: Colors.white,
       body: SafeArea(
@@ -99,7 +96,7 @@ class _HomeViewState extends State<HomeView> {
                 onTap: () {
                   setState(() {
                     selectedIndex = index;
-                    print(selectedIndex);
+
                   });
                 },
               );
@@ -107,11 +104,7 @@ class _HomeViewState extends State<HomeView> {
           ),
         ),
       ),
-      // floatingActionButton: FloatingActionButton(onPressed: () async {
-      //   await context
-      //       .read<DeliveryCubit>()
-      //       .getAllDelivery(tableName: 'delivery');
-      // }),
+      
     );
   }
 }

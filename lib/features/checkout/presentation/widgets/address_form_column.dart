@@ -1,4 +1,3 @@
-import 'dart:developer';
 
 import 'package:electronics_shop/core/utils/app_colors.dart';
 import 'package:electronics_shop/core/utils/app_styles.dart';
@@ -144,7 +143,7 @@ class _AddressFormColumnState extends State<AddressFormColumn> {
                     if (state is DeliveryLoadingState) {
                       return loadingDelivery();
                     } else if (state is DeliverySuccessState) {
-                      print(state.deliveryList);
+
                       return GridView.builder(
                           shrinkWrap: true,
                           physics: NeverScrollableScrollPhysics(),

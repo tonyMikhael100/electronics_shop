@@ -5,7 +5,6 @@ import 'package:electronics_shop/features/auth/presentation/view%20model/cubit/a
 import 'package:electronics_shop/features/checkout/data/models/cart_model.dart';
 import 'package:electronics_shop/features/checkout/data/repo/cart_rep_imp.dart';
 import 'package:meta/meta.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:uuid/uuid.dart';
 
 part 'cart_state.dart';

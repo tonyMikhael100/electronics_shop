@@ -2,6 +2,7 @@
   "@@locale": "en",
   "appTitle": "Malak Al-Khaleg",
   "profile": "Profile",
+    "deleteAccountConfirmation": "Are you sure you want to delete your account?",
   "generalSettings": "General Settings",
   "myOrders": "My orders",
   "language": "Language",

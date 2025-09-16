@@ -29,7 +29,7 @@ class DeliveryRowSelect extends StatelessWidget {
                 .copyWith(color: Colors.white),
           ),
           Text(
-            deliveryModel.deliveryCost.toString() + '  KWD',
+            '${deliveryModel.deliveryCost}  KWD',
             overflow: TextOverflow.ellipsis,
             style: AppTextStyles.displaySmall(context)
                 .copyWith(color: Colors.white),

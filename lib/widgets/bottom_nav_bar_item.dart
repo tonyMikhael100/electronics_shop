@@ -30,7 +30,7 @@ class CustomBottomNavBarItem extends StatelessWidget {
             color: isActive ? AppColors.accent : AppColors.tertiary,
           ),
           SizedBox(
-            height: 5,
+            height: 5.h,
           ),
           Flexible(
             child: Text(
@@ -40,7 +40,7 @@ class CustomBottomNavBarItem extends StatelessWidget {
               textAlign: TextAlign.center,
               style: AppTextStyles.displaySmall(context).copyWith(
                 color: isActive ? AppColors.accent : AppColors.tertiary,
-                fontSize: 10.sp,
+                fontSize: 8.sp,
               ),
             ),
           ),

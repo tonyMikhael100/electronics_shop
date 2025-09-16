@@ -1,8 +1,6 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:electronics_shop/core/utils/app_colors.dart';
 import 'package:electronics_shop/core/utils/app_styles.dart';
 import 'package:electronics_shop/features/auth/presentation/view%20model/cubit/auth_cubit.dart';
-import 'package:electronics_shop/features/home/presentation/views/empty_cart_view.dart';
 import 'package:electronics_shop/features/order/data/models/order_item_model.dart';
 import 'package:electronics_shop/features/order/data/models/order_model.dart';
 import 'package:electronics_shop/features/order/presentation/view%20model/order_cubit.dart';

@@ -14,34 +14,38 @@ class SignupView extends StatelessWidget {
       backgroundColor: Colors.white,
       appBar: PreferredSize(
           preferredSize: Size.fromHeight(54),
-          child: CustomAppBar(
-              title: AppLocalizations.of(context)!.signUp,
-              onTap: () {},
-              widget: Icon(Icons.arrow_back_ios_new_rounded))),
-      body: Padding(
-        padding: const EdgeInsets.all(50.0),
-        child: CustomLayoutBuilder(
-          mobileView: SingleChildScrollView(
-            child: SignupColumn(),
-          ),
-          webView: SingleChildScrollView(
-            child: Center(
-              child: Row(
-                children: [
-                  ClipRRect(
-                    borderRadius: BorderRadius.circular(20),
-                    child: Image.asset(
-                      'assets/images/auth_image.png',
-                      width: 700.w,
-                      height: 800.h,
-                      fit: BoxFit.cover,
+          child: SafeArea(
+            child: CustomAppBar(
+                title: AppLocalizations.of(context)!.signUp,
+                onTap: () {},
+                widget: Icon(Icons.arrow_back_ios_new_rounded)),
+          )),
+      body: SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 20),
+          child: CustomLayoutBuilder(
+            mobileView: SingleChildScrollView(
+              child: SignupColumn(),
+            ),
+            webView: SingleChildScrollView(
+              child: Center(
+                child: Row(
+                  children: [
+                    ClipRRect(
+                      borderRadius: BorderRadius.circular(20),
+                      child: Image.asset(
+                        'assets/images/auth_image.png',
+                        width: 700.w,
+                        height: 800.h,
+                        fit: BoxFit.cover,
+                      ),
                     ),
-                  ),
-                  SizedBox(width: 20),
-                  Expanded(
-                    child: SignupColumn(),
-                  ),
-                ],
+                    SizedBox(width: 20),
+                    Expanded(
+                      child: SignupColumn(),
+                    ),
+                  ],
+                ),
               ),
             ),
           ),

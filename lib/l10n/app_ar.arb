@@ -2,6 +2,7 @@
   "@@locale": "ar",
   "appTitle": " ملاك الخليج",
   "profile": "الملف الشخصي",
+  "deleteAccountConfirmation": "هل أنت متأكد من أنك تريد حذف حسابك؟",
   "generalSettings": "الإعدادات العامة",
   "myOrders": "طلباتي",
   "language": "اللغة",

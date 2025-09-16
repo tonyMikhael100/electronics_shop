@@ -1,4 +1,3 @@
-import 'package:device_preview/device_preview.dart';
 import 'package:electronics_shop/core/localization/cubit/localization_cubit.dart';
 import 'package:electronics_shop/features/auth/presentation/view%20model/cubit/auth_cubit.dart';
 import 'package:electronics_shop/core/router/router.dart';
@@ -15,6 +14,7 @@ import 'package:electronics_shop/features/search/presentation/view%20model/cubit
 import 'package:electronics_shop/firebase_options.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -22,7 +22,6 @@ import 'package:go_router/go_router.dart';
 import 'package:toastification/toastification.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:electronics_shop/l10n/app_localizations.dart';
-import 'package:flutter_native_splash/flutter_native_splash.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -35,12 +34,15 @@ void main() async {
     anonKey:
         'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5jbHNkaHpwY3hraWl6dXVuZWxsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTEzNjkwMDQsImV4cCI6MjA2Njk0NTAwNH0.mJ8dYnUaoxrpxFyp99u1deOs1wIpbAfp1LdPiry7d5o',
   );
-  runApp(
-    DevicePreview(
-      enabled: false,
-      builder: (context) => MyApp(), // Wrap your app
-    ),
-  );
+
+  SystemChrome.setPreferredOrientations([
+  DeviceOrientation.portraitUp,
+  ]).then((_) {
+    WidgetsFlutterBinding.ensureInitialized();
+    runApp(
+     MyApp()
+    );
+  });
 }
 
 class MyApp extends StatelessWidget {
@@ -107,7 +109,6 @@ class MyApp extends StatelessWidget {
                     GlobalCupertinoLocalizations.delegate,
                   ],
                   supportedLocales: AppLocalizations.supportedLocales,
-                  builder: DevicePreview.appBuilder,
                   debugShowCheckedModeBanner: false,
                   routerConfig: router,
                 );

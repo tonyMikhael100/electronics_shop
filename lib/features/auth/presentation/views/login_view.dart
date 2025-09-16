@@ -10,30 +10,32 @@ class LoginView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      body: Padding(
-        padding: const EdgeInsets.all(50.0),
-        child: CustomLayoutBuilder(
-          mobileView: SingleChildScrollView(
-            child: LoginColumn(),
-          ),
-          webView: SingleChildScrollView(
-            child: Center(
-              child: Row(
-                children: [
-                  ClipRRect(
-                    borderRadius: BorderRadius.circular(20),
-                    child: Image.asset(
-                      'assets/images/auth_image.png',
-                      width: 700.w,
-                      height: 800.h,
-                      fit: BoxFit.cover,
+      body: SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16),
+          child: CustomLayoutBuilder(
+            mobileView: SingleChildScrollView(
+              child: LoginColumn(),
+            ),
+            webView: SingleChildScrollView(
+              child: Center(
+                child: Row(
+                  children: [
+                    ClipRRect(
+                      borderRadius: BorderRadius.circular(20),
+                      child: Image.asset(
+                        'assets/images/auth_image.png',
+                        width: 700.w,
+                        height: 800.h,
+                        fit: BoxFit.cover,
+                      ),
                     ),
-                  ),
-                  SizedBox(width: 20),
-                  Expanded(
-                    child: LoginColumn(),
-                  ),
-                ],
+                    SizedBox(width: 20),
+                    Expanded(
+                      child: LoginColumn(),
+                    ),
+                  ],
+                ),
               ),
             ),
           ),

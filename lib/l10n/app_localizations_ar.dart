@@ -15,6 +15,9 @@ class AppLocalizationsAr extends AppLocalizations {
   String get profile => 'الملف الشخصي';
 
   @override
+  String get deleteAccountConfirmation => 'هل أنت متأكد من أنك تريد حذف حسابك؟';
+
+  @override
   String get generalSettings => 'الإعدادات العامة';
 
   @override

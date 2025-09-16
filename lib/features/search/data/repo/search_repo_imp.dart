@@ -17,7 +17,7 @@ class SearchRepoImp implements SearchRepo {
       for (int i = 0; i < response.length; i++) {
         products.add(ProductModel.fromJson(response[i]));
       }
-      print(products);
+
       return Right(products);
     } on SupabaseFailure catch (e) {
       return Left(Failure(errorMessage: e.errorMessage));

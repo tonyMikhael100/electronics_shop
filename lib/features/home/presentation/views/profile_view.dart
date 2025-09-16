@@ -11,6 +11,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
+import 'package:skeletonizer/skeletonizer.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class ProfileView extends StatelessWidget {
@@ -46,7 +47,7 @@ class ProfileView extends StatelessWidget {
                     leading: CircleAvatar(
                       backgroundColor: AppColors.tertiary,
                       child: Text(
-                        '${myAuthCubit.userName[0].toUpperCase()}',
+                        myAuthCubit.userName[0].toUpperCase(),
                         style: AppTextStyles.displayMedium(context)
                             .copyWith(fontSize: 20.sp),
                       ),
@@ -55,12 +56,12 @@ class ProfileView extends StatelessWidget {
                     title: Text(
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
-                      '${myAuthCubit.userName.toUpperCase()}',
+                      myAuthCubit.userName.toUpperCase(),
                       style: AppTextStyles.displayMedium(context)
                           .copyWith(fontSize: 18.sp),
                     ),
                     subtitle: Text(
-                      '${myAuthCubit.userEmail}',
+                      myAuthCubit.userEmail,
                       style: AppTextStyles.displayMedium(context)
                           .copyWith(fontSize: 16.sp, color: AppColors.tertiary),
                     ),
@@ -152,9 +153,94 @@ class ProfileView extends StatelessWidget {
                     ),
                     title: AppLocalizations.of(context)!.logOut,
                     trailling: Icon(Icons.keyboard_arrow_right_rounded),
-                    onTap: () async {
-                      await context.read<AuthCubit>().signOut();
+                    onTap: () {
+                      context.read<AuthCubit>().signOut();
                       context.pushReplacement('/');
+                    },
+                  ),
+                  ProfileListTile(
+                    leading: Icon(
+                      Icons.delete_forever_rounded,
+                      color: Colors.redAccent,
+                    ),
+                    title: AppLocalizations.of(context)!.deleteAccount,
+                    trailling: Icon(Icons.keyboard_arrow_right_rounded),
+                    onTap: () {
+                      showDialog(
+                          context: context,
+                          builder: (context) {
+                            return Container(
+                              color: Colors.transparent.withOpacity(0.5),
+                              child: AlertDialog(
+                                backgroundColor: Colors.white,
+                                title: Text(AppLocalizations.of(context)!
+                                    .deleteAccount),
+                                content: Text(
+                                  AppLocalizations.of(context)!
+                                      .deleteAccountConfirmation,
+                                ),
+                                actions: [
+                                  TextButton(
+                                    onPressed: () {
+                                      context.pop();
+                                    },
+                                    child: Text(
+                                      AppLocalizations.of(context)!.cancel,
+                                      style: AppTextStyles.bodyMedium(context)
+                                          .copyWith(
+                                              color: Colors.black,
+                                              fontWeight: FontWeight.bold),
+                                    ),
+                                  ),
+                                  BlocConsumer<AuthCubit, AuthState>(
+                                    listener: (context, state) {
+                                      if (state is DelteteUserSuccessState) {
+                                        MyToast.showMyToast(
+                                          // ignore: use_build_context_synchronously
+                                          context,
+                                          icon: Icons.delete,
+                                          title: 'Account deleted successfully',
+                                          bgColor: AppColors.accent,
+                                        );
+                                        context.pushReplacement('/');
+                                      }
+                                      if (state is DelteteUserFailureState) {
+                                        MyToast.showMyToast(
+                                          // ignore: use_build_context_synchronously
+                                          context,
+                                          icon: Icons.error,
+                                          title: state.errorMessage,
+                                          bgColor: Colors.redAccent,
+                                        );
+                                      }
+                                    },
+                                    builder: (context, state) {
+                                      if (state is DelteteUserLoadingState) {
+                                        return CircularProgressIndicator(
+                                          color: AppColors.accent,
+                                          strokeWidth: 2,
+                                        );
+                                      }
+                                      return TextButton(
+                                        onPressed: () async {
+                                          await context
+                                              .read<AuthCubit>()
+                                              .deleteUser();
+                                        },
+                                        child: Text(
+                                          AppLocalizations.of(context)!.delete,
+                                          style:
+                                              AppTextStyles.bodyMedium(context)
+                                                  .copyWith(
+                                                      color: Colors.redAccent),
+                                        ),
+                                      );
+                                    },
+                                  ),
+                                ],
+                              ),
+                            );
+                          });
                     },
                   ),
                 ],

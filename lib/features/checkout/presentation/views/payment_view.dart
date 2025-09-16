@@ -1,16 +1,12 @@
-import 'package:electronics_shop/core/utils/app_colors.dart';
 import 'package:electronics_shop/core/utils/app_styles.dart';
 import 'package:electronics_shop/features/checkout/presentation/view%20model/cubit/address_cubit.dart';
 import 'package:electronics_shop/features/checkout/presentation/view%20model/cubit/cart_cubit.dart';
 import 'package:electronics_shop/features/checkout/presentation/view%20model/cubit/delivery_cubit.dart';
 import 'package:electronics_shop/features/checkout/presentation/view%20model/cubit/payment_cubit.dart';
 import 'package:electronics_shop/features/checkout/presentation/widgets/custom_payment_container.dart';
-import 'package:electronics_shop/gen/assets.gen.dart';
 import 'package:electronics_shop/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
 class PaymentView extends StatefulWidget {

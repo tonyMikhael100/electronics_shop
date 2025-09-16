@@ -75,7 +75,7 @@ class MyToast {
       callbacks: ToastificationCallbacks(
         onTap: (toastItem) => print('Toast ${toastItem.id} tapped'),
         onCloseButtonTap: (toastItem) {
-          print('Toast ${toastItem.id} close button tapped');
+
         },
         onAutoCompleteCompleted: (toastItem) =>
             print('Toast ${toastItem.id} auto complete completed'),

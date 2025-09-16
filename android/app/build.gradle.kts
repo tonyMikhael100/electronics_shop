@@ -21,7 +21,6 @@ android {
 
     defaultConfig {
         applicationId = "com.example.electronics_shop"
-
         // ✅ Force minSdk = 23 (Firebase Auth requires at least 23)
         minSdk = 23
         targetSdk = flutter.targetSdkVersion

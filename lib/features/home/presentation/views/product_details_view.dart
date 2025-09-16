@@ -1,4 +1,3 @@
-import 'dart:io';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:electronics_shop/core/services/supabase_service.dart';
@@ -45,8 +44,7 @@ class _ProductDetailsViewState extends State<ProductDetailsView> {
       setState(() {
         _userLoaded = true;
       });
-    } on SocketException catch (e) {
-    } on PostgrestException catch (e) {
+    } on PostgrestException {
       MyToast.showMyToast(
         context,
         icon: Icons.error,
@@ -168,32 +166,34 @@ class _ProductDetailsViewState extends State<ProductDetailsView> {
           ),
         ),
       ),
-      bottomNavigationBar: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: CustomElevatedButton(
-          icon: SvgPicture.asset(
-            Assets.images.cart,
-            color: Colors.white,
+      bottomNavigationBar: SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: CustomElevatedButton(
+            icon: SvgPicture.asset(
+              Assets.images.cart,
+              color: Colors.white,
+            ),
+            label: AppLocalizations.of(context)!.addToCart,
+            backgroundColor: AppColors.accent,
+            onTap: () async {
+              await BlocProvider.of<CartCubit>(context).addToCart(
+                tableName: 'cart',
+                cartModel: CartModel(
+                  id: '',
+                  userId: userId,
+                  product: product,
+                  quantity: 1,
+                ),
+              );
+              MyToast.showMyToast(
+                context,
+                icon: Icons.check,
+                title: '${widget.product.name} added to cart',
+                bgColor: AppColors.accent,
+              );
+            },
           ),
-          label: AppLocalizations.of(context)!.addToCart,
-          backgroundColor: AppColors.accent,
-          onTap: () async {
-            await BlocProvider.of<CartCubit>(context).addToCart(
-              tableName: 'cart',
-              cartModel: CartModel(
-                id: '',
-                userId: userId,
-                product: product,
-                quantity: 1,
-              ),
-            );
-            MyToast.showMyToast(
-              context,
-              icon: Icons.check,
-              title: '${widget.product.name} added to cart',
-              bgColor: AppColors.accent,
-            );
-          },
         ),
       ),
     );

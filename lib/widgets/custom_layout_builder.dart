@@ -13,13 +13,10 @@ class CustomLayoutBuilder extends StatelessWidget {
   Widget build(BuildContext context) {
     return LayoutBuilder(
       builder: (context, constraints) {
-        if (constraints.maxWidth < 600) {
+       
           // Mobile view
           return mobileView;
-        } else {
-          // Web view
-          return webView;
-        }
+      
       },
     );
   }

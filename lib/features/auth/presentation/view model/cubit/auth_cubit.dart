@@ -7,7 +7,6 @@ import 'package:electronics_shop/features/auth/data/models/user_model.dart';
 import 'package:electronics_shop/features/auth/data/repo/auth_repo_imp.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:meta/meta.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
 
 part 'auth_state.dart';
 
@@ -54,7 +53,7 @@ class AuthCubit extends Cubit<AuthState> {
       var response = await supabaseService.getUserData(
           email: FirebaseAuth.instance.currentUser!.email!);
       return response;
-    } on SocketException catch (e) {
+    } on SocketException {
       emit(AuthFailureState(errorMessage: 'No Internet Connection'));
     }
   }
@@ -63,7 +62,7 @@ class AuthCubit extends Cubit<AuthState> {
     try {
       var res = await getUserData();
       userName = res[0]['name'];
-    } on SocketException catch (e) {
+    } on SocketException {
       emit(AuthFailureState(errorMessage: 'No Internet Connection'));
     } on FirebaseAuthException catch (e) {
       emit(AuthFailureState(
@@ -78,7 +77,7 @@ class AuthCubit extends Cubit<AuthState> {
     try {
       var res = await getUserData();
       userEmail = res[0]['email'];
-    } on SocketException catch (e) {
+    } on SocketException {
       emit(AuthFailureState(errorMessage: 'No Internet Connection'));
     } on FirebaseAuthException catch (e) {
       emit(AuthFailureState(
@@ -93,7 +92,7 @@ class AuthCubit extends Cubit<AuthState> {
     try {
       var res = await getUserData();
       userId = res[0]['id'];
-    } on SocketException catch (e) {
+    } on SocketException {
       emit(AuthFailureState(errorMessage: 'No Internet Connection'));
     } on FirebaseAuthException catch (e) {
       emit(AuthFailureState(
@@ -107,5 +106,16 @@ class AuthCubit extends Cubit<AuthState> {
   Future<void> signOut() async {
     await FirebaseAuth.instance.signOut();
     emit(SignOutState());
+  }
+
+  Future<void> deleteUser() async {
+    emit(DelteteUserLoadingState());
+    try {
+      await FirebaseAuth.instance.currentUser!.delete();
+      await SupabaseService().deleteUser(userId: userId);
+      emit(DelteteUserSuccessState());
+    } catch (e) {
+      emit(DelteteUserFailureState(errorMessage: e.toString()));
+    }
   }
 }

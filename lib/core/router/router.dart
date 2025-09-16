@@ -94,22 +94,7 @@ class AppRouting {
           return MyOrdersView();
         },
       ),
-      // GoRoute(
-      //   path: '/payment',
-      //   builder: (context, state) => PaymentView(),
-      // ),
-      // GoRoute(
-      //   path: '/settings_view',
-      //   builder: (context, state) => SettingsView(),
-      // ),
-      // GoRoute(
-      //   path: '/profile_view',
-      //   builder: (context, state) => ProfileView(),
-      // ),
-      // GoRoute(
-      //   path: '/orders_view',
-      //   builder: (context, state) => ProfileView(),
-      // ),
+      
     ],
     errorBuilder: (context, state) => Center(child: ErrorView()),
   );

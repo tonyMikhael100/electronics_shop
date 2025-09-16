@@ -1,4 +1,3 @@
-import 'dart:developer';
 
 import 'package:bloc/bloc.dart';
 import 'package:electronics_shop/core/services/supabase_service.dart';
@@ -117,7 +116,7 @@ class WhishlistCubit extends Cubit<WhishlistState> {
       isInWhishlist = exists;
       emit(WhishlistStatusChanged(isInWishlist: isInWhishlist));
     } catch (e) {
-      log('Error checking wishlist: $e');
+
     }
   }
 }

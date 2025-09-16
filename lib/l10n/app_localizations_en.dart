@@ -15,6 +15,10 @@ class AppLocalizationsEn extends AppLocalizations {
   String get profile => 'Profile';
 
   @override
+  String get deleteAccountConfirmation =>
+      'Are you sure you want to delete your account?';
+
+  @override
   String get generalSettings => 'General Settings';
 
   @override

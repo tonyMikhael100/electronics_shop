@@ -30,3 +30,13 @@ final class LoginFailuregState extends AuthState {
 final class LoginSuccessState extends AuthState {}
 
 final class SignOutState extends AuthState {}
+
+final class DelteteUserLoadingState extends AuthState {}
+
+final class DelteteUserFailureState extends AuthState {
+  final String errorMessage;
+
+  DelteteUserFailureState({required this.errorMessage});
+}
+
+final class DelteteUserSuccessState extends AuthState {}

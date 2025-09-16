@@ -112,66 +112,68 @@ class _CheckOutViewState extends State<CheckOutView>
             ),
           ),
           // Back & Next Buttons
-          Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Visibility(
-                  visible:
-                      (_tabController.index > 0 && _tabController.index < 3),
-                  child: CustomElevatedButton(
-                    label: 'back',
-                    backgroundColor: AppColors.tertiary,
-                    onTap: () {
-                      if (_tabController.index > 0) {
-                        _tabController.animateTo(_tabController.index - 1);
-                      }
-                    },
-                    width: 1.sw / 4,
-                    icon: Icon(
-                      Icons.keyboard_arrow_left_rounded,
-                      color: Colors.white,
-                    ),
-                  ),
-                ),
-                Visibility(
-                  visible: _tabController.index < 3,
-                  child: CustomElevatedButton(
-                    label: _tabController.index > 1 ? 'Place Order' : 'Next',
-                    backgroundColor: AppColors.accent,
-                    onTap: () async {
-                      final hasAddresses =
-                          myAddressCubit.currentAddresses.isNotEmpty;
-                      final selectedIndex = myAddressCubit.selectedAddress;
-                      if (_tabController.index == 0) {
-                        if (hasAddresses &&
-                            selectedIndex >= 0 &&
-                            selectedIndex <
-                                myAddressCubit.currentAddresses.length) {
-                          _tabController.animateTo(1);
-                        } else {
-                          MyToast.showMyToast(context,
-                              icon: Icons.cancel_rounded,
-                              title: 'Please Select address or add one first',
-                              bgColor: Colors.redAccent);
+          SafeArea(
+            child: Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Visibility(
+                    visible:
+                        (_tabController.index > 0 && _tabController.index < 3),
+                    child: CustomElevatedButton(
+                      label: 'back',
+                      backgroundColor: AppColors.tertiary,
+                      onTap: () {
+                        if (_tabController.index > 0) {
+                          _tabController.animateTo(_tabController.index - 1);
                         }
-                      } else if (_tabController.index == 1) {
-                        _tabController.animateTo(2); // review → payment
-                      } else if (_tabController.index == 2) {
-                        await placeOrderMethod(context);
-                      } else if (_tabController.index == 3) {
-                        _tabController.animateTo(4);
-                      }
-                    },
-                    width: 1.sw / 4,
-                    icon: Icon(
-                      Icons.keyboard_arrow_right_rounded,
-                      color: Colors.white,
+                      },
+                      width: 1.sw / 4,
+                      icon: Icon(
+                        Icons.keyboard_arrow_left_rounded,
+                        color: Colors.white,
+                      ),
                     ),
                   ),
-                ),
-              ],
+                  Visibility(
+                    visible: _tabController.index < 3,
+                    child: CustomElevatedButton(
+                      label: _tabController.index > 1 ? 'Place Order' : 'Next',
+                      backgroundColor: AppColors.accent,
+                      onTap: () async {
+                        final hasAddresses =
+                            myAddressCubit.currentAddresses.isNotEmpty;
+                        final selectedIndex = myAddressCubit.selectedAddress;
+                        if (_tabController.index == 0) {
+                          if (hasAddresses &&
+                              selectedIndex >= 0 &&
+                              selectedIndex <
+                                  myAddressCubit.currentAddresses.length) {
+                            _tabController.animateTo(1);
+                          } else {
+                            MyToast.showMyToast(context,
+                                icon: Icons.cancel_rounded,
+                                title: 'Please Select address or add one first',
+                                bgColor: Colors.redAccent);
+                          }
+                        } else if (_tabController.index == 1) {
+                          _tabController.animateTo(2); // review → payment
+                        } else if (_tabController.index == 2) {
+                          await placeOrderMethod(context);
+                        } else if (_tabController.index == 3) {
+                          _tabController.animateTo(4);
+                        }
+                      },
+                      width: 1.sw / 4,
+                      icon: Icon(
+                        Icons.keyboard_arrow_right_rounded,
+                        color: Colors.white,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
             ),
           ),
         ],
@@ -180,7 +182,7 @@ class _CheckOutViewState extends State<CheckOutView>
   }
 
   Future<void> placeOrderMethod(BuildContext context) async {
-    print('order placeddd---------------------------------------');
+
     final myOrderCubit = BlocProvider.of<OrderCubit>(context);
     final myAuthCubit = BlocProvider.of<AuthCubit>(context);
     final myAddressCubit = BlocProvider.of<AddressCubit>(context);

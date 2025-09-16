@@ -27,7 +27,7 @@ class HomeCubit extends Cubit<HomeState> {
 
   Future<void> fetchCategories({required String tableName}) async {
     var response = await homeRepoImp.fetchCategories(tableName: tableName);
-    print(response);
+
     response.fold(
       (failure) {
         emit(HomeCategoryFailureState(errorMessage: 'An error occur'));
@@ -41,7 +41,7 @@ class HomeCubit extends Cubit<HomeState> {
 
   Future<void> fetchProducts({required String tableName}) async {
     var response = await homeRepoImp.fetchNewestProducts(tableName: tableName);
-    print(response);
+
     response.fold(
       (failure) {
         emit(HomeProductFailureState(errorMessage: 'An error occur'));

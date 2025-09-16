@@ -83,7 +83,6 @@ class SupabaseService {
         .select(
             'products(id, product_category, name, description, price, image_url, status)')
         .eq('user_id', userId);
-    print(response);
 
     return response;
   }
@@ -174,11 +173,11 @@ class SupabaseService {
   }
 
   Future<dynamic> getUserData({required String email}) async {
-    var response;
+    PostgrestList response;
     try {
       response = await _client.from('users').select('*').eq('email', email);
       return response;
-    } on SocketException catch (e) {}
+    } on SocketException {}
   }
 
   Future<void> delete({required String tableName, required String id}) async {
@@ -229,5 +228,9 @@ class SupabaseService {
       ''').eq('user_id', userId).order('created_at', ascending: false);
 
     return response;
+  }
+
+  Future<void> deleteUser({required String userId}) async {
+    await _client.from('users').delete().eq('id', userId);
   }
 }

@@ -3,18 +3,14 @@ import 'package:electronics_shop/core/utils/app_styles.dart';
 import 'package:electronics_shop/features/home/data/models/product_category_model.dart';
 import 'package:electronics_shop/features/home/data/models/product_item_model.dart';
 import 'package:electronics_shop/features/home/presentation/view%20model/cubit/category_cubit.dart';
-import 'package:electronics_shop/features/home/presentation/view%20model/cubit/home_cubit.dart';
-import 'package:electronics_shop/gen/assets.gen.dart';
 import 'package:electronics_shop/l10n/app_localizations.dart';
 import 'package:electronics_shop/widgets/custom_app_bar.dart';
 import 'package:electronics_shop/widgets/not_found_widget.dart';
-import 'package:electronics_shop/widgets/product_item.dart';
 import 'package:electronics_shop/widgets/products_gird_builder.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
-import 'package:ionicons/ionicons.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
 class CategoryView extends StatefulWidget {
@@ -91,11 +87,13 @@ class _CategoryViewState extends State<CategoryView> {
                                 builder: (context) {
                                   return Container(
                                     decoration: BoxDecoration(
+                                      color: Colors.white,
                                       borderRadius: BorderRadius.circular(12),
                                     ),
                                     padding: EdgeInsets.all(16),
                                     width: double.infinity,
                                     child: Column(
+                                      mainAxisSize: MainAxisSize.min,
                                       children: [
                                         Center(
                                           child: Text(
@@ -130,7 +128,7 @@ class _CategoryViewState extends State<CategoryView> {
                                               Text(
                                                 l10n.highestToLowest,
                                                 style: AppTextStyles
-                                                        .displaySmall(context)
+                                                        .bodyMedium(context)
                                                     .copyWith(fontSize: 20.sp),
                                               ),
                                             ],
@@ -163,7 +161,7 @@ class _CategoryViewState extends State<CategoryView> {
                                               Text(
                                                 l10n.lowestToHighest,
                                                 style: AppTextStyles
-                                                        .displaySmall(context)
+                                                        .bodyMedium(context)
                                                     .copyWith(fontSize: 20.sp),
                                               ),
                                             ],
