@@ -91,7 +91,7 @@ class LoginColumn extends StatelessWidget {
                     icon: Icons.done,
                     title: l10n.loggedInSuccessfully,
                     bgColor: AppColors.accent);
-                context.go('/home_view');
+                context.go('/');
               }
             },
             builder: (context, state) {
@@ -129,6 +129,39 @@ class LoginColumn extends StatelessWidget {
               ),
               Expanded(child: Divider(thickness: 1)),
             ],
+          ),
+          SizedBox(height: 24),
+          // Continue as Guest Button
+          SizedBox(height: 16),
+          OutlinedButton(
+            onPressed: () {
+              context.go('/');
+            },
+            style: OutlinedButton.styleFrom(
+              side: BorderSide(color: AppColors.accent),
+              padding: EdgeInsets.symmetric(vertical: 12, horizontal: 32),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(8),
+              ),
+            ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Icon(
+                  Icons.person_outline,
+                  color: AppColors.accent,
+                  size: 20,
+                ),
+                SizedBox(width: 8),
+                Text(
+                  'Continue as Guest',
+                  style: AppTextStyles.bodyMedium(context).copyWith(
+                    color: AppColors.accent,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+              ],
+            ),
           ),
           SizedBox(height: 24),
           Row(

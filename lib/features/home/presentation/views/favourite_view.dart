@@ -10,6 +10,7 @@ import 'package:electronics_shop/l10n/app_localizations.dart';
 import 'package:electronics_shop/widgets/custom_app_bar.dart';
 import 'package:electronics_shop/widgets/favourite_product_item.dart';
 import 'package:electronics_shop/widgets/not_found_widget.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -22,6 +23,54 @@ class FavouriteView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
+
+    // التحقق من تسجيل الدخول
+    if (FirebaseAuth.instance.currentUser == null) {
+      return Scaffold(
+        backgroundColor: Colors.white,
+        appBar: PreferredSize(
+          preferredSize: Size.fromHeight(56),
+          child: CustomAppBar(
+            widget: Icon(Icons.delete),
+            title: l10n.wishlist,
+            showBackButton: showBackButton,
+            showDeleteButton: false,
+            onTap: () {},
+          ),
+        ),
+        body: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Icon(
+                Icons.favorite_outline,
+                size: 64,
+                color: AppColors.tertiary,
+              ),
+              SizedBox(height: 16),
+              Text(
+                l10n.pleaseLoginToAccount,
+                style: AppTextStyles.bodyMedium(context),
+                textAlign: TextAlign.center,
+              ),
+              SizedBox(height: 16),
+              ElevatedButton(
+                onPressed: () {
+                  context.push('/login');
+                },
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: AppColors.accent,
+                  foregroundColor: Colors.white,
+                  padding: EdgeInsets.symmetric(horizontal: 32, vertical: 12),
+                ),
+                child: Text(l10n.login),
+              ),
+            ],
+          ),
+        ),
+      );
+    }
+
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: PreferredSize(
@@ -73,6 +122,21 @@ class FavouriteView extends StatelessWidget {
                       context.push('/product_details', extra: product);
                     },
                     onTapAddToCart: () async {
+                      if (FirebaseAuth.instance.currentUser == null) {
+                        MyToast.showMyToast(
+                          context,
+                          icon: Icons.login,
+                          title: l10n.pleaseLoginToAccount,
+                          bgColor: AppColors.accent,
+                        );
+                        Future.delayed(Duration(seconds: 1), () {
+                          if (context.mounted) {
+                            context.push('/login');
+                          }
+                        });
+                        return;
+                      }
+
                       var userData = await BlocProvider.of<AuthCubit>(context)
                           .getUserData();
                       String userId = userData[0]['id'];
@@ -85,12 +149,14 @@ class FavouriteView extends StatelessWidget {
                           quantity: 1,
                         ),
                       );
-                      MyToast.showMyToast(
-                        context,
-                        icon: Icons.done,
-                        title: l10n.addedToCart,
-                        bgColor: AppColors.accent,
-                      );
+                      if (context.mounted) {
+                        MyToast.showMyToast(
+                          context,
+                          icon: Icons.done,
+                          title: l10n.addedToCart,
+                          bgColor: AppColors.accent,
+                        );
+                      }
                     },
                   ),
                 );

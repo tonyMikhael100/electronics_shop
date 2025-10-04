@@ -7,6 +7,7 @@ import 'package:electronics_shop/l10n/app_localizations.dart';
 import 'package:electronics_shop/widgets/category_grid_builder.dart';
 import 'package:electronics_shop/widgets/custom_cursor_slider.dart';
 import 'package:electronics_shop/widgets/products_gird_builder.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -46,17 +47,27 @@ class MainView extends StatelessWidget {
                           child:
                               BlocBuilder<LocalizationCubit, LocalizationState>(
                             builder: (context, state) {
-                              final userName =
-                                  BlocProvider.of<AuthCubit>(context)
-                                      .userName
-                                      .toUpperCase()
-                                      .split(' ')
-                                      .first;
                               final l10n = AppLocalizations.of(context)!;
+                              final authCubit =
+                                  BlocProvider.of<AuthCubit>(context);
+                              final isLoggedIn =
+                                  FirebaseAuth.instance.currentUser != null;
+
+                              String displayText;
+                              if (isLoggedIn && authCubit.userName.isNotEmpty) {
+                                final userName = authCubit.userName
+                                    .toUpperCase()
+                                    .split(' ')
+                                    .first;
+                                displayText = '${l10n.hello}, $userName';
+                              } else {
+                                displayText = l10n.hello; // مرحباً بك
+                              }
+
                               return Text(
                                 maxLines: 1,
                                 overflow: TextOverflow.ellipsis,
-                                '${l10n.hello}, $userName',
+                                displayText,
                                 style: AppTextStyles.displayLarge(context)
                                     .copyWith(
                                         fontWeight: FontWeight.bold,

@@ -1,4 +1,3 @@
-
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:electronics_shop/core/services/supabase_service.dart';
 import 'package:electronics_shop/core/utils/app_colors.dart';
@@ -17,6 +16,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:go_router/go_router.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class ProductDetailsView extends StatefulWidget {
@@ -28,36 +28,50 @@ class ProductDetailsView extends StatefulWidget {
 }
 
 class _ProductDetailsViewState extends State<ProductDetailsView> {
-  late final String userId;
+  String? userId;
   bool _userLoaded = false;
 
   Future<void> _loadUserAndCheckWishlist() async {
+    // فقط إذا كان المستخدم مسجل دخول
+    if (FirebaseAuth.instance.currentUser == null) {
+      setState(() {
+        _userLoaded = true;
+      });
+      return;
+    }
+
     try {
       final email = FirebaseAuth.instance.currentUser!.email!;
       final userData = await SupabaseService().getUserData(email: email);
       userId = userData[0]['id'];
-      await context.read<WhishlistCubit>().checkIfInWhishlist(
-            tableName: 'wishlists',
-            userId: userId,
-            productId: widget.product.id,
-          );
-      setState(() {
-        _userLoaded = true;
-      });
+      if (mounted) {
+        await context.read<WhishlistCubit>().checkIfInWhishlist(
+              tableName: 'wishlists',
+              userId: userId!,
+              productId: widget.product.id,
+            );
+        setState(() {
+          _userLoaded = true;
+        });
+      }
     } on PostgrestException {
-      MyToast.showMyToast(
-        context,
-        icon: Icons.error,
-        title: 'An error occur, check your internet connection',
-        bgColor: AppColors.accent,
-      );
+      if (mounted) {
+        MyToast.showMyToast(
+          context,
+          icon: Icons.error,
+          title: 'An error occur, check your internet connection',
+          bgColor: AppColors.accent,
+        );
+      }
     } catch (e) {
-      MyToast.showMyToast(
-        context,
-        icon: Icons.error,
-        title: 'An error occur, check your internet connection',
-        bgColor: AppColors.accent,
-      );
+      if (mounted) {
+        MyToast.showMyToast(
+          context,
+          icon: Icons.error,
+          title: 'An error occur, check your internet connection',
+          bgColor: AppColors.accent,
+        );
+      }
     }
   }
 
@@ -112,13 +126,30 @@ class _ProductDetailsViewState extends State<ProductDetailsView> {
                     right: 10,
                     child: InkWell(
                       onTap: () {
-                        whishlistCubit.toggleWhishlist(
-                          tableName: 'wishlists',
-                          userId: userId,
-                          productId: widget.product.id,
-                          product: product,
-                        );
-                        setState(() {});
+                        if (FirebaseAuth.instance.currentUser == null) {
+                          MyToast.showMyToast(
+                            context,
+                            icon: Icons.login,
+                            title: AppLocalizations.of(context)!
+                                .pleaseLoginToAccount,
+                            bgColor: AppColors.accent,
+                          );
+                          Future.delayed(Duration(seconds: 1), () {
+                            if (mounted) {
+                              context.push('/login');
+                            }
+                          });
+                          return;
+                        }
+                        if (userId != null) {
+                          whishlistCubit.toggleWhishlist(
+                            tableName: 'wishlists',
+                            userId: userId!,
+                            productId: widget.product.id,
+                            product: product,
+                          );
+                          setState(() {});
+                        }
                       },
                       child: CircleAvatar(
                         backgroundColor: Colors.white,
@@ -177,21 +208,41 @@ class _ProductDetailsViewState extends State<ProductDetailsView> {
             label: AppLocalizations.of(context)!.addToCart,
             backgroundColor: AppColors.accent,
             onTap: () async {
-              await BlocProvider.of<CartCubit>(context).addToCart(
-                tableName: 'cart',
-                cartModel: CartModel(
-                  id: '',
-                  userId: userId,
-                  product: product,
-                  quantity: 1,
-                ),
-              );
-              MyToast.showMyToast(
-                context,
-                icon: Icons.check,
-                title: '${widget.product.name} added to cart',
-                bgColor: AppColors.accent,
-              );
+              // التحقق من تسجيل الدخول أولاً
+              if (FirebaseAuth.instance.currentUser == null) {
+                MyToast.showMyToast(
+                  context,
+                  icon: Icons.login,
+                  title: AppLocalizations.of(context)!.pleaseLoginToAccount,
+                  bgColor: AppColors.accent,
+                );
+                Future.delayed(Duration(seconds: 1), () {
+                  if (mounted) {
+                    context.push('/login');
+                  }
+                });
+                return;
+              }
+
+              if (userId != null) {
+                await BlocProvider.of<CartCubit>(context).addToCart(
+                  tableName: 'cart',
+                  cartModel: CartModel(
+                    id: '',
+                    userId: userId!,
+                    product: product,
+                    quantity: 1,
+                  ),
+                );
+                if (mounted) {
+                  MyToast.showMyToast(
+                    context,
+                    icon: Icons.check,
+                    title: '${widget.product.name} added to cart',
+                    bgColor: AppColors.accent,
+                  );
+                }
+              }
             },
           ),
         ),

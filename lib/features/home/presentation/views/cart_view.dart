@@ -9,6 +9,7 @@ import 'package:electronics_shop/widgets/custom_app_bar.dart';
 import 'package:electronics_shop/widgets/custom_elvated_button.dart';
 import 'package:electronics_shop/widgets/favourite_product_item.dart';
 import 'package:electronics_shop/widgets/not_found_widget.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
@@ -41,6 +42,54 @@ class _CartViewState extends State<CartView> {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
+
+    // التحقق من تسجيل الدخول
+    if (FirebaseAuth.instance.currentUser == null) {
+      return Scaffold(
+        backgroundColor: Colors.white,
+        appBar: PreferredSize(
+          preferredSize: Size.fromHeight(56),
+          child: CustomAppBar(
+            widget: Icon(Icons.delete),
+            showDeleteButton: false,
+            onTap: () {},
+            title: l10n.cartTitle,
+            showBackButton: false,
+          ),
+        ),
+        body: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Icon(
+                Icons.shopping_cart_outlined,
+                size: 64,
+                color: AppColors.tertiary,
+              ),
+              SizedBox(height: 16),
+              Text(
+                l10n.pleaseLoginToAccount,
+                style: AppTextStyles.bodyMedium(context),
+                textAlign: TextAlign.center,
+              ),
+              SizedBox(height: 16),
+              ElevatedButton(
+                onPressed: () {
+                  context.push('/login');
+                },
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: AppColors.accent,
+                  foregroundColor: Colors.white,
+                  padding: EdgeInsets.symmetric(horizontal: 32, vertical: 12),
+                ),
+                child: Text(l10n.login),
+              ),
+            ],
+          ),
+        ),
+      );
+    }
+
     return BlocBuilder<CartCubit, CartState>(
       builder: (context, state) {
         final isQuantityLoading = state is CartQuantityLoadingState;

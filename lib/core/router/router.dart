@@ -22,15 +22,23 @@ class AppRouting {
       final user = FirebaseAuth.instance.currentUser;
       final loggedIn = user != null;
 
-      // صفحات عامة مسموح بها بدون تسجيل دخول
-      final publicPaths = ['/', '/signup'];
-      final isGoingToPublic = publicPaths.contains(state.matchedLocation);
-      if (!loggedIn && !isGoingToPublic) {
-        // لو مش مسجل دخول وداخل على صفحة خاصة، ارجعه لـ login
-        return '/';
+      // صفحات تحتاج تسجيل دخول إجباري
+      final authRequiredPaths = [
+        '/cart',
+        '/checkout',
+        '/my_orders',
+        '/favourite'
+      ];
+      final needsAuth = authRequiredPaths.contains(state.matchedLocation);
+
+      if (!loggedIn && needsAuth) {
+        // لو مش مسجل دخول وداخل على صفحة تحتاج تسجيل دخول، ارجعه لـ login
+        return '/login';
       }
 
-      if (loggedIn && isGoingToPublic) {
+      if (loggedIn &&
+          (state.matchedLocation == '/login' ||
+              state.matchedLocation == '/signup')) {
         // لو مسجل دخول وبيحاول يدخل على login أو register، نرجعه على home
         return '/home_view';
       }
@@ -39,6 +47,10 @@ class AppRouting {
     routes: [
       GoRoute(
         path: '/',
+        builder: (context, state) => const HomeView(),
+      ),
+      GoRoute(
+        path: '/login',
         builder: (context, state) => LoginView(),
       ),
       GoRoute(
@@ -94,7 +106,6 @@ class AppRouting {
           return MyOrdersView();
         },
       ),
-      
     ],
     errorBuilder: (context, state) => Center(child: ErrorView()),
   );

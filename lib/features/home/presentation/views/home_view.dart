@@ -9,6 +9,7 @@ import 'package:electronics_shop/features/search/presentation/views/search_view.
 import 'package:electronics_shop/gen/assets.gen.dart';
 import 'package:electronics_shop/l10n/app_localizations.dart';
 import 'package:electronics_shop/widgets/bottom_nav_bar_item.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -24,24 +25,48 @@ class _HomeViewState extends State<HomeView> {
 
   List<_NavItem> getNavItems(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
-    return [
-      _NavItem(label: l10n.home, image: Assets.images.home2SvgrepoCom),
-      _NavItem(label: l10n.browse, image: Assets.images.searchSvgrepoCom),
-      _NavItem(label: l10n.favourite, image: Assets.images.favouriteSvgrepoCom),
-      _NavItem(label: l10n.cart, image: Assets.images.cart),
-      _NavItem(label: l10n.profile, image: Assets.images.profile1335SvgrepoCom),
-    ];
+    final isLoggedIn = FirebaseAuth.instance.currentUser != null;
+
+    if (isLoggedIn) {
+      return [
+        _NavItem(label: l10n.home, image: Assets.images.home2SvgrepoCom),
+        _NavItem(label: l10n.browse, image: Assets.images.searchSvgrepoCom),
+        _NavItem(
+            label: l10n.favourite, image: Assets.images.favouriteSvgrepoCom),
+        _NavItem(label: l10n.cart, image: Assets.images.cart),
+        _NavItem(
+            label: l10n.profile, image: Assets.images.profile1335SvgrepoCom),
+      ];
+    } else {
+      return [
+        _NavItem(label: l10n.home, image: Assets.images.home2SvgrepoCom),
+        _NavItem(label: l10n.browse, image: Assets.images.searchSvgrepoCom),
+        _NavItem(
+            label: l10n.profile, image: Assets.images.profile1335SvgrepoCom),
+      ];
+    }
   }
 
-  final List<Widget> screens = [
-    MainView(),
-    SearchView(),
-    FavouriteView(
-      showBackButton: false,
-    ),
-    CartView(),
-    ProfileView(),
-  ];
+  List<Widget> getScreens() {
+    final isLoggedIn = FirebaseAuth.instance.currentUser != null;
+
+    if (isLoggedIn) {
+      return [
+        MainView(),
+        SearchView(),
+        FavouriteView(showBackButton: false),
+        CartView(),
+        ProfileView(),
+      ];
+    } else {
+      return [
+        MainView(),
+        SearchView(),
+        ProfileView(),
+      ];
+    }
+  }
+
   @override
   void initState() {
     initializeUserDataAndWishlist();
@@ -49,12 +74,15 @@ class _HomeViewState extends State<HomeView> {
   }
 
   void initializeUserDataAndWishlist() {
-    BlocProvider.of<AuthCubit>(context).getUserData();
-    BlocProvider.of<AuthCubit>(context).getUserId();
-    BlocProvider.of<AuthCubit>(context).getUserName();
-    BlocProvider.of<AuthCubit>(context).getUserEmail();
-    BlocProvider.of<WhishlistCubit>(context)
-        .fetchWhishlist(tableName: 'wishlists');
+    // فقط إذا كان المستخدم مسجل دخول
+    if (FirebaseAuth.instance.currentUser != null) {
+      BlocProvider.of<AuthCubit>(context).getUserData();
+      BlocProvider.of<AuthCubit>(context).getUserId();
+      BlocProvider.of<AuthCubit>(context).getUserName();
+      BlocProvider.of<AuthCubit>(context).getUserEmail();
+      BlocProvider.of<WhishlistCubit>(context)
+          .fetchWhishlist(tableName: 'wishlists');
+    }
   }
 
   @override
@@ -64,7 +92,7 @@ class _HomeViewState extends State<HomeView> {
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 8),
-          child: screens[selectedIndex],
+          child: getScreens()[selectedIndex],
         ),
       ),
       bottomNavigationBar: SafeArea(
@@ -96,7 +124,11 @@ class _HomeViewState extends State<HomeView> {
                 onTap: () {
                   setState(() {
                     selectedIndex = index;
-
+                    // التأكد من أن الفهرس لا يتجاوز عدد الشاشات المتاحة
+                    final screens = getScreens();
+                    if (selectedIndex >= screens.length) {
+                      selectedIndex = screens.length - 1;
+                    }
                   });
                 },
               );
@@ -104,7 +136,6 @@ class _HomeViewState extends State<HomeView> {
           ),
         ),
       ),
-      
     );
   }
 }

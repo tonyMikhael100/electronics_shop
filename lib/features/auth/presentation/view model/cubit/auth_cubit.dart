@@ -16,9 +16,7 @@ class AuthCubit extends Cubit<AuthState> {
   final AuthRepoImp _authRepoImp = AuthRepoImp();
   String userName = '';
   String userId = '';
-
   String userEmail = '';
-
   Future<void> signUp({required UserModel userModel}) async {
     emit(AuthLoadingState());
     var respnose = await _authRepoImp.signUp(userModel: userModel);
