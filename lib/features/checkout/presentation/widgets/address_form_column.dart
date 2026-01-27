@@ -1,4 +1,3 @@
-
 import 'package:electronics_shop/core/utils/app_colors.dart';
 import 'package:electronics_shop/core/utils/app_styles.dart';
 import 'package:electronics_shop/core/utils/my_toast.dart';
@@ -143,7 +142,6 @@ class _AddressFormColumnState extends State<AddressFormColumn> {
                     if (state is DeliveryLoadingState) {
                       return loadingDelivery();
                     } else if (state is DeliverySuccessState) {
-
                       return GridView.builder(
                           shrinkWrap: true,
                           physics: NeverScrollableScrollPhysics(),
@@ -234,7 +232,9 @@ class _AddressFormColumnState extends State<AddressFormColumn> {
                             );
                             await cubit.addAddress(addressModel: addressModel);
                             await cubit.getAddresses(userId: authCubit.userId);
-                            context.pop(); // ترجع بعد الإضافة
+                            if (context.canPop()) {
+                              context.pop();
+                            } // ترجع بعد الإضافة
                           }
                         } else {
                           MyToast.showMyToast(context,

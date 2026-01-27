@@ -24,7 +24,6 @@ class ProfileView extends StatelessWidget {
       builder: (context, authState) {
         final myAuthCubit = BlocProvider.of<AuthCubit>(context);
         final isLoggedIn = FirebaseAuth.instance.currentUser != null;
-
         return BlocBuilder<LocalizationCubit, LocalizationState>(
           builder: (context, state) {
             return Scaffold(
@@ -95,8 +94,7 @@ class ProfileView extends StatelessWidget {
                           leading: CircleAvatar(
                             backgroundColor: AppColors.tertiary,
                             child: Text(
-                              (myAuthCubit.userName != null &&
-                                      myAuthCubit.userName.isNotEmpty)
+                              (myAuthCubit.userName == null)
                                   ? myAuthCubit.userName[0].toUpperCase()
                                   : 'U',
                               style: AppTextStyles.displayMedium(context)

@@ -52,7 +52,6 @@ class MainView extends StatelessWidget {
                                   BlocProvider.of<AuthCubit>(context);
                               final isLoggedIn =
                                   FirebaseAuth.instance.currentUser != null;
-
                               String displayText;
                               if (isLoggedIn && authCubit.userName.isNotEmpty) {
                                 final userName = authCubit.userName
